@@ -1,24 +1,33 @@
 const express = require("express");
-
-const mongoose = require("mongoose");
-const routes = require("./routes");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const db = require("./models");
+const exphbs = require("express-handlebars");
+const session = require('express-session')
 
-// Define middleware here
+var PORT = process.env.PORT || 3000;
+
+app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.set("view engine", "handlebars");
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-}
-// Add routes, both API and view
-app.use(routes);
 
-// Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/pawsitivity");
+app.use(session({
+  secret: "keyboard cat",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+      maxAge: 720000
+  }
+}))
 
-// Start the API server
-app.listen(PORT, function() {
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+app.use(express.static("client/src"));
+
+
+
+//TODO: once our db is where we want it, change to force:false
+db.sequelize.sync({ force:false }).then(function() {
+  app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
+  });
 });

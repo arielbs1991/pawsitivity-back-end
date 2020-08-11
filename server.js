@@ -1,13 +1,8 @@
 const express = require("express");
 const app = express();
 const db = require("./models");
-const exphbs = require("express-handlebars");
-const session = require('express-session')
 
 var PORT = process.env.PORT || 3000;
-
-app.engine("handlebars", exphbs({defaultLayout: "main"}));
-app.set("view engine", "handlebars");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

@@ -25,8 +25,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         phoneNumber: {
             type: DataTypes.STRING,
-            allowNull: true,
-            notEmpty: false
+            allowNull: false
         }
     });
 

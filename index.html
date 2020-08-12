@@ -4,17 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Geolocation</title>
+    <link rel="stylesheet" href="map.css" />
+    <script src="./routes/api/map.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDY_RILuF7Xq-yurPfk5rC1kNfdBzK2VU0&callback=initMap">
+        </script>
+    <!-- jsFiddle will insert css and js -->
 </head>
 
 <body>
+    <div id="floating-panel">
+        <input id="address" type="textbox" value="Sydney, NSW" />
+        <input id="submit" type="button" value="Geocode" />
+    </div>
+    <div id="map"></div><br>
     <H1>testing table inputs</H1>
     <span class="user">
         <form class="userInfo" type="text">
             <label for="username">
                 username
             </label>
-                <input id="username" name="username" type="text"><br>
+            <input id="username" name="username" type="text"><br>
             <label for="password">
                 password
             </label>

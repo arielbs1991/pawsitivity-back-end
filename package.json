@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/arielbs1991/pawsitivity#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-sessions": "^1.0.6",

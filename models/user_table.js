@@ -11,13 +11,14 @@ module.exports = function (sequelize, DataTypes) {
                 len: [1]
             }
         },
+        password: {
+            type: DataTypes.STRING(64),
+            is: /^[0-9a-f]{64$/i
+        },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            //email validator
-            validate: {
-                len: [1]
-            }
+            isEmail: true
         },
         location: {
             type: DataTypes.STRING,
@@ -29,7 +30,7 @@ module.exports = function (sequelize, DataTypes) {
         phoneNumber: {
             type: DataTypes.STRING,
             allowNull: true,
-            notEmpty:false
+            notEmpty: false
         },
         hasKids: {
             type: DataTypes.BOOLEAN,

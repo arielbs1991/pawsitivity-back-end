@@ -21,6 +21,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-sessions": "^1.0.6",
+    "sequelize": "^6.3.4",
     "sessions": "0.0.2-7"
   }
 }

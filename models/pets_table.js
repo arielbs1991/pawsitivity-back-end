@@ -55,7 +55,7 @@ module.exports = function (sequelize, DataTypes) {
             unique: 'uniqueMatches',
             onDelete: 'cascade'
         });
-        Pet.belongsTo(models.Shelter, {
+        Pet.hasMany(models.Shelter, {
             foreignKey: 'shelterId',
             onDelete: 'cascade'
         });

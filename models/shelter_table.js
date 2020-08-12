@@ -30,12 +30,5 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
 
-    Shelter.associate = function (models) {
-        Shelter.hasMany(models.Pets, {
-            foreignKey: 'shelterId',
-            // unique: 'uniqueMatches',
-            onDelete: 'cascade'
-        });
-    };
     return Shelter;
 };

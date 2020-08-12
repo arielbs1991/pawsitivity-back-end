@@ -16,7 +16,10 @@ app.use(express.json());
 //   }
 // }))
 
-app.use(express.static("client/src"));
+// app.use(express.static("client/src"));
+
+const usersController = require("./controllers/usersController.js");
+app.use(usersController);
 
 
 

@@ -20,7 +20,13 @@
   "homepage": "https://github.com/arielbs1991/pawsitivity#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "express-sessions": "^1.0.6",
+<<<<<<< HEAD
+=======
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+>>>>>>> dev
     "sequelize": "^6.3.4",
     "sessions": "0.0.2-7"
   }

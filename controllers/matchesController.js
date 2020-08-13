@@ -12,7 +12,9 @@ router.post('/', (req, res) => {
         size: req.body.size,
         likesKids: req.body.likesKids,
         likesDogs: req.body.likesDogs,
-        likesCats: req.body.likesCats
+        likesCats: req.body.likesCats,
+        userId: req.body.userId,
+        shelterId: req.body.shelterId
     })
         .then(matchData => {
             res.json(matchData)

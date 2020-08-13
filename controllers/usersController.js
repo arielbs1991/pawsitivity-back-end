@@ -3,11 +3,46 @@ const db = require("../models");
 
 //will need to do initial sessions timeout/login page at beginning of each function
 
+router.get("/:id", (req, res) => {
+    db.User.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: db.Match,
+                include: { model: db.Shelter }
+            }
+        ]
+        //add an order here if we want to sort past matches by something (timestamp?)
+    })
+        .then(dbUser => {
+            db.Match.findAll({
+                order: [
+                    ['createdAt']
+                ]
+            })
+                .then(dbMatches => {
+                    const dbUserJson = dbUser.toJSON();
+                    const dbMatchesJson = dbMatches.map(match => match.toJSON());
+                    var userObject = { userData: dbUserJson, userMatches: dbMatchesJson };
+                    console.log("userObject", userObject);
+                    return res.json(userObject);
+                    //how to return object for use with react??
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).end()
+                })
+        })
+})
+
 router.post('/', (req, res) => {
     db.User.create({
         userName: req.body.userName,
         email: req.body.email,
-        location: req.body.location,
+        city: req.body.city,
+        state: req.body.state,
         phoneNumber: req.body.phoneNumber,
         hasKids: req.body.hasKids,
         hasCats: req.body.hasCats,
@@ -66,9 +101,27 @@ router.put('/userName/:id', (req, res) => {
         })
 })
 
-router.put('/location/:id', (req, res) => {
+router.put('/city/:id', (req, res) => {
     db.User.update({
-        location: req.body.location
+        city: req.body.city
+    },
+        {
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(dbUser => {
+            console.log(dbUser);
+            res.json(dbUser)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+router.put('/state/:id', (req, res) => {
+    db.User.update({
+        state: req.body.state
     },
         {
             where: {
@@ -178,6 +231,6 @@ router.put('/whichSpecies/:id', (req, res) => {
             console.log(err);
             res.status(500).end()
         })
-})
+});
 
 module.exports = router;

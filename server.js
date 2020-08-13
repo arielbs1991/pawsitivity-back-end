@@ -1,11 +1,16 @@
 const express = require("express");
 const app = express();
-const db = require("./models")
-
+const db = require("./models");
 var PORT = process.env.PORT || 3001;
+const morgan = require("morgan"); //added for mail
+const nodemailer = require("nodemailer"); //added for mail
+require('dotenv').config(); //added for mail
+app.use('/sendEmail', require('./routes/sendEmail')) //added for mail
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(morgan('dev')) //added for mail
 
 // app.use(session({
 //   secret: "keyboard cat",

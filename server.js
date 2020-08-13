@@ -16,12 +16,14 @@ app.use(express.json());
 //   }
 // }))
 
-app.use(express.static("src"));
+// app.use(express.static("src"));
 
 const usersController = require("./controllers/usersController.js");
 app.use("/api/users", usersController);
 const matchesController = require("./controllers/matchesController.js");
 app.use("/api/matches", matchesController);
+const sheltersController = require("./controllers/sheltersController.js");
+app.use("/api/shelters", sheltersController);
 
 
 

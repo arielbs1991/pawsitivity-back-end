@@ -29,5 +29,13 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
 
+    Shelter.associate = function (models) {
+        Shelter.hasMany(models.Match, {
+            foreignKey: 'shelterId',
+            unique: 'uniqueMatch',
+            onDelete: 'cascade'
+        });
+    };
+
     return Shelter;
 };

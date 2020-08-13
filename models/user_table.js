@@ -46,8 +46,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         whichSpecies: {
             type: DataTypes.STRING,
-            allowNull: true,
-            notEmpty: false
+            allowNull: false
         }
     });
 

@@ -3,15 +3,6 @@ const db = require("../models");
 
 //will need to do initial sessions timeout/login page at beginning of each function
 
-//find user by id (ultimately will return proper user data based on/after login)
-// router.get("/", (req, res) => {
-//     db.User.findOne({
-//         where: {
-//             id: req.params.id
-//         }
-//     })
-// })
-
 router.get("/:id", (req, res) => {
     db.User.findOne({
         where: {
@@ -49,7 +40,8 @@ router.post('/', (req, res) => {
     db.User.create({
         userName: req.body.userName,
         email: req.body.email,
-        location: req.body.location,
+        city: req.body.city,
+        state: req.body.state,
         phoneNumber: req.body.phoneNumber,
         hasKids: req.body.hasKids,
         hasCats: req.body.hasCats,

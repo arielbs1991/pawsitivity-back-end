@@ -23,15 +23,16 @@ app.use(morgan('dev')) //added for mail
 
 // app.use(express.static("src"));
 
-// const usersController = require("./controllers/usersController.js");
-// app.use("/api/users", usersController);
-// const matchesController = require("./controllers/matchesController.js");
-// app.use("/api/matches", matchesController);
-// const sheltersController = require("./controllers/sheltersController.js");
-// app.use("/api/shelters", sheltersController);
+const usersController = require("./controllers/usersController.js");
+app.use("/api/users", usersController);
+const matchesController = require("./controllers/matchesController.js");
+app.use("/api/matches", matchesController);
+const sheltersController = require("./controllers/sheltersController.js");
+app.use("/api/shelters", sheltersController);
+const petAPIController = require("./controllers/petAPIController.js");
+app.use("/api/petAPI", petAPIController);
 
-const petController = require("./controllers/petController.js");
-app.use(petController);
+
 
 
 //TODO: once our db is where we want it, change to force:false

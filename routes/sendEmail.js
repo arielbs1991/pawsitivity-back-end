@@ -25,3 +25,5 @@ var message = {
           console.log("email send: " +info.response)
       }
   })
+
+  module.exports = sendEmailRouter;

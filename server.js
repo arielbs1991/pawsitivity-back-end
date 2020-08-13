@@ -23,17 +23,19 @@ app.use(morgan('dev')) //added for mail
 
 // app.use(express.static("src"));
 
-const usersController = require("./controllers/usersController.js");
-app.use("/api/users", usersController);
-const matchesController = require("./controllers/matchesController.js");
-app.use("/api/matches", matchesController);
-const sheltersController = require("./controllers/sheltersController.js");
-app.use("/api/shelters", sheltersController);
+// const usersController = require("./controllers/usersController.js");
+// app.use("/api/users", usersController);
+// const matchesController = require("./controllers/matchesController.js");
+// app.use("/api/matches", matchesController);
+// const sheltersController = require("./controllers/sheltersController.js");
+// app.use("/api/shelters", sheltersController);
 
+const petController = require("./controllers/petController.js");
+app.use(petController);
 
 
 //TODO: once our db is where we want it, change to force:false
-db.sequelize.sync({ force:false }).then(function() {
+db.sequelize.sync({ force:true }).then(function() {
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });

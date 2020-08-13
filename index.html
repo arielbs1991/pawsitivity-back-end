@@ -9,8 +9,8 @@
     <script src="./routes/api/map.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDY_RILuF7Xq-yurPfk5rC1kNfdBzK2VU0&callback=initMap">
-        </script>
+      src="https://maps.googleapis.com/maps/api/js?key=MAP_API&callback=initMap">
+      </script>
     <!-- jsFiddle will insert css and js -->
 </head>
 
@@ -63,7 +63,7 @@
             <label for="catdesired">cats</label><br>
             <input id="dogdesired" value="dogs" name="desired" type="radio">
             <label for="dogdesired">dogs</label><br>
-            <input id="bothdesired" value="both" name="desired" type="radio">
+            <input id="bothdesired" value="" name="desired" type="radio">
             <label for="bothdesired">both</label><br><br>
             <button type="submit" id="userSubmit">Submit</button>
         </form>

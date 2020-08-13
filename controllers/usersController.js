@@ -27,6 +27,7 @@ router.get("/:id", (req, res) => {
                     const dbMatchesJson = dbMatches.map(match => match.toJSON());
                     var userObject = { userData: dbUserJson, userMatches: dbMatchesJson };
                     console.log("userObject", userObject);
+                    return res.json(userObject);
                     //how to return object for use with react??
                 })
                 .catch(err => {
@@ -100,9 +101,27 @@ router.put('/userName/:id', (req, res) => {
         })
 })
 
-router.put('/location/:id', (req, res) => {
+router.put('/city/:id', (req, res) => {
     db.User.update({
-        location: req.body.location
+        city: req.body.city
+    },
+        {
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(dbUser => {
+            console.log(dbUser);
+            res.json(dbUser)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+router.put('/state/:id', (req, res) => {
+    db.User.update({
+        state: req.body.state
     },
         {
             where: {

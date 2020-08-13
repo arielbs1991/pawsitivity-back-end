@@ -3,6 +3,41 @@ const db = require("../models");
 
 //will need to do initial sessions timeout/login page at beginning of each function
 
+//find user by id (ultimately will return proper user data based on/after login)
+// router.get("/", (req, res) => {
+//     db.User.findOne({
+//         where: {
+//             id: req.params.id
+//         }
+//     })
+// })
+
+router.get("/:id", (req, res) => {
+    db.User.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: db.Match,
+                include: { model: db.Shelter }
+            }
+        ]
+        //add an order here if we want to sort past matches by something (timestamp?)
+    })
+    .then(dbMatches => {
+        const dbUserJson = dbUser.toJSON();
+        const dbMatchesJson = dbMatches.map(match => match.toJSON());
+        var userObject = { userData: dbUserJson, userMatches: dbMatchesJson};
+        console.log("userObject", userObject);
+        //how to return object for use with react??
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).end()
+    })
+})
+
 router.post('/', (req, res) => {
     db.User.create({
         userName: req.body.userName,

@@ -25,17 +25,24 @@ router.get("/:id", (req, res) => {
         ]
         //add an order here if we want to sort past matches by something (timestamp?)
     })
-    .then(dbMatches => {
-        const dbUserJson = dbUser.toJSON();
-        const dbMatchesJson = dbMatches.map(match => match.toJSON());
-        var userObject = { userData: dbUserJson, userMatches: dbMatchesJson};
-        console.log("userObject", userObject);
-        //how to return object for use with react??
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).end()
-    })
+        .then(dbUser => {
+            db.Match.findAll({
+                order: [
+                    ['createdAt']
+                ]
+            })
+                .then(dbMatches => {
+                    const dbUserJson = dbUser.toJSON();
+                    const dbMatchesJson = dbMatches.map(match => match.toJSON());
+                    var userObject = { userData: dbUserJson, userMatches: dbMatchesJson };
+                    console.log("userObject", userObject);
+                    //how to return object for use with react??
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).end()
+                })
+        })
 })
 
 router.post('/', (req, res) => {
@@ -213,6 +220,6 @@ router.put('/whichSpecies/:id', (req, res) => {
             console.log(err);
             res.status(500).end()
         })
-})
+});
 
 module.exports = router;

@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 var message = {
     from: 'pawsitivity.ATACK@gmail.com',
-    to: "ariel.strayer@gmail.com",
+    to: "pawsitivity.ATACK@gmail.com",
     subject: "Welcome to Pawsitivity!",
     text: "Chicky nug nugs are good",
     html: "<p>Chicky nug nugs are good</p>"
@@ -25,3 +25,5 @@ var message = {
           console.log("email send: " +info.response)
       }
   })
+
+  module.exports = sendEmailRouter

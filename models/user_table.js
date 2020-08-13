@@ -20,7 +20,14 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             isEmail: true
         },
-        location: {
+        city: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                len: [1]
+            }
+        },
+        state: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -46,7 +53,8 @@ module.exports = function (sequelize, DataTypes) {
         },
         whichSpecies: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true,
+            notEmpty: false
         }
     });
 

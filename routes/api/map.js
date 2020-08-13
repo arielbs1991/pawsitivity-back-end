@@ -57,11 +57,8 @@
 //   infoWindow.open(map);
 // }
 
-
-// AIzaSyA22gdlHm5rutLZfgJNHsFzCIRPOArUg-0
-
 // async defer
-//             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA22gdlHm5rutLZfgJNHsFzCIRPOArUg-0&callback=initMap">
+//             src="https://maps.googleapis.com/maps/api/js?key=MAP_API&callback=initMap">
 
 
 

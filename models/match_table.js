@@ -2,7 +2,11 @@ const Sequelize = require("sequelize");
 const sequelize = require("./index");
 
 module.exports = function (sequelize, DataTypes) {
-    var Pet = sequelize.define("Pet", {
+    var Match = sequelize.define("Match", {
+        isLiked: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
         petName: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -13,27 +17,28 @@ module.exports = function (sequelize, DataTypes) {
         },
         isDog: {
             type: DataTypes.BOOLEAN,
+            // unique: 'uniquePet',
             allowNull: false
         },
         age: {
             type: DataTypes.STRING,
             // unique: 'uniquePet',
-            notEmpty:false
+            notEmpty: false
         },
         breed: {
             type: DataTypes.STRING,
             // unique: 'uniquePet',
-            notEmpty:false
+            notEmpty: false
         },
         sex: {
             type: DataTypes.STRING,
             // unique: 'uniquePet',
-            notEmpty:false
+            notEmpty: false
         },
         size: {
             type: DataTypes.STRING,
             // unique: 'uniquePet',
-            notEmpty:false
+            notEmpty: false
         },
         likesKids: {
             type: DataTypes.BOOLEAN,
@@ -49,12 +54,17 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
 
-    Pet.associate = function (models) {
-        Pet.hasMany(models.Matches, {
-            foreignKey: 'petId',
-            unique: 'uniqueMatches',
+    Match.associate = function (models) {
+        Match.belongsTo(models.User, {
+            unique: 'uniqueMatch',
+            foreignKey: 'userId',
+            onDelete: 'cascade'
+        });
+        Match.belongsTo(models.Shelter, {
+            unique: 'uniqueMatch',
+            foreignKey: 'shelterId',
             onDelete: 'cascade'
         });
     };
-    return Pet;
+    return Match;
 };

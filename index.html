@@ -1,19 +1,78 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geolocation</title>
-    <link rel="stylesheet" href="map.css"/>
+    <link rel="stylesheet" href="map.css" />
     <script src="./routes/api/map.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script async defer
+<<<<<<< HEAD
       src="https://maps.googleapis.com/maps/api/js?key=MAP_API&callback=initMap">
       </script>
+=======
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDY_RILuF7Xq-yurPfk5rC1kNfdBzK2VU0&callback=initMap">
+        </script>
+>>>>>>> dev
     <!-- jsFiddle will insert css and js -->
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="floating-panel">
         <input id="address" type="textbox" value="Sydney, NSW" />
         <input id="submit" type="button" value="Geocode" />
-      </div>
-    <div id="map"></div>
-  </body>
+    </div>
+    <div id="map"></div><br>
+    <H1>testing table inputs</H1>
+    <span class="user">
+        <form class="userInfo" type="text">
+            <label for="username">
+                username
+            </label>
+            <input id="username" name="username" type="text"><br>
+            <!-- <label for="password">
+                password
+            </label>
+            <input id="password" name="password" type="text"><br> -->
+            <label for="email">
+                email
+            </label>
+            <input id="email" name="email" type="text"><br>
+            <label for="location">
+                location
+            </label>
+            <input id="location" name="location" type="text"><br>
+            <label for="phoneNumber">
+                phone number
+            </label>
+            <input id="phone" name="phone" type="text"><br>
+            <h5>Kids?</h5>
+            <input id="yeskids" value="true" name="kids" type="radio">
+            <label for="yeskids">yeah, I have kids</label><br>
+            <input id="nokids" value="false" name="kids" type="radio">
+            <label for="nokids">no, no children for me, thanks</label><br>
+            <h5>Cats?</h5>
+            <input id="yescats" value="true" name="cats" type="radio">
+            <label for="yescats">yes, I have at least one other clawed hellspawn</label><br>
+            <input id="nocats" value="false" name="cats" type="radio">
+            <label for="nocats">nope, I like to feel safe at night</label><br>
+            <h5>Dogs?</h5>
+            <input id="yesdogs" value="true" name="dogs" type="radio">
+            <label for="yesdogs">yep, need a buddy for my buddy</label><br>
+            <input id="nodogs" value="false" name="dogs" type="radio">
+            <label for="nodogs">nope, hence my need to fill this void in my life</label><br>
+            <h5>Whatcha lookin for?</h5>
+            <input id="catdesired" value="cats" name="desired" type="radio">
+            <label for="catdesired">cats</label><br>
+            <input id="dogdesired" value="dogs" name="desired" type="radio">
+            <label for="dogdesired">dogs</label><br>
+            <input id="bothdesired" value="both" name="desired" type="radio">
+            <label for="bothdesired">both</label><br><br>
+            <button type="submit" id="userSubmit">Submit</button>
+        </form>
+    </span>
+</body>
+
 </html>

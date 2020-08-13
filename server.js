@@ -20,6 +20,8 @@ app.use(express.static("src"));
 
 const usersController = require("./controllers/usersController.js");
 app.use("/api/users", usersController);
+const matchesController = require("./controllers/matchesController.js");
+app.use("/api/matches", matchesController);
 
 
 

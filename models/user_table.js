@@ -51,9 +51,9 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     User.associate = function (models) {
-        User.hasMany(models.Matches, {
+        User.hasMany(models.Match, {
             foreignKey: 'userId',
-            unique: 'uniqueMatches',
+            unique: 'uniqueMatch',
             onDelete: 'cascade'
         });
     };

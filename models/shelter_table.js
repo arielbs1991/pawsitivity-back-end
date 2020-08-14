@@ -6,6 +6,14 @@ module.exports = function (sequelize, DataTypes) {
         shelterName: {
             type: DataTypes.STRING,
             allowNull: false,
+            // unique: true,
+            validate: {
+                len: [1]
+            }
+        },
+        orgId: {
+            type: DataTypes.STRING,
+            allowNull: false,
             unique: true,
             validate: {
                 len: [1]

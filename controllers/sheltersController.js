@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const db = require("../models");
+const shelterAPI = require("../utils/shelterAPI/API");
 
 router.post('/', (req, res) => {
     db.Shelter.create({
@@ -8,13 +9,24 @@ router.post('/', (req, res) => {
         address: req.body.address,
         phoneNumber: req.body.phoneNumber
     })
-    .then(shelterData => {
-        res.json(shelterData)
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).end()
-    })
+        .then(shelterData => {
+            res.json(shelterData)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+
+router.get('/', ({ body: { id } }, res) => {
+    shelterAPI(id)
+        .then(shelterResults => {
+            res.json(shelterResults)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
 })
 
 module.exports = router;

@@ -8,7 +8,6 @@ const db = require("../models");
 router.post("/pets/", (req, res) => {
     petAPI(req.session.user)
         .then(petResults => {
-
             res.json(petResults)
         }).catch(err=>console.error(err))
 })

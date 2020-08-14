@@ -18,14 +18,12 @@ module.exports = function (sequelize, DataTypes) {
         },
         address: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: [1]
-            }
+            allowNull: true,
+            
         },
         phoneNumber: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
     });
 

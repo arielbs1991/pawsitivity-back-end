@@ -40,6 +40,10 @@ module.exports = function (sequelize, DataTypes) {
             // unique: 'uniquePet',
             notEmpty: false
         },
+        // image: {
+        //     type: DataTypes.STRING,
+        //     notEmpty: false
+        // },
         likesKids: {
             type: DataTypes.BOOLEAN,
             allowNull: true
@@ -51,7 +55,7 @@ module.exports = function (sequelize, DataTypes) {
         likesCats: {
             type: DataTypes.BOOLEAN,
             allowNull: true
-        }
+        },
     });
 
     Match.associate = function (models) {

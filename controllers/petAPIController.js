@@ -13,7 +13,8 @@ const db = require("../models");
 //     })
 // })
 
-router.get("/pets/", ({ body: { type, location, hasKids, hasCats, hasDogs } }, res) => {
+
+router.post("/pets/", ({ body: { type, location, hasKids, hasCats, hasDogs } }, res) => {
     petAPI(type, location, hasKids, hasCats, hasDogs)
         .then(petResults => {
             res.json(petResults)

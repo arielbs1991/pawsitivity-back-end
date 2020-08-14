@@ -48,9 +48,10 @@ app.use("/api/users", usersController);
 const matchesController = require("./controllers/matchesController.js");
 app.use("/api/matches", matchesController);
 const sheltersController = require("./controllers/sheltersController.js");
-app.use("/api/shelters", sheltersController);
+app.use("/api/shelterAPI", sheltersController);
 const petAPIController = require("./controllers/petAPIController.js");
 app.use("/api/petAPI", petAPIController);
+
 
 
 

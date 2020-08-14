@@ -5,8 +5,16 @@ const db = require("../models");
 //I WAS TRYING TO GET USER INFORMATION / PREFERENCES BY ID AND THEN RUN A PETAPI QUERY BASED ON THOSE AND THEN TURN THAT INTO A JSON OBJECT BUT IDEFK
 //STORE USER OBJECT IN SESSIONS THEN WE DON'T HAVE TO FIND IT
 
-router.get("/pets/", ({ body: { type, location, good_with_children, goot_with_cats, good_with_dogs } }, res) => {
-    petAPI(type, location, good_with_children, goot_with_cats, good_with_dogs)
+// router.get("/", (req, res) => {
+//     db.User.findOne({
+//         where: {
+//             id: req.params.id
+//         }
+//     })
+// })
+
+router.get("/pets/", ({ body: { type, location, hasKids, hasCats, hasDogs } }, res) => {
+    petAPI(type, location, hasKids, hasCats, hasDogs)
         .then(petResults => {
             res.json(petResults)
         })
@@ -16,4 +24,4 @@ router.get("/pets/", ({ body: { type, location, good_with_children, goot_with_ca
         })
 })
 
-module.exports = router
+module.exports = router;

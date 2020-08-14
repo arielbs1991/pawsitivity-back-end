@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
 
+//Just save shelterid and associations, and use shelterid to query and render shelter information
 module.exports = function (sequelize, DataTypes) {
     var Shelter = sequelize.define("Shelter", {
         shelterName: {

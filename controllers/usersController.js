@@ -39,10 +39,12 @@ router.get("/:id", (req, res) => {
 
 router.post('/', (req, res) => {
     db.User.create({
-        userName: req.body.userName,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         city: req.body.city,
         state: req.body.state,
+        postcode: req.body.postcode,
         phoneNumber: req.body.phoneNumber,
         hasKids: req.body.hasKids,
         hasCats: req.body.hasCats,
@@ -62,7 +64,9 @@ router.delete('/:id', (req, res) => {
     db.User.destroy({
         userName: req.body.userName,
         email: req.body.email,
-        location: req.body.location,
+        city: req.body.city,
+        state: req.body.state,
+        postcode: req.body.postcode,
         phoneNumber: req.body.phoneNumber,
         hasKids: req.body.hasKids,
         hasCats: req.body.hasCats,
@@ -122,6 +126,24 @@ router.put('/city/:id', (req, res) => {
 router.put('/state/:id', (req, res) => {
     db.User.update({
         state: req.body.state
+    },
+        {
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(dbUser => {
+            console.log(dbUser);
+            res.json(dbUser)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+router.put('/postcode/:id', (req, res) => {
+    db.User.update({
+        postcode: req.body.postcode
     },
         {
             where: {

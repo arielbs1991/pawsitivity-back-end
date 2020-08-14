@@ -5,7 +5,7 @@ router.post('/', (req, res) => {
     db.Shelter.create({
         shelterName: req.body.shelterName,
         email: req.body.email,
-        location: req.body.location,
+        address: req.body.address,
         phoneNumber: req.body.phoneNumber
     })
     .then(shelterData => {

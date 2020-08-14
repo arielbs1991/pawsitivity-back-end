@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             isEmail: true
         },
-        location: {
+        address: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {

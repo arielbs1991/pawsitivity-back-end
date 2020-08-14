@@ -3,7 +3,15 @@ const sequelize = require("./index");
 
 module.exports = function (sequelize, DataTypes) {
     var User = sequelize.define("User", {
-        userName: {
+        firstName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                len: [1]
+            }
+        },
+        lastName: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
@@ -28,6 +36,13 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         state: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                len: [1]
+            }
+        },
+        postcode: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {

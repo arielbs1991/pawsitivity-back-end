@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt')
 
 //will need to do initial sessions timeout/login page at beginning of each function
 
-router.get("/:id", (req, res) => {
+// CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT. CONFLICT
+router.get("/finderuser/:id", (req, res) => {
     db.User.findOne({
         where: {
             id: req.params.id
@@ -39,6 +40,7 @@ router.get("/:id", (req, res) => {
 })
 
 router.get('/readsessions', (req, res) => {
+    console.log(req.session)
     res.json(req.session)
 })
 

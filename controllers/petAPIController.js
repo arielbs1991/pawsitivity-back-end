@@ -14,8 +14,8 @@ const db = require("../models");
 // })
 
 
-router.post("/pets/", ({ body: { type, location, hasKids, hasCats, hasDogs } }, res) => {
-    petAPI(type, location, hasKids, hasCats, hasDogs)
+router.get("/pets/", ({ body: { type, location, hasKids, hasCats, hasDogs } }, res) => {
+    petAPIbyUserPref(type, location, hasKids, hasCats, hasDogs)
         .then(petResults => {
             res.json(petResults)
         })

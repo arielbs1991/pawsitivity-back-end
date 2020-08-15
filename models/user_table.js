@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
+const bcrypt = require('bcrypt')
 
 module.exports = function (sequelize, DataTypes) {
     var User = sequelize.define("User", {
@@ -19,10 +20,10 @@ module.exports = function (sequelize, DataTypes) {
                 len: [1]
             }
         },
-        // password: {
-        //     type: DataTypes.STRING(64),
-        //     is: /^[0-9a-f]{64$/i
-        // },
+        password: {
+            type: DataTypes.STRING(64),
+            is: /^[0-9a-f]{64$/i
+        },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -80,5 +81,8 @@ module.exports = function (sequelize, DataTypes) {
             onDelete: 'cascade'
         });
     };
+    User.beforeCreate(function (user){
+        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
+    })
     return User;
 };

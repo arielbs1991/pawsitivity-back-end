@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const db = require("../models");
+const bcrypt = require('bcrypt')
 
 //will need to do initial sessions timeout/login page at beginning of each function
 
@@ -37,11 +38,21 @@ router.get("/:id", (req, res) => {
         })
 })
 
+router.get('/readsessions', (req, res) => {
+    res.json(req.session)
+})
+
+router.get("/logout",(req,res)=>{
+    req.session.destroy();
+    res.send("logout complete!")
+})
+
 router.post('/', (req, res) => {
     db.User.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
+        password: req.body.password,
         city: req.body.city,
         state: req.body.state,
         postcode: req.body.postcode,
@@ -58,6 +69,37 @@ router.post('/', (req, res) => {
             console.log(err);
             res.status(500).end()
         })
+})
+
+router.post('/login', (req, res) => {
+    db.User.findOne({
+        where: {
+            email: req.body.email
+        }
+    }).then(user => {
+        if (!user) {
+            res.status(404).send("no such user");
+        } else {
+            if (bcrypt.compareSync(req.body.password, user.password)) {
+                req.session.user = {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    postcode: user.postcode,
+                    hasKids: user.hasKids,
+                    hasCats: user.hasCats,
+                    hasDogs: user.hasDogs,
+                    whichSpecies: user.whichSpecies
+                }
+                res.json(req.session);
+            } else {
+                res.status(401).send("wrong password")
+            }
+        }
+    }).catch(err => {
+        console.log(err);
+        res.status(500).end()
+    })
 })
 
 router.delete('/:id', (req, res) => {

@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const db = require("./models");
+const session = require('express-session')
 var PORT = process.env.PORT || 3001;
 const morgan = require("morgan"); //added for mail
 const nodemailer = require("nodemailer"); //added for mail
@@ -19,17 +20,17 @@ app.use(cors({
 }))
 
 //this one Cody sent me for cors
-// app.use(session({
-//   secret: "keyboard cat",
-//   resave: false,
-//   saveUninitialized: false,
-//   proxy: true,
-//   cookie: {
-//     maxAge: 2 * 60 * 60 * 1000,
-//     sameSite: "none",
-//     secure: true
-//   }
-// }))
+app.use(session({
+  secret: "keyboard cat",
+  resave: false,
+  saveUninitialized: false,
+  proxy: true,
+  cookie: {
+    maxAge: 2 * 60 * 60 * 1000,
+    sameSite: "none",
+    secure: true
+  }
+}))
 
 //this one is a holdover from login process from winekey
 // app.use(session({
@@ -51,8 +52,6 @@ const sheltersController = require("./controllers/sheltersController.js");
 app.use("/api/shelterAPI", sheltersController);
 const petAPIController = require("./controllers/petAPIController.js");
 app.use("/api/petAPI", petAPIController);
-
-
 
 
 

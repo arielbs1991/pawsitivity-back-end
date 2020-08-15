@@ -1,7 +1,7 @@
 const axios = require('axios');
 
-const petAPI = async (id) => {
-  const BASEURL = `https://api.petfinder.com/v2/animals/${id}`
+const petAPI = async ({ postcode, hasKids, hasCats, hasDogs, whichSpecies }) => {
+  const BASEURL = `https://api.petfinder.com/v2/animals?type=${whichSpecies}&limit=100&location=${postcode}`
   const publicKey = 'yaD3Y8GufBtJCkntjc4byTSBHVYUPeD42PJAZq3GO2SfRx8p9g'
   const secretKey = 'TLsMatYIB2EQQhUzmkkbPY1M2m0KljgiXqInort4'
   const config = {

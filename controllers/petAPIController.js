@@ -30,26 +30,26 @@ router.get("/pets/:petId", ({ body: { petId } }, res) => {
         })
 })
 
-//route to get array of animals by user preferences
-//TODO: populate query params directly from user specs 
-router.get("/pets/", (req, res) => {
-    const user = req.session.user;
-    const type = user.type;
-    const location = user.postcode;
-    const hasKids = user.hasKids;
-    const hasCats = user.hasCats;
-    const hasDogs = user.hasDogs;
-    petAPIbyUserPref(type, location, hasKids, hasCats, hasDogs)
-        .then(petResults => {
-            res.json(petResults)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
-})
+//route to get array of animals by user preferences - should hopefully work once we have a sessions object
 
-//route being used by front-end to populate sessions data
+// router.post("/pets/", (req, res) => {
+//     const user = req.session.user;
+//     const type = user.type;
+//     const location = user.postcode;
+//     const hasKids = user.hasKids;
+//     const hasCats = user.hasCats;
+//     const hasDogs = user.hasDogs;
+//     petAPIbyUserPref(type, location, hasKids, hasCats, hasDogs)
+//         .then(petResults => {
+//             res.json(petResults)
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).end()
+//         })
+// })
+
+//route being used by front-end to populate sessions data??
 router.post("/pets/", ({ body: { type, location, hasKids, hasCats, hasDogs } }, res) => {
     petAPIbyUserPref(type, location, hasKids, hasCats, hasDogs)
         .then(petResults => {

@@ -1,10 +1,12 @@
 const router = require("express").Router();
 const db = require("../models");
+const bcrypt = require('bcrypt')
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/users
 
 //will need to do initial sessions timeout/login page at beginning of each function
 
+// CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
 router.get("/finduser/:id", (req, res) => {
     db.User.findOne({
         where: {
@@ -43,7 +45,7 @@ router.get('/readsessions', (req, res) => {
     res.json(req.session.user)
 })
 
-router.get("/logout", (req, res) => {
+router.get("/logout",(req,res)=>{
     req.session.destroy();
     res.send("logout complete!")
 })

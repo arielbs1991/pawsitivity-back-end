@@ -7,10 +7,6 @@ const sequelize = require("./index");
 
 module.exports = function (sequelize, DataTypes) {
     var Match = sequelize.define("Match", {
-        isLiked: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
-        },
         petfinderId: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -19,6 +15,17 @@ module.exports = function (sequelize, DataTypes) {
                 len: [1]
             }
         },
+        isLiked: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
+            set: function(value) {
+                if (value === 'true') value = true;
+                if (value === 'false') value = false;
+                this.setDataValue('isLiked', value);
+            }
+        },
+ 
         // petName: {
         //     type: DataTypes.STRING,
         //     allowNull: false,

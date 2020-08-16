@@ -17,8 +17,8 @@ router.post('/newMatch/', (req, res) => {
         // likesKids: req.body.likesKids,
         // likesDogs: req.body.likesDogs,
         // likesCats: req.body.likesCats,
-        // userId: req.body.userId,
-        // shelterId: req.body.shelterId
+        userId: req.body.userId,
+        shelterId: req.body.shelterId
     })
         .then(matchData => {
             res.json(matchData)

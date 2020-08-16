@@ -1,15 +1,11 @@
 const fetch = require("node-fetch");
 
-const shelterAPI = async (orgId) => {
+const petAPIbyId = async (petId) => {
 
     // Client credentials
     // Replace these with your key/secret
     var key = 'yaD3Y8GufBtJCkntjc4byTSBHVYUPeD42PJAZq3GO2SfRx8p9g';
     var secret = 'TLsMatYIB2EQQhUzmkkbPY1M2m0KljgiXqInort4';
-
-    // Call details
-    var org = 'RI77';
-    var status = 'adoptable';
 
     // Call the API
     // This is a POST request, because we need the API to generate a new token for us
@@ -31,7 +27,7 @@ const shelterAPI = async (orgId) => {
 
         // Return a second API call
         // This one uses the token we received for authentication
-        return fetch(`https://api.petfinder.com/v2/organizations/${orgId}`, {
+        return fetch(`https://api.petfinder.com/v2/animals/${petId}`, {
             headers: {
                 'Authorization': data.token_type + ' ' + data.access_token,
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -56,4 +52,4 @@ const shelterAPI = async (orgId) => {
     });
 };
 
-module.exports = shelterAPI;
+module.exports = petAPIbyId;

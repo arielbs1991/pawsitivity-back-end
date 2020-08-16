@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/arielbs1991/pawsitivity#readme",
   "dependencies": {
+    "ajax": "0.0.4",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
@@ -29,6 +30,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
+    "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.11",
     "sequelize": "^6.3.4",
     "sessions": "0.0.2-7"

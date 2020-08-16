@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
         firstName: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            // unique: true,
             validate: {
                 len: [1]
             }
@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
         lastName: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            // unique: true,
             validate: {
                 len: [1]
             }

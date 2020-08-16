@@ -1,18 +1,13 @@
 const router = require("express").Router();
 const db = require("../models");
 
-router.post('/', (req, res) => {
+//BASE URL FOR ALL ROUTES ON THIS PAGE: /api/matches
+
+router.post('/newMatch/', (req, res) => {
+    //will eventually need to tie in which userid and shelterid the match is being created under
     db.Match.create({
         isLiked: req.body.isLiked,
-        petName: req.body.petName,
-        isDog: req.body.isDog,
-        age: req.body.age,
-        breed: req.body.breed,
-        sex: req.body.sex,
-        size: req.body.size,
-        likesKids: req.body.likesKids,
-        likesDogs: req.body.likesDogs,
-        likesCats: req.body.likesCats,
+        petfinderId: req.body.petfinderId,
         userId: req.body.userId,
         shelterId: req.body.shelterId
     })
@@ -23,6 +18,18 @@ router.post('/', (req, res) => {
             console.log(err);
             res.status(500).end()
         })
+})
+
+router.get('/:userId', (req, res) => {
+    db.Match.findAll({
+        where: {
+            userId: req.session.userId
+        }
+    })
+    .then(userMatchData => {
+        console.log("user matches: ", userMatchData);
+        res.json(userMatchData);
+    })
 })
 
 router.put('/isLiked/:id', (req, res) => {
@@ -46,16 +53,8 @@ router.put('/isLiked/:id', (req, res) => {
 
 // router.delete('/:id', (req, res) => {
 //     db.Match.destroy({
-//         isLike: req.body.isLike,
-//         petName: req.body.petName,
-//         isDog: req.body.isDog,
-//         age: req.body.age,
-//         breed: req.body.breed,
-//         sex: req.body.sex,
-//         size: req.body.size,
-//         likesKids: req.body.likesKids,
-//         likesDogs: req.body.likesDogs,
-//         likesCats: req.body.likesCats
+//         isLiked: req.body.isLiked,
+//         petfinderId: req.body.petfinderId,
 //     }, {
 //         where: {
 //             id: req.params.id

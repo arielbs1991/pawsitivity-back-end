@@ -1,11 +1,27 @@
 const router = require("express").Router();
 const petAPI = require("../utils/petAPI/API.js");
+const petAPIbyId = require("../utils/petAPIbyId/API.js");
 const db = require("../models");
+const shelterAPI = require("../utils/shelterAPI/API.js");
 
-//I WAS TRYING TO GET USER INFORMATION / PREFERENCES BY ID AND THEN RUN A PETAPI QUERY BASED ON THOSE AND THEN TURN THAT INTO A JSON OBJECT BUT IDEFK
-//STORE USER OBJECT IN SESSIONS THEN WE DON'T HAVE TO FIND IT
+//BASE URL FOR ALL ROUTES ON THIS PAGE: /api/petAPI
 
-router.get("/pets/", ({ session: { user: {postcode, hasCats, hasDogs, hasKids, whichSpecies } } }, res) => {
+//route to return a single pet by id provided by petfinder
+router.get("/pets/:petId", ({ body: { petId } }, res) => {
+    petAPIbyId(petId)
+        .then(petResults => {
+            res.json(petResults)
+            console.log("pet by id", petResults);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+
+//route to get array of animals by user preferences - should hopefully work once we have a sessions object
+
+router.get("/pets/", ({ session: { user: { postcode, hasCats, hasDogs, hasKids, whichSpecies } } }, res) => {
     console.log(postcode, hasDogs, hasKids, hasCats, whichSpecies)
     petAPI(postcode, hasDogs, hasKids, hasCats, whichSpecies)
         .then(petResults => {

@@ -2,6 +2,8 @@ const router = require("express").Router();
 const db = require("../models");
 const bcrypt = require('bcrypt')
 
+//BASE URL FOR ALL ROUTES ON THIS PAGE: /api/users
+
 //will need to do initial sessions timeout/login page at beginning of each function
 
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.

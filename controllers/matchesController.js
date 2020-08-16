@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const db = require("../models");
 
+//BASE URL FOR ALL ROUTES ON THIS PAGE: /api/matches
+
 router.post('/', (req, res) => {
     db.Match.create({
         isLiked: req.body.isLiked,

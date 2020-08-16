@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const db = require("../models");
 
+//BASE URL FOR ALL ROUTES ON THIS PAGE: /api/users
+
 //will need to do initial sessions timeout/login page at beginning of each function
 
 router.get("/:id", (req, res) => {

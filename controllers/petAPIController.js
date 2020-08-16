@@ -21,7 +21,7 @@ router.get("/pets/:petId", ({ body: { petId } }, res) => {
 
 //route to get array of animals by user preferences - should hopefully work once we have a sessions object
 
-router.get("/pets/", ({ session: { user: {postcode, hasCats, hasDogs, hasKids, whichSpecies } } }, res) => {
+router.get("/pets/", ({ session: { user: { postcode, hasCats, hasDogs, hasKids, whichSpecies } } }, res) => {
     console.log(postcode, hasDogs, hasKids, hasCats, whichSpecies)
     petAPI(postcode, hasDogs, hasKids, hasCats, whichSpecies)
         .then(petResults => {

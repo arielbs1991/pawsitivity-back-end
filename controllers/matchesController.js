@@ -3,20 +3,22 @@ const db = require("../models");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/matches
 
-router.post('/', (req, res) => {
+router.post('/newMatch/', (req, res) => {
+    //will eventually need to tie in which userid and shelterid the match is being created under
     db.Match.create({
         isLiked: req.body.isLiked,
-        petName: req.body.petName,
-        isDog: req.body.isDog,
-        age: req.body.age,
-        breed: req.body.breed,
-        sex: req.body.sex,
-        size: req.body.size,
-        likesKids: req.body.likesKids,
-        likesDogs: req.body.likesDogs,
-        likesCats: req.body.likesCats,
-        userId: req.body.userId,
-        shelterId: req.body.shelterId
+        petfinderId: req.body.petfinderId,
+        // petName: req.body.petName,
+        // isDog: req.body.isDog,
+        // age: req.body.age,
+        // breed: req.body.breed,
+        // sex: req.body.sex,
+        // size: req.body.size,
+        // likesKids: req.body.likesKids,
+        // likesDogs: req.body.likesDogs,
+        // likesCats: req.body.likesCats,
+        // userId: req.body.userId,
+        // shelterId: req.body.shelterId
     })
         .then(matchData => {
             res.json(matchData)

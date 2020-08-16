@@ -1,27 +1,3 @@
-// const axios = require('axios');
-
-// const shelterAPI = async (orgId) => {
-//   const BASEURL = `https://api.petfinder.com/v2/organizations/${orgId}`
-//   const publicKey = ('yaD3Y8GufBtJCkntjc4byTSBHVYUPeD42PJAZq3GO2SfRx8p9g' || 'Id4PWiv8ndIIegWRHTHLuj9sxhelO9TS0G2A0UNKbSDpm6117V')
-//   const secretKey = ('TLsMatYIB2EQQhUzmkkbPY1M2m0KljgiXqInort4' || 'Id4PWiv8ndIIegWRHTHLuj9sxhelO9TS0G2A0UNKbSDpm6117V')
-//   const config = {
-//     url: "oauth2/token",
-//     method: "post",
-//     baseURL: "https://api.petfinder.com/v2/",
-//     data: {
-//       grant_type: "client_credentials",
-//       client_id: `${publicKey}`,
-//       client_secret: `${secretKey}`,
-//     },
-//   };
-
-//   let { data: { access_token } } = await axios(config);
-//   const { data: { shelterData } } = await axios.get(BASEURL, { headers: { "Authorization": `Bearer ${access_token}` } })
-//   return shelterData
-// }
-
-// module.exports = shelterAPI;
-
 const fetch = require("node-fetch");
 
 const shelterAPI = async (orgId) => {
@@ -81,25 +57,3 @@ const shelterAPI = async (orgId) => {
 };
 
 module.exports = shelterAPI;
-
-// const shelterAPI = async (orgId) => {
-
-//     const url = 'http://api.petfinder.com/shelter.get';
-//     const publicKey = ('yaD3Y8GufBtJCkntjc4byTSBHVYUPeD42PJAZq3GO2SfRx8p9g' || 'Id4PWiv8ndIIegWRHTHLuj9sxhelO9TS0G2A0UNKbSDpm6117V')
-//     const secretKey = ('TLsMatYIB2EQQhUzmkkbPY1M2m0KljgiXqInort4' || 'Id4PWiv8ndIIegWRHTHLuj9sxhelO9TS0G2A0UNKbSDpm6117V')
-
-//     $.ajax({
-//         url: url,
-//         jsonp: "callback",
-//         dataType: "jsonp",
-//         data: {
-//             key: publicKey,
-//             id: 'WA622',
-//             output: 'basic',
-//             format: 'json'
-//         }
-
-//     })
-// }
-
-// module.exports = shelterAPI;

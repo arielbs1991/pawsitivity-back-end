@@ -21,11 +21,11 @@ router.get("/shelter/:orgId", ({ body: { orgId } }, res) => {
 //route for storing shelter info in shelter_table - tested in postman and working as of 8/15 12:00
 router.post("/shelter", (req, res) => {
     db.Shelter.create({
-        shelterName: req.body.shelterName,
         orgId: req.body.orgId,
-        email: req.body.email,
-        address: req.body.address,
-        phoneNumber: req.body.phoneNumber
+        // shelterName: req.body.shelterName,
+        // email: req.body.email,
+        // address: req.body.address,
+        // phoneNumber: req.body.phoneNumber
     })
         .then(shelterData => {
             res.json(shelterData)

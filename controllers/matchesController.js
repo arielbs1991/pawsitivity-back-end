@@ -8,15 +8,6 @@ router.post('/newMatch/', (req, res) => {
     db.Match.create({
         isLiked: req.body.isLiked,
         petfinderId: req.body.petfinderId,
-        // petName: req.body.petName,
-        // isDog: req.body.isDog,
-        // age: req.body.age,
-        // breed: req.body.breed,
-        // sex: req.body.sex,
-        // size: req.body.size,
-        // likesKids: req.body.likesKids,
-        // likesDogs: req.body.likesDogs,
-        // likesCats: req.body.likesCats,
         userId: req.body.userId,
         shelterId: req.body.shelterId
     })
@@ -27,6 +18,18 @@ router.post('/newMatch/', (req, res) => {
             console.log(err);
             res.status(500).end()
         })
+})
+
+router.get('/:userId', (req, res) => {
+    db.Match.findAll({
+        where: {
+            userId: req.session.userId
+        }
+    })
+    .then(userMatchData => {
+        console.log("user matches: ", userMatchData);
+        res.json(userMatchData);
+    })
 })
 
 router.put('/isLiked/:id', (req, res) => {
@@ -50,16 +53,8 @@ router.put('/isLiked/:id', (req, res) => {
 
 // router.delete('/:id', (req, res) => {
 //     db.Match.destroy({
-//         isLike: req.body.isLike,
-//         petName: req.body.petName,
-//         isDog: req.body.isDog,
-//         age: req.body.age,
-//         breed: req.body.breed,
-//         sex: req.body.sex,
-//         size: req.body.size,
-//         likesKids: req.body.likesKids,
-//         likesDogs: req.body.likesDogs,
-//         likesCats: req.body.likesCats
+//         isLiked: req.body.isLiked,
+//         petfinderId: req.body.petfinderId,
 //     }, {
 //         where: {
 //             id: req.params.id

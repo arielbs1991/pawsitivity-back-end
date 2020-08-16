@@ -7,10 +7,6 @@ const petAPIbyId = async (petId) => {
     var key = 'yaD3Y8GufBtJCkntjc4byTSBHVYUPeD42PJAZq3GO2SfRx8p9g';
     var secret = 'TLsMatYIB2EQQhUzmkkbPY1M2m0KljgiXqInort4';
 
-    // Call details
-    var org = 'RI77';
-    var status = 'adoptable';
-
     // Call the API
     // This is a POST request, because we need the API to generate a new token for us
     fetch('https://api.petfinder.com/v2/oauth2/token', {

@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         petfinderId: {
             type: DataTypes.STRING,
             allowNull: false,
-            // unique: 'uniquePet',
+            unique: true,
             validate: {
                 len: [1]
             }
@@ -18,14 +18,8 @@ module.exports = function (sequelize, DataTypes) {
         isLiked: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: true,
-            set: function(value) {
-                if (value === 'true') value = true;
-                if (value === 'false') value = false;
-                this.setDataValue('isLiked', value);
-            }
         },
- 
+
         // petName: {
         //     type: DataTypes.STRING,
         //     allowNull: false,
@@ -34,7 +28,7 @@ module.exports = function (sequelize, DataTypes) {
         //         len: [1]
         //     }
         // },
-       
+
         // isDog: {
         //     type: DataTypes.BOOLEAN,
         //     // unique: 'uniquePet',

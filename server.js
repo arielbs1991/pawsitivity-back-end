@@ -19,18 +19,28 @@ app.use(cors({
   credentials: true
 }))
 
-//this one Cody sent me for cors
+// USE ON DEPLOYED
+// app.use(session({
+//   secret: "keyboard cat",
+//   resave: false,
+//   saveUninitialized: false,
+//   proxy: true,
+//   cookie: {
+//     maxAge: 2 * 60 * 60 * 1000,
+//     sameSite: "none",
+//     secure: true
+//   }
+// }))
+
 app.use(session({
-  secret: "keyboard cat",
-  resave: false,
-  saveUninitialized: false,
-  proxy: true,
-  cookie: {
-    maxAge: 2 * 60 * 60 * 1000,
-    sameSite: "none",
-    secure: true
-  }
+    secret: "keyboard cat", 
+    resave: false, 
+    saveUninitialized: false,
+    cookie : {
+      maxAge:2*60*60*1000,
+    }
 }))
+
 
 //this one is a holdover from login process from winekey
 // app.use(session({

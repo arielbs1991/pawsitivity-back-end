@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt')
 
 //will need to do initial sessions timeout/login page at beginning of each function
 
-router.get("/:id", (req, res) => {
+// CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
+router.get("/finduser/:id", (req, res) => {
     db.User.findOne({
         where: {
             id: req.params.id
@@ -39,7 +40,7 @@ router.get("/:id", (req, res) => {
 })
 
 router.get('/readsessions', (req, res) => {
-    res.json(req.session)
+    res.json(req.session.user)
 })
 
 router.get("/logout",(req,res)=>{
@@ -78,9 +79,12 @@ router.post('/login', (req, res) => {
         }
     }).then(user => {
         if (!user) {
-            res.status(404).send("no such user");
+            res.status(404).send("No such user exists");
         } else {
-            if (bcrypt.compareSync(req.body.password, user.password)) {
+            if (
+                // UNCOMMENT WHEN YOU WANT TO AUTHENTICATE.
+                // bcrypt.compareSync
+                (req.body.password, user.password)) {
                 req.session.user = {
                     firstName: user.firstName,
                     lastName: user.lastName,
@@ -93,7 +97,7 @@ router.post('/login', (req, res) => {
                 }
                 res.json(req.session);
             } else {
-                res.status(401).send("wrong password")
+                res.status(401).send("Incorrect password")
             }
         }
     }).catch(err => {

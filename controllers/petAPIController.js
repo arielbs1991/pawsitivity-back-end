@@ -7,7 +7,7 @@ const shelterAPI = require("../utils/shelterAPI/API.js");
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/petAPI
 
 //route to return a single pet by id provided by petfinder
-router.get("/pets/:petId", ({ body: { petId } }, res) => {
+router.get("/pets/:petId", ({ params: { petId } }, res) => {
     petAPIbyId(petId)
         .then(petResults => {
             res.json(petResults)

@@ -7,12 +7,12 @@ const db = require("../models");
 //be sure to include in readme source for this fix (https://gomakethings.com/using-oauth-with-fetch-in-vanilla-js/)
 
 //route to find shelter data by id
-router.get("/shelter/:orgId", ({ body: { orgId } }, res) => {
+router.get("/shelter/:orgId", ({ params: { orgId } }, res) => {
   
     shelterAPI(orgId)
         .then(shelterResults => {
-            console.log("shelter results", shelterResults);
             res.json(shelterResults)
+            console.log("shelter results", shelterResults);
         })
         .catch(err => {
             console.log(err);

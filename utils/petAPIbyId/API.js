@@ -1,11 +1,12 @@
 const fetch = require("node-fetch");
+require('dotenv').config();
 
 const petAPIbyId = async (petId) => {
 
     // Client credentials
     // Replace these with your key/secret
     var key = 'yaD3Y8GufBtJCkntjc4byTSBHVYUPeD42PJAZq3GO2SfRx8p9g';
-    var secret = 'TLsMatYIB2EQQhUzmkkbPY1M2m0KljgiXqInort4';
+    var secret = process.env.PETFINDER_API;
 
     // Call the API
     // This is a POST request, because we need the API to generate a new token for us

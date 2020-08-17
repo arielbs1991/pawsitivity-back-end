@@ -91,6 +91,7 @@ router.post('/login', (req, res) => {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
+                    userId: user.userId,
                     postcode: user.postcode,
                     hasKids: user.hasKids,
                     hasCats: user.hasCats,

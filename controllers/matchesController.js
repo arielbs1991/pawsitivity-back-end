@@ -8,7 +8,7 @@ router.post('/newMatch/', (req, res) => {
     db.Match.create({
         isLiked: req.body.isLiked,
         petfinderId: req.body.petfinderId,
-        userId: req.body.userId,
+        userId: req.session.userId,
         shelterId: req.body.shelterId
     })
         .then(matchData => {
@@ -20,15 +20,28 @@ router.post('/newMatch/', (req, res) => {
         })
 })
 
-router.get('/:userId', (req, res) => {
+router.get('/petfinderId/:petfinderId', (req, res) => {
     db.Match.findAll({
         where: {
-            userId: req.session.userId
+            userId: req.session.userId,
+            petfinderId: req.params.petfinderId
         }
     })
     .then(userMatchData => {
         console.log("user matches: ", userMatchData);
         res.json(userMatchData);
+    })
+})
+
+router.get('/userId/:userId', (req, res) => {
+    db.Match.findOne({
+        where: {
+            userId: req.session.userId
+        }
+    })
+    .then(userMatchesData => {
+        console.log("user matches: ", userMatchesData);
+        res.json(userMatchesData);
     })
 })
 

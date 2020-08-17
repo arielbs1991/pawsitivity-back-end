@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS pawsitivity;
+CREATE DATABASE pawsitivity;

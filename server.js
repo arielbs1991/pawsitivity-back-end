@@ -46,17 +46,6 @@ router.get("/",(req,res)=>{
   res.send("nothing to see here");
 })
 
-
-//this one is a holdover from login process from winekey
-// app.use(session({
-//   secret: "keyboard cat",
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: {
-//       maxAge: 720000
-//   }
-// }))
-
 // app.use(express.static("src"));
 
 const usersController = require("./controllers/usersController.js");

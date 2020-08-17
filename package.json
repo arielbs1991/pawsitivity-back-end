@@ -1,5 +1,5 @@
 {
-  "name": "pawsitivity",
+  "name": "pawsitivity-back-end",
   "version": "1.0.0",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "server.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arielbs1991/pawsitivity.git"
+    "url": "git+https://github.com/arielbs1991/pawsitivity-back-end.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/arielbs1991/pawsitivity/issues"
+    "url": "https://github.com/arielbs1991/pawsitivity-back-end/issues"
   },
-  "homepage": "https://github.com/arielbs1991/pawsitivity#readme",
+  "homepage": "https://github.com/arielbs1991/pawsitivity-back-end#readme",
   "dependencies": {
     "ajax": "0.0.4",
     "axios": "^0.19.2",

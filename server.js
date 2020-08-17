@@ -42,6 +42,10 @@ app.use(session({
   }
 }))
 
+router.get("/",(req,res)=>{
+  res.send("nothing to see here");
+})
+
 
 //this one is a holdover from login process from winekey
 // app.use(session({

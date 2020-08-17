@@ -42,7 +42,7 @@ app.use(session({
   }
 }))
 
-router.get("/",(req,res)=>{
+app.get("/",(req,res)=>{
   res.send("nothing to see here");
 })
 

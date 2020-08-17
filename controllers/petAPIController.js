@@ -21,9 +21,21 @@ router.get("/pets/:petId", ({ body: { petId } }, res) => {
 
 //route to get array of animals by user preferences - should hopefully work once we have a sessions object
 
-router.get("/pets/", ({ session: { user: { postcode, hasCats, hasDogs, hasKids, whichSpecies } } }, res) => {
-    console.log(postcode, hasDogs, hasKids, hasCats, whichSpecies)
-    petAPI(postcode, hasDogs, hasKids, hasCats, whichSpecies)
+// UNCOMMENT FOR LIVE DATA
+// router.get("/pets/", ({ session: { user: { postcode, hasCats, hasDogs, hasKids, whichSpecies } } }, res) => {
+//     console.log(postcode, hasDogs, hasKids, hasCats, whichSpecies)
+//     petAPI(postcode, hasDogs, hasKids, hasCats, whichSpecies)
+//         .then(petResults => {
+//             res.json(petResults)
+//         }).catch(err => {
+//             console.log(err);
+//             res.status(500).end()
+//         })
+// })
+
+// ROUTE FOR BASIC TESTING
+router.get("/pets/", (req, res) => {
+    petAPI()
         .then(petResults => {
             res.json(petResults)
         }).catch(err => {

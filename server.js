@@ -8,6 +8,7 @@ const nodemailer = require("nodemailer"); //added for mail
 const cors = require("cors"); //added for cors
 require('dotenv').config(); //added for mail
 app.use('/sendEmail', require('./routes/sendEmail')) //added for mail
+require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -33,12 +34,12 @@ app.use(cors({
 // }))
 
 app.use(session({
-    secret: "keyboard cat", 
-    resave: false, 
-    saveUninitialized: false,
-    cookie : {
-      maxAge:2*60*60*1000,
-    }
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 2 * 60 * 60 * 1000,
+  }
 }))
 
 

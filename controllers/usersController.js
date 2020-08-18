@@ -152,11 +152,11 @@ router.put('/firstName/', (req, res) => {
     },
         {
             where: {
-                userId: req.session.user.id
+                userId: req.session.user.userId
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            // console.log(dbUser);
             res.json(dbUser)
         })
         .catch(err => {

@@ -4,8 +4,6 @@ const db = require("../models");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: api/shelterAPI
 
-//be sure to include in readme source for this fix (https://gomakethings.com/using-oauth-with-fetch-in-vanilla-js/)
-
 //route to find shelter data by id
 router.get("/shelter/:orgId", ({ params: { orgId } }, res) => {
   

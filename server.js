@@ -15,6 +15,7 @@ app.use(express.json());
 
 app.use(morgan('dev')) //added for mail
 
+//TODO:change to front-end deployed link when front end is deployed
 app.use(cors({
   origin: ["http://localhost:3000"],
   credentials: true
@@ -46,8 +47,6 @@ app.use(session({
 app.get("/",(req,res)=>{
   res.send("nothing to see here");
 })
-
-// app.use(express.static("src"));
 
 const usersController = require("./controllers/usersController.js");
 app.use("/api/users", usersController);

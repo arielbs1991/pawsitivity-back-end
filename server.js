@@ -33,14 +33,15 @@ app.use(session({
   }
 }))
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 2 * 60 * 60 * 1000,
-  }
-}))
+//Comment out on deployed
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     maxAge: 2 * 60 * 60 * 1000,
+//   }
+// }))
 
 app.get("/",(req,res)=>{
   res.send("nothing to see here");

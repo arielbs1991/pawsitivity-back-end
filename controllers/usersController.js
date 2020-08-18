@@ -45,7 +45,7 @@ router.get('/readsessions', (req, res) => {
     res.json(req.session.user)
 })
 
-router.get("/logout",(req,res)=>{
+router.get("/logout", (req, res) => {
     req.session.destroy();
     res.send("logout complete!")
 })
@@ -80,18 +80,19 @@ router.post('/login', (req, res) => {
             email: req.body.email
         }
     }).then(user => {
+        console.log("UsEr", user)
         if (!user) {
             res.status(404).send("No such user exists");
         } else {
             if (
                 // UNCOMMENT WHEN YOU WANT TO AUTHENTICATE.
                 bcrypt.compareSync
-                (req.body.password, user.password)) {
+                    (req.body.password, user.password)) {
                 req.session.user = {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
-                    userId: user.userId,
+                    userId: user.id,
                     postcode: user.postcode,
                     hasKids: user.hasKids,
                     hasCats: user.hasCats,

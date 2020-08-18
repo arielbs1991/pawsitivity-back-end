@@ -146,17 +146,17 @@ router.delete('/:id', (req, res) => {
         })
 })
 
-router.put('/firstName/:id', (req, res) => {
+router.put('/firstName/', ({ session: { user: { userId } } }, res) => {
     db.User.update({
         firstName: req.body.firstName
     },
         {
             where: {
-                id: req.params.id
+                id: userId
             }
         })
         .then(dbUser => {
-            console.log(dbUser.firs);
+            console.log(dbUser);
             res.json(dbUser)
         })
         .catch(err => {

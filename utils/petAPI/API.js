@@ -31,10 +31,10 @@ const petAPI = async (
   };
 
   let { data: { access_token } } = await axios(config);
-  const animals = await axios.get(BASEURL
+  const { data: { animals } } = await axios.get(BASEURL
     +kidParam+dogParam+catParam
     , { headers: { "Authorization": `Bearer ${access_token}` } })
-  return animals.data
+  return animals
 }
 
 module.exports = petAPI;

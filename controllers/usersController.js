@@ -6,6 +6,18 @@ const bcrypt = require('bcrypt')
 
 //will need to do initial sessions timeout/login page at beginning of each function
 
+//TODO: Remove or comment out on official deployment for security
+router.get("/userlist/", (req, res) => {
+    db.User.findAll({})
+    .then(userList => {
+        res.json(userList);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).end()
+    })
+})
+
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
 router.get("/finduser/:id", (req, res) => {
     db.User.findOne({
@@ -32,7 +44,6 @@ router.get("/finduser/:id", (req, res) => {
                     var userObject = { userData: dbUserJson, userMatches: dbMatchesJson };
                     console.log("userObject", userObject);
                     return res.json(userObject);
-                    //how to return object for use with react??
                 })
                 .catch(err => {
                     console.log(err);
@@ -45,7 +56,7 @@ router.get('/readsessions', (req, res) => {
     res.json(req.session.user)
 })
 
-router.get("/logout",(req,res)=>{
+router.get("/logout", (req, res) => {
     req.session.destroy();
     res.send("logout complete!")
 })
@@ -86,12 +97,12 @@ router.post('/login', (req, res) => {
             if (
                 // UNCOMMENT WHEN YOU WANT TO AUTHENTICATE.
                 bcrypt.compareSync
-                (req.body.password, user.password)) {
+                    (req.body.password, user.password)) {
                 req.session.user = {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
-                    userId: user.userId,
+                    userId: user.id,
                     postcode: user.postcode,
                     hasKids: user.hasKids,
                     hasCats: user.hasCats,
@@ -135,9 +146,28 @@ router.delete('/:id', (req, res) => {
         })
 })
 
-router.put('/userName/:id', (req, res) => {
+router.put('/firstName/', ({ session: { user: { userId } } }, res) => {
     db.User.update({
-        userName: req.body.userName
+        firstName: req.body.firstName
+    },
+        {
+            where: {
+                id: userId
+            }
+        })
+        .then(dbUser => {
+            console.log(dbUser);
+            res.json(dbUser)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+
+router.put('/lastName/:id', (req, res) => {
+    db.User.update({
+        lastName: req.body.lastName
     },
         {
             where: {
@@ -153,6 +183,7 @@ router.put('/userName/:id', (req, res) => {
             res.status(500).end()
         })
 })
+
 
 router.put('/city/:id', (req, res) => {
     db.User.update({

@@ -6,9 +6,9 @@ const petAPI = async (
   ) => {
   const BASEURL = `https://api.petfinder.com/v2/animals?type=${type}&limit=100&location=${postcode}`
   // UN COMMENT FOR LIVE VERSION
-  let kidParam;
-  let catParam;
-  let dogParam;
+  let kidParam = "";
+  let catParam = "";
+  let dogParam = "";
   if (hasKids) kidParam = '&good_with_kids=true'
   if (hasCats) catParam = '&good_with_cats=true'
   if (hasDogs) dogParam = '&good_with_dogs=true'
@@ -31,8 +31,8 @@ const petAPI = async (
   };
 
   let { data: { access_token } } = await axios(config);
-  const { data: { animals } } = await axios.get(BASEURL
-    +kidParam+dogParam+catParam
+  const { data: { animals } } = await axios.get(BASEURL+
+    kidParam+dogParam+catParam
     , { headers: { "Authorization": `Bearer ${access_token}` } })
   return animals
 }

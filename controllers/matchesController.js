@@ -42,15 +42,12 @@ router.get('/petfinderId/:petfinderId', (req, res) => {
 router.get('/userId/:userId', (req, res) => {
     db.Match.findAll({
         where: {
-            userId: req.session.userId,
-            isLiked: req.body.isLiked
+            userId: req.session.userId
         }
     })
         .then(userMatchesData => {
-            if (isLiked === true) {
-                console.log("user matches: ", userMatchesData);
-                res.json(userMatchesData);
-            }
+            console.log("user matches: ", userMatchesData);
+            res.json(userMatchesData);
         })
         .catch(err => {
             console.log(err);

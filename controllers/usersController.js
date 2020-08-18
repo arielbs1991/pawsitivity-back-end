@@ -146,13 +146,13 @@ router.delete('/:id', (req, res) => {
         })
 })
 
-router.put('/firstName/:userId', ({ session: { user: { id } } }, res) => {
+router.put('/firstName/', (req, res) => {
     db.User.update({
         firstName: req.body.firstName
     },
         {
             where: {
-                userId: id
+                userId: req.session.user.id
             }
         })
         .then(dbUser => {

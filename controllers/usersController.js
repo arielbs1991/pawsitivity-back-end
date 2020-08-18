@@ -146,7 +146,7 @@ router.delete('/:id', (req, res) => {
         })
 })
 
-router.put('/firstName/', ({ session: { user: { userId } } }, res) => {
+router.put('/firstName/:userId', ({ session: { user: { userId } } }, res) => {
     db.User.update({
         firstName: req.body.firstName
     },

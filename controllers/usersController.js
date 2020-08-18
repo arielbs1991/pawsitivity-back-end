@@ -85,7 +85,7 @@ router.post('/login', (req, res) => {
         } else {
             if (
                 // UNCOMMENT WHEN YOU WANT TO AUTHENTICATE.
-                // bcrypt.compareSync
+                bcrypt.compareSync
                 (req.body.password, user.password)) {
                 req.session.user = {
                     firstName: user.firstName,

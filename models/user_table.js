@@ -85,8 +85,8 @@ module.exports = function (sequelize, DataTypes) {
         });
     };
     // REMOVE COMMENT WHEN YOU WANT TO HASH AND SALT PASSWORDS
-    // User.beforeCreate(function (user){
-    //     user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
-    // })
+    User.beforeCreate(function (user){
+        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
+    })
     return User;
 };

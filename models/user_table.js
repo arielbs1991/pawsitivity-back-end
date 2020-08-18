@@ -20,10 +20,10 @@ module.exports = function (sequelize, DataTypes) {
         },
         password: {
             type: DataTypes.STRING(15),
-            is: /^[0-9a-f]{64$/i,
-                validate: {
-                    len: [6, 15]
-                }
+            validate: {
+                is: /^[0-9a-f]{64$/i,
+                len: [6, 15]
+            }
         },
         email: {
             type: DataTypes.STRING,
@@ -84,7 +84,7 @@ module.exports = function (sequelize, DataTypes) {
         });
     };
     // REMOVE COMMENT WHEN YOU WANT TO HASH AND SALT PASSWORDS
-    User.beforeCreate(function (user){
+    User.beforeCreate(function (user) {
         user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
     })
     return User;

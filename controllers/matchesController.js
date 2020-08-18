@@ -9,9 +9,9 @@ router.post('/newMatch/', (req, res) => {
     //will eventually need to tie in which userid and shelterid the match is being created under
     db.Match.create({
         isLiked: req.body.isLiked,
-        petfinderId: req.params.petfinderId,
+        petfinderId: req.body.petfinderId,
         userId: req.session.userId,
-        orgId: req.params.orgId
+        orgId: req.body.orgId
     })
         .then(matchData => {
             res.json(matchData)

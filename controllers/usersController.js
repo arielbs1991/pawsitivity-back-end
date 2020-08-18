@@ -152,7 +152,7 @@ router.put('/firstName/:userId', ({ session: { user: { userId } } }, res) => {
     },
         {
             where: {
-                id: userId
+                userId: userId
             }
         })
         .then(dbUser => {

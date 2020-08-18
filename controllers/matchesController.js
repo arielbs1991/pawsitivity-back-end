@@ -29,22 +29,33 @@ router.get('/petfinderId/:petfinderId', (req, res) => {
             petfinderId: req.params.petfinderId
         }
     })
-    .then(userMatchData => {
-        console.log("user matches: ", userMatchData);
-        res.json(userMatchData);
-    })
+        .then(userMatchData => {
+            console.log("user matches: ", userMatchData);
+            res.json(userMatchData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
 })
 
 router.get('/userId/:userId', (req, res) => {
-    db.Match.findOne({
+    db.Match.findAll({
         where: {
-            userId: req.session.userId
+            userId: req.session.userId,
+            isLiked: req.body.isLiked
         }
     })
-    .then(userMatchesData => {
-        console.log("user matches: ", userMatchesData);
-        res.json(userMatchesData);
-    })
+        .then(userMatchesData => {
+            if (isLiked === true) {
+                console.log("user matches: ", userMatchesData);
+                res.json(userMatchesData);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
 })
 
 router.put('/isLiked/:id', (req, res) => {

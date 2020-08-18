@@ -19,10 +19,10 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         password: {
-            type: DataTypes.STRING(15),
+            type: DataTypes.STRING,
             is: /^[0-9a-f]{64$/i,
             validate: {
-                len: [6, 15]
+                len: [6]
             }
         },
         email: {

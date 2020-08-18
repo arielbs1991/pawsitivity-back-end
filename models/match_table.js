@@ -19,7 +19,6 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-
         // petName: {
         //     type: DataTypes.STRING,
         //     allowNull: false,
@@ -28,9 +27,8 @@ module.exports = function (sequelize, DataTypes) {
         //         len: [1]
         //     }
         // },
-
-        // isDog: {
-        //     type: DataTypes.BOOLEAN,
+        // whichSpecies: {
+        //     type: DataTypes.STRING,
         //     // unique: 'uniquePet',
         //     allowNull: false
         // },

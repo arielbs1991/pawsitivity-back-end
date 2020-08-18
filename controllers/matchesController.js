@@ -3,13 +3,15 @@ const db = require("../models");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/matches
 
+//we have a route to find all matches by userid over in userController. Don't make one, Ariel
+
 router.post('/newMatch/', (req, res) => {
     //will eventually need to tie in which userid and shelterid the match is being created under
     db.Match.create({
         isLiked: req.body.isLiked,
-        petfinderId: req.body.petfinderId,
+        petfinderId: req.params.petfinderId,
         userId: req.session.userId,
-        shelterId: req.body.shelterId
+        orgId: req.params.orgId
     })
         .then(matchData => {
             res.json(matchData)
@@ -21,7 +23,7 @@ router.post('/newMatch/', (req, res) => {
 })
 
 router.get('/petfinderId/:petfinderId', (req, res) => {
-    db.Match.findAll({
+    db.Match.findOne({
         where: {
             userId: req.session.userId,
             petfinderId: req.params.petfinderId

@@ -39,6 +39,7 @@ router.get('/petfinderId/:petfinderId', (req, res) => {
         })
 })
 
+//not sure if we're using this route
 router.get('/userId/:userId', (req, res) => {
     db.Match.findAll({
         where: {

@@ -120,7 +120,7 @@ router.post('/login', (req, res) => {
     })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/', (req, res) => {
     db.User.destroy({
         userName: req.body.userName,
         email: req.body.email,
@@ -134,7 +134,7 @@ router.delete('/:id', (req, res) => {
         whichSpecies: req.body.whichSpecies
     }, {
         where: {
-            id: req.params.id
+            id: req.session.user.userId
         }
     })
         .then(userData => {
@@ -165,13 +165,13 @@ router.put('/firstName/', (req, res) => {
         })
 })
 
-router.put('/lastName/:id', (req, res) => {
+router.put('/lastName/', (req, res) => {
     db.User.update({
         lastName: req.body.lastName
     },
         {
             where: {
-                id: req.params.id
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {
@@ -185,13 +185,13 @@ router.put('/lastName/:id', (req, res) => {
 })
 
 
-router.put('/city/:id', (req, res) => {
+router.put('/city/', (req, res) => {
     db.User.update({
         city: req.body.city
     },
         {
             where: {
-                id: req.params.id
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {
@@ -203,13 +203,13 @@ router.put('/city/:id', (req, res) => {
             res.status(500).end()
         })
 })
-router.put('/state/:id', (req, res) => {
+router.put('/state/', (req, res) => {
     db.User.update({
         state: req.body.state
     },
         {
             where: {
-                id: req.params.id
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {
@@ -221,13 +221,13 @@ router.put('/state/:id', (req, res) => {
             res.status(500).end()
         })
 })
-router.put('/postcode/:id', (req, res) => {
+router.put('/postcode/', (req, res) => {
     db.User.update({
         postcode: req.body.postcode
     },
         {
             where: {
-                id: req.params.id
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {
@@ -240,13 +240,13 @@ router.put('/postcode/:id', (req, res) => {
         })
 })
 
-router.put('/phoneNumber/:id', (req, res) => {
+router.put('/phoneNumber/', (req, res) => {
     db.User.update({
         phoneNumber: req.body.phoneNumber
     },
         {
             where: {
-                id: req.params.id
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {
@@ -259,13 +259,13 @@ router.put('/phoneNumber/:id', (req, res) => {
         })
 })
 
-router.put('/hasKids/:id', (req, res) => {
+router.put('/hasKids/', (req, res) => {
     db.User.update({
         hasKids: req.body.hasKids
     },
         {
             where: {
-                id: req.params.id
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {
@@ -278,13 +278,13 @@ router.put('/hasKids/:id', (req, res) => {
         })
 })
 
-router.put('/hasDogs/:id', (req, res) => {
+router.put('/hasDogs/', (req, res) => {
     db.User.update({
         hasDogs: req.body.hasDogs
     },
         {
             where: {
-                id: req.params.id
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {
@@ -297,13 +297,13 @@ router.put('/hasDogs/:id', (req, res) => {
         })
 })
 
-router.put('/hasCats/:id', (req, res) => {
+router.put('/hasCats/', (req, res) => {
     db.User.update({
         hasCats: req.body.hasCats
     },
         {
             where: {
-                id: req.params.id
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {
@@ -316,13 +316,13 @@ router.put('/hasCats/:id', (req, res) => {
         })
 })
 
-router.put('/whichSpecies/:id', (req, res) => {
+router.put('/whichSpecies/', (req, res) => {
     db.User.update({
         whichSpecies: req.body.whichSpecies
     },
         {
             where: {
-                id: req.params.id
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {

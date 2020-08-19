@@ -4,7 +4,7 @@ require('dotenv').config();
 const petAPIbyId = async (petId) => {
   const BASEURL = `https://api.petfinder.com/v2/animals/${petId}`
   const publicKey = 'Id4PWiv8ndIIegWRHTHLuj9sxhelO9TS0G2A0UNKbSDpm6117V'
-  const secretKey = process.env.ALT_PETFINDER_API
+  const secretKey = process.env.PETFINDER_API
   const config = {
     url: "oauth2/token",
     method: "post",

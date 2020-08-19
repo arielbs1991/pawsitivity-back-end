@@ -81,6 +81,11 @@ module.exports = function (sequelize, DataTypes) {
             foreignKey: 'shelterId',
             onDelete: 'cascade'
         });
+        Match.belongsTo(models.Animal, {
+            unique: 'uniqueMatch',
+            foreignKey: 'animalId',
+            onDelete: 'cascade'
+        });
     };
     return Match;
 };

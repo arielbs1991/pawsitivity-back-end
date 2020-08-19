@@ -7,17 +7,13 @@ router.post('/sendEmail', (req, res) => {
         firstName: req.session.user.firstName,
         lastName: req.session.user.lastName,
         email: req.session.user.email,
-        shelterEmail: req.body.email,
+        shelterEmail: req.body.shelterEmail,
         petName: req.body.petName
     }
+    // console.log(emailContent)
+    sendEmail(emailContent, res)
+    // res.json(emailContent)
+    // res.send("email sent")
+})
 
-    sendEmail(emailContent); 
-})
-.then(emailData => {
-    console.log("SUCCESS EMAIL STUFF", emailData);
-    res.json("success");
-})
-.catch(err => {
-    console.log(err);
-    res.status(500).end()
-})
+module.exports=router

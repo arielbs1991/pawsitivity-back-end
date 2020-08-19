@@ -11,10 +11,11 @@ router.post('/sendEmail', (req, res) => {
         petName: req.body.petName
     }
 
-    sendEmail(emailContent);   
+    sendEmail(emailContent); 
 })
 .then(emailData => {
     console.log("SUCCESS EMAIL STUFF", emailData);
+    res.json("success");
 })
 .catch(err => {
     console.log(err);

@@ -91,9 +91,6 @@ router.put('/isLiked/:id', (req, res) => {
 
 // router.delete('/:id', (req, res) => {
 //     db.Match.destroy({
-//         isLiked: req.body.isLiked,
-//         petfinderId: req.body.petfinderId,
-//     }, {
 //         where: {
 //             id: req.params.id
 //         }

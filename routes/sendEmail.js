@@ -1,8 +1,6 @@
-// const express = require('express')
 const nodemailer = require('nodemailer')
-// const sendEmailRouter = express.Router()
 
-sendEmail = ({firstName, lastName, email, shelterEmail, petName}) => {
+sendEmail = ({firstName, lastName, email, shelterEmail, petName}, res) => {
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -12,15 +10,7 @@ sendEmail = ({firstName, lastName, email, shelterEmail, petName}) => {
         }
     })
 
-    // var message = {
-    //     from: 'pawsitivity.ATACK@gmail.com',
-    //     to: "pawsitivity.ATACK@gmail.com",
-    //     subject: "Welcome to Pawsitivity!",
-    //     text: "Chicky nug nugs are good",
-    //     html: "<p>Chicky nug nugs are good</p>"
-    // }
-
-    var message = {
+    const message = {
         //TO DO FOR LIVE
         from: 'pawsitivity.ATACK@gmail.com',
         // to:`${shelterEmail}`,
@@ -32,18 +22,20 @@ sendEmail = ({firstName, lastName, email, shelterEmail, petName}) => {
         ${shelterEmail}
         ${email}`,
         html: `<p>Hello! ${firstName} is interested in adopting ${petName}. If this pet is still available, please contact ${firstName} directly to begin the application process.
-        ${firstName}
-        ${lastName}
-        ${email}
-        ${shelterEmail}
+        <br>
+        Name: ${firstName} ${lastName} <br>
+        Email: ${email} <br>
+        This is will go into the to field eventualy: ${shelterEmail}<br>
         </p>`
     }
+    console.log("----------FIRSTNAME---------",firstName)
 
     transporter.sendMail(message, function (error, info) {
         if (error) {
             console.log(error);
         } else {
             console.log("email send: " + info.response)
+            res.json(info)
         }
     })
 

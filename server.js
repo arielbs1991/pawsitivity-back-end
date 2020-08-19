@@ -7,19 +7,22 @@ const morgan = require("morgan"); //added for mail
 const nodemailer = require("nodemailer"); //added for mail
 const cors = require("cors"); //added for cors
 require('dotenv').config(); //added for mail
-app.use('/sendEmail', require('./routes/sendEmail')) //added for mail
-require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(morgan('dev')) //added for mail
 
-//TODO:change to front-end deployed link when front end is deployed
+// TODO:change to front-end deployed link when front end is deployed
 app.use(cors({
   origin: ["http://localhost:3000"],
   credentials: true
 }))
+
+// app.use(cors({
+//   origin: ["https://pawsitivity-atack-api.herokuapp.com/"],
+//   credentials: true
+// }))
 
 // USE ON DEPLOYED
 app.use(session({
@@ -44,7 +47,7 @@ app.use(session({
 //   }
 // }))
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
   res.send("nothing to see here");
 })
 
@@ -56,6 +59,8 @@ const sheltersController = require("./controllers/sheltersController.js");
 app.use("/api/shelterAPI", sheltersController);
 const petAPIController = require("./controllers/petAPIController.js");
 app.use("/api/petAPI", petAPIController);
+const emailController = require("./controllers/emailController.js");
+app.use(emailController);
 
 
 

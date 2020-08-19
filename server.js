@@ -23,7 +23,7 @@ app.use(cors({
 
 // USE ON DEPLOYED
 app.use(session({
-  secret: "keyboard cat",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   proxy: true,

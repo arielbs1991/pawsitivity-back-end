@@ -17,8 +17,10 @@ const petAPI = async (
   // JUST FOR BASIC TESTING
   // const BASEURL = `https://api.petfinder.com/v2/animals?type=dog&limit=100&location=98125`
 
-  const publicKey = 'yaD3Y8GufBtJCkntjc4byTSBHVYUPeD42PJAZq3GO2SfRx8p9g'
-  const secretKey = process.env.PETFINDER_API
+  //CODY KEY: yaD3Y8GufBtJCkntjc4byTSBHVYUPeD42PJAZq3GO2SfRx8p9g
+  //ARIEL KEY: Id4PWiv8ndIIegWRHTHLuj9sxhelO9TS0G2A0UNKbSDpm6117V
+  const publicKey = 'Id4PWiv8ndIIegWRHTHLuj9sxhelO9TS0G2A0UNKbSDpm6117V'
+  const secretKey = process.env.ALT_PETFINDER_API
   const config = {
     url: "oauth2/token",
     method: "post",

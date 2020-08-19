@@ -11,11 +11,11 @@ module.exports = function (sequelize, DataTypes) {
                 len: [1]
             }
         },
-        imageSrc: {
+        type: {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        type: {
+        imageSrc: {
             type: DataTypes.STRING,
             allowNull: true,
         },
@@ -28,6 +28,10 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true
         },
         age: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        sex: {
             type: DataTypes.STRING,
             allowNull: true,
         },

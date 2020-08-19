@@ -22,10 +22,10 @@ router.get("/shelter/:orgId", ({ params: { orgId } }, res) => {
 router.post("/shelter", (req, res) => {
     db.Shelter.create({
         orgId: req.body.orgId,
-        // shelterName: req.body.shelterName,
-        // email: req.body.email,
-        // address: req.body.address,
-        // phoneNumber: req.body.phoneNumber
+        shelterName: req.body.shelterName,
+        email: req.body.email,
+        address: req.body.address,
+        phoneNumber: req.body.phoneNumber
     })
         .then(shelterData => {
             res.json(shelterData)

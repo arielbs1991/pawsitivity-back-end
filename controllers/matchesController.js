@@ -11,7 +11,20 @@ router.post('/newMatch/', (req, res) => {
         isLiked: req.body.isLiked,
         petfinderId: req.body.petfinderId,
         userId: req.session.userId,
-        orgId: req.body.orgId
+        orgId: req.body.orgId,
+        animalId: req.body.animalId,
+        name: req.body.name,
+        type: req.body.type,
+        imageSrc: req.body.imageSrc,
+        breed: req.body.breed,
+        secondaryBreed: req.body.secondaryBreed,
+        age: req.body.age,
+        sex: req.body.sex,
+        size: req.body.size,
+        bio: req.body.bio,
+        likesCats: req.body.likesCats,
+        likesDogs: req.body.likesDogs,
+        likesKids: req.body.likesKids,
     })
         .then(matchData => {
             res.json(matchData)

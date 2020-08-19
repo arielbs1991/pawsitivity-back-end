@@ -43,7 +43,7 @@ module.exports = function (sequelize, DataTypes) {
         });
         Shelter.hasMany(models.Animal, {
             foreignKey: 'shelterId',
-            // unique: 'uniqueAnimal',
+            unique: 'uniqueAnimal',
             onDelete: 'cascade'
         });
     };

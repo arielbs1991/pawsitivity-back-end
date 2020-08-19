@@ -9,65 +9,64 @@ module.exports = function (sequelize, DataTypes) {
     var Match = sequelize.define("Match", {
         petfinderId: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             unique: true,
-            validate: {
-                len: [1]
-            }
         },
         isLiked: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-        // petName: {
-        //     type: DataTypes.STRING,
-        //     allowNull: false,
-        //     // unique: 'uniquePet',
-        //     validate: {
-        //         len: [1]
-        //     }
-        // },
-        // whichSpecies: {
-        //     type: DataTypes.STRING,
-        //     // unique: 'uniquePet',
-        //     allowNull: false
-        // },
-        // age: {
-        //     type: DataTypes.STRING,
-        //     // unique: 'uniquePet',
-        //     notEmpty: false
-        // },
-        // breed: {
-        //     type: DataTypes.STRING,
-        //     // unique: 'uniquePet',
-        //     notEmpty: false
-        // },
-        // sex: {
-        //     type: DataTypes.STRING,
-        //     // unique: 'uniquePet',
-        //     notEmpty: false
-        // },
-        // size: {
-        //     type: DataTypes.STRING,
-        //     // unique: 'uniquePet',
-        //     notEmpty: false
-        // },
-        // image: {
-        //     type: DataTypes.STRING,
-        //     notEmpty: false
-        // },
-        // likesKids: {
-        //     type: DataTypes.BOOLEAN,
-        //     allowNull: true
-        // },
-        // likesDogs: {
-        //     type: DataTypes.BOOLEAN,
-        //     allowNull: true
-        // },
-        // likesCats: {
-        //     type: DataTypes.BOOLEAN,
-        //     allowNull: true
-        // },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                len: [1]
+            }
+        },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        imageSrc: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        breed: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        secondaryBreed: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        age: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        sex: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        size: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        bio: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        likesCats: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
+        likesDogs: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
+        likesKids: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
     });
 
     Match.associate = function (models) {
@@ -82,7 +81,10 @@ module.exports = function (sequelize, DataTypes) {
             onDelete: 'cascade'
         });
         Match.belongsTo(models.Animal, {
-            unique: 'uniqueMatch',
+            unique: [
+                'uniqueMatch',
+                'animalId'
+            ],
             foreignKey: 'animalId',
             onDelete: 'cascade'
         });

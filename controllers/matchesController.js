@@ -27,7 +27,8 @@ router.post('/newMatch/', (req, res) => {
         likesKids: req.body.likesKids,
     })
         .then(matchData => {
-            res.json(matchData)
+            console.log("New Match", matchData);
+            res.json(matchData);
         })
         .catch(err => {
             console.log(err);
@@ -52,6 +53,17 @@ router.get('/petfinderId/:petfinderId', (req, res) => {
             res.status(500).end()
         })
 })
+
+router.get("/", (req, res) => {
+    db.Match.findAll({})
+        .then(matchData => {
+            res.json(matchData)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end();
+        })
+});
 
 //not sure if we're using this route
 router.get('/userId/:userId', (req, res) => {

@@ -58,15 +58,15 @@ module.exports = function (sequelize, DataTypes) {
             notEmpty: false
         },
         hasKids: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: false
         },
         hasCats: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: false
         },
         hasDogs: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: false
         },
         whichSpecies: {

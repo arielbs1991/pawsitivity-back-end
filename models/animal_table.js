@@ -44,23 +44,23 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
         },
         likesCats: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: true,
         },
         likesDogs: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: true,
         },
         likesKids: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: true,
         },
     });
 
     Animal.associate = function (models) {
         Animal.hasMany(models.Match, {
-            foreignKey: 'animalId',
-            unique: 'uniqueMatch',
+            // foreignKey: 'animalId',
+            // unique: 'uniqueMatch',
             onDelete: 'cascade'
         });
         Animal.belongsTo(models.Shelter, {

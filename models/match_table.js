@@ -13,7 +13,7 @@ module.exports = function (sequelize, DataTypes) {
             unique: true,
         },
         isLiked: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         name: {
@@ -56,15 +56,15 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
         },
         likesCats: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: true,
         },
         likesDogs: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: true,
         },
         likesKids: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: true,
         },
     });
@@ -77,17 +77,15 @@ module.exports = function (sequelize, DataTypes) {
         });
         Match.belongsTo(models.Shelter, {
             unique: 'uniqueMatch',
-            foreignKey: 'shelterId',
+            foreignKey: 'matchId',
             onDelete: 'cascade'
         });
         Match.belongsTo(models.Animal, {
-            unique: [
-                'uniqueMatch',
-                'animalId'
-            ],
-            foreignKey: 'animalId',
+            unique: 'uniqueMatch',
+            // foreignKey: 'animalId',
             onDelete: 'cascade'
         });
     };
+
     return Match;
 };

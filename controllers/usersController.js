@@ -34,6 +34,9 @@ router.get("/finduser/:id", (req, res) => {
     })
         .then(dbUser => {
             db.Match.findAll({
+                where: {
+                    id: req.params.id
+                },
                 order: [
                     ['createdAt']
                 ]

@@ -8,7 +8,7 @@ const shelterAPI = require("../utils/shelterAPI/API.js");
 
 //route to return a single pet by id provided by petfinder
 router.get("/pets/:petId", ({ params: { petId } }, res) => {
-    petAPIbyId(petId, { session: { user: { token } } })
+    petAPIbyId(petId, req.session.user.token)
         .then(petResults => {
             res.json(petResults)
             console.log("pet by id", petResults);

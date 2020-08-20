@@ -9,13 +9,13 @@ const bcrypt = require('bcrypt')
 //TODO: Remove or comment out on official deployment for security
 router.get("/userlist/", (req, res) => {
     db.User.findAll({})
-    .then(userList => {
-        res.json(userList);
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).end()
-    })
+        .then(userList => {
+            res.json(userList);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
 })
 
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
@@ -34,6 +34,9 @@ router.get("/finduser/:id", (req, res) => {
     })
         .then(dbUser => {
             db.Match.findAll({
+                where: {
+                    id: req.params.id
+                },
                 order: [
                     ['createdAt']
                 ]

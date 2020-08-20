@@ -10,10 +10,7 @@ router.post('/sendEmail', (req, res) => {
         shelterEmail: req.body.shelterEmail,
         petName: req.body.petName
     }
-    // console.log(emailContent)
     sendEmail(emailContent, res)
-    // res.json(emailContent)
-    // res.send("email sent")
 })
 
 module.exports=router

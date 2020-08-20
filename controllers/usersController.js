@@ -99,6 +99,7 @@ router.post('/login', (req, res) => {
         } else {
             if (
                 // UNCOMMENT WHEN YOU WANT TO AUTHENTICATE.
+                //TODO: LOOK HERE IF THERE'S AN ISSUE WITH GETTING USERID WITH SESSION STUFF, MIGHT NEED TO CAPITALIZE
                 bcrypt.compareSync
                     (req.body.password, user.password)) {
                 req.session.user = {
@@ -125,7 +126,24 @@ router.post('/login', (req, res) => {
 
 router.delete('/', (req, res) => {
     db.User.destroy({
-        userName: req.body.userName,
+        where: {
+            id: req.session.user.userId
+        }
+    })
+        .then(userData => {
+            res.json(userData)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+
+router.put('/updateAll/', (req, res) => {
+    db.User.update({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        password: req.body.password,
         email: req.body.email,
         city: req.body.city,
         state: req.body.state,
@@ -134,14 +152,15 @@ router.delete('/', (req, res) => {
         hasKids: req.body.hasKids,
         hasCats: req.body.hasCats,
         hasDogs: req.body.hasDogs,
-        whichSpecies: req.body.whichSpecies
-    }, {
-        where: {
-            id: req.session.user.userId
-        }
-    })
-        .then(userData => {
-            res.json(userData)
+        whichSpecies: req.body.whichSpecies,
+    },
+        {
+            where: {
+                id: req.session.user.userId
+            }
+        })
+        .then(dbUser => {
+            res.json(dbUser)
         })
         .catch(err => {
             console.log(err);
@@ -159,7 +178,6 @@ router.put('/firstName/', (req, res) => {
             }
         })
         .then(dbUser => {
-            // console.log(dbUser);
             res.json(dbUser)
         })
         .catch(err => {

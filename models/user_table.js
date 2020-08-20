@@ -77,9 +77,10 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     User.associate = function (models) {
-        User.hasMany(models.Match, {
-            foreignKey: 'userId',
-            unique: 'uniqueMatch',
+        User.hasMany(models.AnimalMatch, {
+            onDelete: 'cascade'
+        });
+        User.hasMany(models.PetfinderMatch, {
             onDelete: 'cascade'
         });
     };

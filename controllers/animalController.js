@@ -31,7 +31,7 @@ router.get("/", (req, res) => {
 router.get(`/search/`, (req, res) => {
     db.Animal.findAll({
         where: {
-            id: req.body.id,
+            AnimalId: req.body.AnimalId,
             type: req.body.type,
             likesCats: req.body.likesCats,
             likesDogs: req.body.likesDogs,
@@ -63,7 +63,7 @@ router.post("/animal", (req, res) => {
         likesCats: req.body.likesCats,
         likesDogs: req.body.likesDogs,
         likesKids: req.body.likesKids,
-        shelterId: req.body.shelterId
+        ShelterId: req.body.ShelterId
     })
         .then(animalData => {
             res.json(animalData)

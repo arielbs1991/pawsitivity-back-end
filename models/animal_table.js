@@ -58,14 +58,10 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     Animal.associate = function (models) {
-        Animal.hasMany(models.Match, {
-            // foreignKey: 'animalId',
-            // unique: 'uniqueMatch',
+        Animal.hasMany(models.AnimalMatch, {
             onDelete: 'cascade'
         });
-        Animal.belongsTo(models.Shelter, {
-            foreignKey: 'shelterId',
-            unique: 'uniqueAnimal',
+        Animal.belongsTo(models.AnimalShelter, {
             onDelete: 'cascade'
         });
     };

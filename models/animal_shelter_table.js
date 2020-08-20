@@ -3,7 +3,7 @@ const sequelize = require("./index");
 
 //Just save shelterid and associations, and use shelterid to query and render shelter information
 module.exports = function (sequelize, DataTypes) {
-    var Shelter = sequelize.define("Shelter", {
+    var AnimalShelter = sequelize.define("AnimalShelter", {
         orgId: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
                 len: [1]
             }
         },
-        shelterName: {
+        AnimalshelterName: {
             type: DataTypes.STRING,
             allowNull: false,
             // unique: true,
@@ -35,18 +35,14 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
 
-    Shelter.associate = function (models) {
-        Shelter.hasMany(models.Match, {
-            foreignKey: 'shelterId',
-            unique: 'uniqueMatch',
+    AnimalShelter.associate = function (models) {
+        AnimalShelter.hasMany(models.AnimalMatch, {
             onDelete: 'cascade'
         });
-        Shelter.hasMany(models.Animal, {
-            foreignKey: 'shelterId',
-            unique: 'uniqueAnimal',
+        AnimalShelter.hasMany(models.Animal, {
             onDelete: 'cascade'
         });
     };
 
-    return Shelter;
+    return AnimalShelter;
 };

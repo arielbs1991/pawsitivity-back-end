@@ -27,7 +27,7 @@ router.get('/petfinderId/:petfinderId', (req, res) => {
     db.Match.findOne({
         where: {
             userId: req.session.user.userId,
-            petfinderId: req.params.user.petfinderId
+            petfinderId: req.params.petfinderId
         }
     })
         .then(userMatchData => {

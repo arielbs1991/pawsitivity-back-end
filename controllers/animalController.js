@@ -16,18 +16,6 @@ router.get("/", (req, res) => {
         })
 });
 
-// router.get("/search", (req, res) => {
-//     db.Animal.findAll({})
-//         .then(dbAnimal => {
-//             // res.json(dbAnimal)
-//             console.log("dbAnimal", dbAnimal);
-
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             res.status(500).end();
-//         })
-//         .then(animalData => {
 router.get(`/search/`, (req, res) => {
     db.Animal.findAll({
         where: {
@@ -63,7 +51,8 @@ router.post("/animal", (req, res) => {
         likesCats: req.body.likesCats,
         likesDogs: req.body.likesDogs,
         likesKids: req.body.likesKids,
-        ShelterId: req.body.ShelterId
+        AnimalMatchId: req.body.AnimalMatchId,
+        AnimalShelterId: req.body.AnimalShelterId
     })
         .then(animalData => {
             res.json(animalData)

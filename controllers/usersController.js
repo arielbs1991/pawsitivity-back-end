@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const db = require("../models");
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const getToken = require("../utils/petAPI/getToken.js");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/users
 
@@ -9,13 +10,13 @@ const bcrypt = require('bcrypt')
 //TODO: Remove or comment out on official deployment for security
 router.get("/userlist/", (req, res) => {
     db.User.findAll({})
-    .then(userList => {
-        res.json(userList);
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).end()
-    })
+        .then(userList => {
+            res.json(userList);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
 })
 
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
@@ -93,14 +94,14 @@ router.post('/login', (req, res) => {
         where: {
             email: req.body.email
         }
-    }).then(user => {
+    }).then(async user => {
         if (!user) {
             res.status(404).send("No such user exists");
         } else {
             if (
-                // UNCOMMENT WHEN YOU WANT TO AUTHENTICATE.
                 bcrypt.compareSync
                     (req.body.password, user.password)) {
+                const { data: { access_token } } = await getToken()
                 req.session.user = {
                     firstName: user.firstName,
                     lastName: user.lastName,
@@ -110,7 +111,8 @@ router.post('/login', (req, res) => {
                     hasKids: user.hasKids,
                     hasCats: user.hasCats,
                     hasDogs: user.hasDogs,
-                    whichSpecies: user.whichSpecies
+                    whichSpecies: user.whichSpecies,
+                    token: access_token
                 }
                 res.json(req.session);
             } else {

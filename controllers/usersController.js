@@ -161,7 +161,7 @@ router.put('/firstName/', (req, res) => {
             }
         })
         .then(dbUser => {
-            // console.log(dbUser);
+            req.session.user.firstName = req.body.firstName
             res.json(dbUser)
         })
         .catch(err => {
@@ -180,7 +180,7 @@ router.put('/lastName/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.lastName = req.body.lastName
             res.json(dbUser)
         })
         .catch(err => {
@@ -200,7 +200,7 @@ router.put('/city/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.city = req.body.city
             res.json(dbUser)
         })
         .catch(err => {
@@ -218,7 +218,7 @@ router.put('/state/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.state = req.body.state
             res.json(dbUser)
         })
         .catch(err => {
@@ -236,7 +236,7 @@ router.put('/postcode/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.postcode = req.body.postcode
             res.json(dbUser)
         })
         .catch(err => {
@@ -255,7 +255,7 @@ router.put('/phoneNumber/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.phoneNumber = req.body.phoneNumber
             res.json(dbUser)
         })
         .catch(err => {
@@ -274,7 +274,7 @@ router.put('/hasKids/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.hasKids = req.body.hasKids
             res.json(dbUser)
         })
         .catch(err => {
@@ -293,7 +293,7 @@ router.put('/hasDogs/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.hasDogs = req.body.hasDogs
             res.json(dbUser)
         })
         .catch(err => {
@@ -312,7 +312,7 @@ router.put('/hasCats/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.hasCats = req.body.hasCats
             res.json(dbUser)
         })
         .catch(err => {
@@ -331,7 +331,7 @@ router.put('/whichSpecies/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.whichSpecies = req.body.whichSpecies
             res.json(dbUser)
         })
         .catch(err => {

@@ -10,8 +10,8 @@ router.post('/newMatch/', (req, res) => {
     db.Match.create({
         isLiked: req.body.isLiked,
         petfinderId: req.body.petfinderId,
-        userId: req.session.user.userId,
-        shelterId: req.body.shelterId
+        userId: req.session.userId,
+        orgId: req.body.orgId
     })
         .then(matchData => {
             res.json(matchData)

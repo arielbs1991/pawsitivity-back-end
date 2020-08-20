@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const db = require("../models");
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const getToken = require("../utils/petAPI/getToken");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/users
 
@@ -9,13 +10,13 @@ const bcrypt = require('bcrypt')
 //TODO: Remove or comment out on official deployment for security
 router.get("/userlist/", (req, res) => {
     db.User.findAll({})
-    .then(userList => {
-        res.json(userList);
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).end()
-    })
+        .then(userList => {
+            res.json(userList);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
 })
 
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
@@ -93,14 +94,14 @@ router.post('/login', (req, res) => {
         where: {
             email: req.body.email
         }
-    }).then(user => {
+    }).then(async user => {
         if (!user) {
             res.status(404).send("No such user exists");
         } else {
             if (
-                // UNCOMMENT WHEN YOU WANT TO AUTHENTICATE.
                 bcrypt.compareSync
                     (req.body.password, user.password)) {
+                const { data: { access_token } } = await getToken()
                 req.session.user = {
                     firstName: user.firstName,
                     lastName: user.lastName,
@@ -110,7 +111,8 @@ router.post('/login', (req, res) => {
                     hasKids: user.hasKids,
                     hasCats: user.hasCats,
                     hasDogs: user.hasDogs,
-                    whichSpecies: user.whichSpecies
+                    whichSpecies: user.whichSpecies,
+                    token: access_token
                 }
                 res.json(req.session);
             } else {
@@ -159,7 +161,7 @@ router.put('/firstName/', (req, res) => {
             }
         })
         .then(dbUser => {
-            // console.log(dbUser);
+            req.session.user.firstName = req.body.firstName
             res.json(dbUser)
         })
         .catch(err => {
@@ -178,7 +180,7 @@ router.put('/lastName/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.lastName = req.body.lastName
             res.json(dbUser)
         })
         .catch(err => {
@@ -198,7 +200,7 @@ router.put('/city/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.city = req.body.city
             res.json(dbUser)
         })
         .catch(err => {
@@ -216,7 +218,7 @@ router.put('/state/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.state = req.body.state
             res.json(dbUser)
         })
         .catch(err => {
@@ -234,7 +236,7 @@ router.put('/postcode/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.postcode = req.body.postcode
             res.json(dbUser)
         })
         .catch(err => {
@@ -253,7 +255,7 @@ router.put('/phoneNumber/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.phoneNumber = req.body.phoneNumber
             res.json(dbUser)
         })
         .catch(err => {
@@ -272,7 +274,7 @@ router.put('/hasKids/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.hasKids = req.body.hasKids
             res.json(dbUser)
         })
         .catch(err => {
@@ -291,7 +293,7 @@ router.put('/hasDogs/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.hasDogs = req.body.hasDogs
             res.json(dbUser)
         })
         .catch(err => {
@@ -310,7 +312,7 @@ router.put('/hasCats/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.hasCats = req.body.hasCats
             res.json(dbUser)
         })
         .catch(err => {
@@ -329,7 +331,7 @@ router.put('/whichSpecies/', (req, res) => {
             }
         })
         .then(dbUser => {
-            console.log(dbUser);
+            req.session.user.whichSpecies = req.body.whichSpecies
             res.json(dbUser)
         })
         .catch(err => {

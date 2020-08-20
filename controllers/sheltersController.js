@@ -5,8 +5,8 @@ const db = require("../models");
 //BASE URL FOR ALL ROUTES ON THIS PAGE: api/shelterAPI
 
 //route to find shelter data by id
-router.get("/shelter/:orgId", ({ params: { orgId } }, res) => {
-    shelterAPI(orgId, req.session.user.token)
+router.get("/shelter/:orgId", (req, res) => {
+    shelterAPI(req.params.orgId, req.session.user.token)
         .then(shelterResults => {
             res.json(shelterResults)
             console.log("shelter results", shelterResults);

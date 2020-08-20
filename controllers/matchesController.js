@@ -40,7 +40,7 @@ router.post('/newMatch/', (req, res) => {
 router.get('/petfinderId/:petfinderId', (req, res) => {
     db.Match.findOne({
         where: {
-            userId: req.session.userId,
+            userId: req.session.user.userId,
             petfinderId: req.params.petfinderId
         }
     })
@@ -69,7 +69,7 @@ router.get("/", (req, res) => {
 router.get('/userId/:userId', (req, res) => {
     db.Match.findAll({
         where: {
-            userId: req.session.userId
+            userId: req.session.user.userId
         }
     })
         .then(userMatchesData => {

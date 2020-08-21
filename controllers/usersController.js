@@ -172,6 +172,47 @@ router.delete('/', (req, res) => {
     }
 })
 
+router.put('/updateAll/', (req, res) => {
+    db.User.update({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        password: req.body.password,
+        email: req.body.email,
+        city: req.body.city,
+        state: req.body.state,
+        postcode: req.body.postcode,
+        phoneNumber: req.body.phoneNumber,
+        hasKids: req.body.hasKids,
+        hasCats: req.body.hasCats,
+        hasDogs: req.body.hasDogs,
+        whichSpecies: req.body.whichSpecies,
+    },
+        {
+            where: {
+                id: req.session.user.UserId
+            }
+        })
+        .then(dbUser => {
+            req.session.user.firstName = req.body.firstName
+            req.session.user.lastName = req.body.lastName
+            req.session.user.password = req.body.password
+            req.session.user.email = req.body.email
+            req.session.user.city = req.body.city
+            req.session.user.state = req.body.state
+            req.session.user.postcode = req.body.postcode
+            req.session.user.phoneNumber = req.body.phoneNumber
+            req.session.user.hasKids = req.body.hasKids
+            req.session.user.hasCats = req.body.hasCats
+            req.session.user.hasDogs = req.body.hasDogs
+            req.session.user.whichSpecies = req.body.whichSpecies
+            res.json(dbUser)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+
 router.put('/firstName/', (req, res) => {
     db.User.update({
         firstName: req.body.firstName

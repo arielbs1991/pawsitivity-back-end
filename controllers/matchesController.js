@@ -6,77 +6,96 @@ const db = require("../models");
 //we have a route to find all matches by userid over in userController. Don't make one, Ariel
 
 router.post('/newMatch/', (req, res) => {
-    //will eventually need to tie in which userid and shelterid the match is being created under
-    db.Match.create({
-        isLiked: req.body.isLiked,
-        petfinderId: req.body.petfinderId,
-        userId: req.session.user.userId,
-        shelterId: req.body.shelterId
-    })
-        .then(matchData => {
-            res.json(matchData)
+    if (!req.session.user) {
+        res.redirect("/api/users/login");
+    } else {
+        //will eventually need to tie in which userid and shelterid the match is being created under
+        db.Match.create({
+            isLiked: req.body.isLiked,
+            petfinderId: req.body.petfinderId,
+            userId: req.session.user.userId,
+            shelterId: req.body.shelterId
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(matchData => {
+                res.json(matchData)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 
 router.get('/petfinderId/:petfinderId', (req, res) => {
-    db.Match.findOne({
-        where: {
-            userId: req.session.user.userId,
-            petfinderId: req.params.petfinderId
-        }
-    })
-        .then(userMatchData => {
-            console.log("user matches: ", userMatchData);
-            res.json(userMatchData);
+    if (!req.session.user) {
+        res.redirect("/api/users/login");
+    } else {
+        db.Match.findOne({
+            where: {
+                userId: req.session.user.userId,
+                petfinderId: req.params.petfinderId
+            }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(userMatchData => {
+                console.log("user matches: ", userMatchData);
+                res.json(userMatchData);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 //not sure if we're using this route
 router.get('/userId/:userId', (req, res) => {
-    db.Match.findAll({
-        where: {
-            userId: req.session.user.userId
-        }
-    })
-        .then(userMatchesData => {
-            console.log("user matches: ", userMatchesData);
-            res.json(userMatchesData);
+    if (!req.session.user) {
+        res.redirect("/api/users/login");
+    } else {
+        db.Match.findAll({
+            where: {
+                userId: req.session.user.userId
+            }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(userMatchesData => {
+                console.log("user matches: ", userMatchesData);
+                res.json(userMatchesData);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/isLiked/:id', (req, res) => {
-    db.Match.update({
-        isLiked: req.body.isLiked
-    },
-        {
-            where: {
-                id: req.params.id
-            }
-        })
-        .then(dbMatch => {
-            console.log(dbMatch);
-            res.json(dbMatch)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.redirect("/api/users/login");
+    } else {
+        db.Match.update({
+            isLiked: req.body.isLiked
+        },
+            {
+                where: {
+                    id: req.params.id
+                }
+            })
+            .then(dbMatch => {
+                console.log(dbMatch);
+                res.json(dbMatch)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 // router.delete('/:id', (req, res) => {
+// if (!req.session.user) {
+//     res.redirect("/api/users/login");
+// } else {
 //     db.Match.destroy({
 //         isLiked: req.body.isLiked,
 //         petfinderId: req.body.petfinderId,
@@ -92,6 +111,7 @@ router.put('/isLiked/:id', (req, res) => {
 //             console.log(err);
 //             res.status(500).end()
 //         })
+// }
 // })
 
 module.exports = router;

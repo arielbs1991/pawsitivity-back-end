@@ -5,11 +5,11 @@ const db = require("../models");
 //BASE URL FOR ALL ROUTES ON THIS PAGE: api/shelterAPI
 
 //route to find shelter data by id
-router.get("/shelter/:orgId", (req, res) => {
+router.get("/PetfinderShelter/:orgId", (req, res) => {
     shelterAPI(req.params.orgId, req.session.user.token)
-        .then(shelterResults => {
-            res.json(shelterResults)
-            console.log("shelter results", shelterResults);
+        .then(dbPetfinderShelter => {
+            res.json(dbPetfinderShelter)
+            console.log("PetfinderShelter results", dbPetfinderShelter);
         })
         .catch(err => {
             console.log(err);
@@ -18,16 +18,12 @@ router.get("/shelter/:orgId", (req, res) => {
 })
 
 //route for storing shelter info in shelter_table - tested in postman and working as of 8/15 12:00
-router.post("/shelter", (req, res) => {
-    db.Shelter.create({
-        orgId: req.body.orgId,
-        shelterName: req.body.shelterName,
-        email: req.body.email,
-        address: req.body.address,
-        phoneNumber: req.body.phoneNumber
+router.post("/PetfinderShelter", (req, res) => {
+    db.PetfinderShelter.create({
+        orgId: req.body.orgId
     })
-        .then(shelterData => {
-            res.json(shelterData)
+        .then(dbPetfinderShelter => {
+            res.json(dbPetfinderShelter)
         })
         .catch(err => {
             console.log(err);

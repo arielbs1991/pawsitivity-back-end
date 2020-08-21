@@ -6,33 +6,41 @@ const db = require("../models");
 
 //route to find shelter data by id
 router.get("/shelter/:orgId", (req, res) => {
-    shelterAPI(req.params.orgId, req.session.user.token)
-        .then(shelterResults => {
-            res.json(shelterResults)
-            console.log("shelter results", shelterResults);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.redirect("/api/users/login");
+    } else {
+        shelterAPI(req.params.orgId, req.session.user.token)
+            .then(shelterResults => {
+                res.json(shelterResults)
+                console.log("shelter results", shelterResults);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 //route for storing shelter info in shelter_table - tested in postman and working as of 8/15 12:00
 router.post("/shelter", (req, res) => {
-    db.Shelter.create({
-        orgId: req.body.orgId,
-        // shelterName: req.body.shelterName,
-        // email: req.body.email,
-        // address: req.body.address,
-        // phoneNumber: req.body.phoneNumber
-    })
-        .then(shelterData => {
-            res.json(shelterData)
+    if (!req.session.user) {
+        res.redirect("/api/users/login");
+    } else {
+        db.Shelter.create({
+            orgId: req.body.orgId,
+            // shelterName: req.body.shelterName,
+            // email: req.body.email,
+            // address: req.body.address,
+            // phoneNumber: req.body.phoneNumber
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(shelterData => {
+                res.json(shelterData)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 module.exports = router;

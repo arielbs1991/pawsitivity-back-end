@@ -1,11 +1,8 @@
 const axios = require('axios');
 require('dotenv').config();
 
-const petAPI = async (
-  postcode, hasKids, hasCats, hasDogs, type
-  ) => {
+const petAPI = async (postcode, hasKids, hasCats, hasDogs, type, token) => {
   const BASEURL = `https://api.petfinder.com/v2/animals?type=${type}&limit=100&location=${postcode}`
-  // UN COMMENT FOR LIVE VERSION
   let kidParam = "";
   let catParam = "";
   let dogParam = "";
@@ -13,29 +10,7 @@ const petAPI = async (
   if (hasCats) catParam = '&good_with_cats=true'
   if (hasDogs) dogParam = '&good_with_dogs=true'
 
-
-  // JUST FOR BASIC TESTING
-  // const BASEURL = `https://api.petfinder.com/v2/animals?type=dog&limit=100&location=98125`
-
-  //CODY KEY: yaD3Y8GufBtJCkntjc4byTSBHVYUPeD42PJAZq3GO2SfRx8p9g
-  //ARIEL KEY: Id4PWiv8ndIIegWRHTHLuj9sxhelO9TS0G2A0UNKbSDpm6117V
-  const publicKey = 'Id4PWiv8ndIIegWRHTHLuj9sxhelO9TS0G2A0UNKbSDpm6117V'
-  const secretKey = process.env.PETFINDER_API
-  const config = {
-    url: "oauth2/token",
-    method: "post",
-    baseURL: "https://api.petfinder.com/v2/",
-    data: {
-      grant_type: "client_credentials",
-      client_id: `${publicKey}`,
-      client_secret: `${secretKey}`,
-    },
-  };
-
-  let { data: { access_token } } = await axios(config);
-  const { data: { animals } } = await axios.get(BASEURL+
-    kidParam+dogParam+catParam
-    , { headers: { "Authorization": `Bearer ${access_token}` } })
+  const { data: { animals } } = await axios.get(BASEURL+kidParam+dogParam+catParam, { headers: { "Authorization": `Bearer ${token}` } })
   return animals
 }
 

@@ -3,11 +3,12 @@ const petAPI = require("../utils/petAPI/API.js");
 const petAPIbyId = require("../utils/petAPIbyId/API.js");
 const db = require("../models");
 
+
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/petAPI
 
 //route to return a single pet by id provided by petfinder
-router.get("/pets/:petId", ({ params: { petId } }, res) => {
-    petAPIbyId(petId)
+router.get("/pets/:petId", (req, res) => {
+    petAPIbyId(req.params.petId, req.session.user.token)
         .then(petResults => {
             res.json(petResults)
             console.log("pet by id", petResults);
@@ -20,10 +21,8 @@ router.get("/pets/:petId", ({ params: { petId } }, res) => {
 
 //route to get array of animals by user preferences - should hopefully work once we have a sessions object
 
-// UNCOMMENT FOR LIVE DATA
-router.get("/pets/", ({ session: { user: { postcode, hasCats, hasDogs, hasKids, whichSpecies } } }, res) => {
-    console.log(postcode, hasDogs, hasKids, hasCats, whichSpecies)
-    petAPI(postcode, hasDogs, hasKids, hasCats, whichSpecies)
+router.get("/pets/", ({ session: { user: { postcode, hasCats, hasDogs, hasKids, whichSpecies, token} } }, res) => {
+    petAPI(postcode, hasDogs, hasKids, hasCats, whichSpecies, token)
         .then(petResults => {
             res.json(petResults)
         }).catch(err => {
@@ -31,16 +30,5 @@ router.get("/pets/", ({ session: { user: { postcode, hasCats, hasDogs, hasKids, 
             res.status(500).end()
         })
 })
-
-// ROUTE FOR BASIC TESTING
-// router.get("/pets/", (req, res) => {
-//     petAPI()
-//         .then(petResults => {
-//             res.json(petResults)
-//         }).catch(err => {
-//             console.log(err);
-//             res.status(500).end()
-//         })
-// })
 
 module.exports = router;

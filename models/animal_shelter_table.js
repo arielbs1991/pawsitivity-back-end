@@ -6,11 +6,11 @@ module.exports = function (sequelize, DataTypes) {
     var AnimalShelter = sequelize.define("AnimalShelter", {
         orgId: {
             type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                len: [1]
-            }
+            allowNull: true,
+            // unique: true,
+            // validate: {
+            //     len: [1]
+            // }
         },
         AnimalshelterName: {
             type: DataTypes.STRING,
@@ -24,6 +24,14 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             isEmail: true
+        },
+        password: {
+            type: DataTypes.STRING,
+            is: /^[0-9a-f]{64$/i,
+            notEmpty: true,
+            validate: {
+                len: [6]
+            }
         },
         address: {
             type: DataTypes.STRING,

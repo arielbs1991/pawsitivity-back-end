@@ -4,7 +4,7 @@ const sendEmail = require("../routes/sendEmail.js");
 
 router.post('/sendEmail', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         const emailContent = {
             firstName: req.session.user.firstName,

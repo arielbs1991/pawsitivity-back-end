@@ -10,7 +10,7 @@ const getToken = require("../utils/petAPI/getToken");
 //TODO: Remove or comment out on official deployment for security
 router.get("/userlist/", (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.findAll({})
             .then(userList => {
@@ -26,7 +26,7 @@ router.get("/userlist/", (req, res) => {
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
 router.get("/finduser/:id", (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.findOne({
             where: {
@@ -67,7 +67,7 @@ router.get("/finduser/:id", (req, res) => {
 
 router.get('/readsessions', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         res.json(req.session.user)
     }
@@ -75,7 +75,7 @@ router.get('/readsessions', (req, res) => {
 
 router.get("/logout", (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         req.session.destroy();
         res.send("logout complete!")
@@ -144,7 +144,7 @@ router.post('/login', (req, res) => {
 
 router.delete('/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.destroy({
             userName: req.body.userName,
@@ -174,7 +174,7 @@ router.delete('/', (req, res) => {
 
 router.put('/updateAll/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             firstName: req.body.firstName,
@@ -215,7 +215,7 @@ router.put('/updateAll/', (req, res) => {
 
 router.put('/firstName/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             firstName: req.body.firstName
@@ -238,7 +238,7 @@ router.put('/firstName/', (req, res) => {
 
 router.put('/lastName/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             lastName: req.body.lastName
@@ -261,7 +261,7 @@ router.put('/lastName/', (req, res) => {
 
 router.put('/city/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             city: req.body.city
@@ -284,7 +284,7 @@ router.put('/city/', (req, res) => {
 
 router.put('/state/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             state: req.body.state
@@ -307,7 +307,7 @@ router.put('/state/', (req, res) => {
 
 router.put('/postcode/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             postcode: req.body.postcode
@@ -330,7 +330,7 @@ router.put('/postcode/', (req, res) => {
 
 router.put('/phoneNumber/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             phoneNumber: req.body.phoneNumber
@@ -353,7 +353,7 @@ router.put('/phoneNumber/', (req, res) => {
 
 router.put('/hasKids/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             hasKids: req.body.hasKids
@@ -376,7 +376,7 @@ router.put('/hasKids/', (req, res) => {
 
 router.put('/hasDogs/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             hasDogs: req.body.hasDogs
@@ -399,7 +399,7 @@ router.put('/hasDogs/', (req, res) => {
 
 router.put('/hasCats/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             hasCats: req.body.hasCats
@@ -422,7 +422,7 @@ router.put('/hasCats/', (req, res) => {
 
 router.put('/whichSpecies/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.User.update({
             whichSpecies: req.body.whichSpecies

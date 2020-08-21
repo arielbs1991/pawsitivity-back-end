@@ -9,60 +9,77 @@ const getToken = require("../utils/petAPI/getToken");
 
 //TODO: Remove or comment out on official deployment for security
 router.get("/userlist/", (req, res) => {
-    db.User.findAll({})
-        .then(userList => {
-            res.json(userList);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        db.User.findAll({})
+            .then(userList => {
+                res.json(userList);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
 router.get("/finduser/:id", (req, res) => {
-    db.User.findOne({
-        where: {
-            id: req.params.id
-        },
-        include: [
-            {
-                model: db.Match,
-                include: { model: db.Shelter }
-            }
-        ]
-        //add an order here if we want to sort past matches by something (timestamp?)
-    })
-        .then(dbUser => {
-            db.Match.findAll({
-                where: {
-                    id: req.params.id
-                },
-                order: [
-                    ['createdAt']
-                ]
-            })
-                .then(dbMatches => {
-                    const dbUserJson = dbUser.toJSON();
-                    const dbMatchesJson = dbMatches.map(match => match.toJSON());
-                    var userObject = { userData: dbUserJson, userMatches: dbMatchesJson };
-                    console.log("userObject", userObject);
-                    return res.json(userObject);
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).end()
-                })
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        db.User.findOne({
+            where: {
+                id: req.params.id
+            },
+            include: [
+                {
+                    model: db.Match,
+                    include: { model: db.Shelter }
+                }
+            ]
+            //add an order here if we want to sort past matches by something (timestamp?)
         })
+            .then(dbUser => {
+                db.Match.findAll({
+                    where: {
+                        id: req.params.id
+                    },
+                    order: [
+                        ['createdAt']
+                    ]
+                })
+                    .then(dbMatches => {
+                        const dbUserJson = dbUser.toJSON();
+                        const dbMatchesJson = dbMatches.map(match => match.toJSON());
+                        var userObject = { userData: dbUserJson, userMatches: dbMatchesJson };
+                        console.log("userObject", userObject);
+                        return res.json(userObject);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).end()
+                    })
+            })
+    }
 })
 
+
 router.get('/readsessions', (req, res) => {
-    res.json(req.session.user)
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        res.json(req.session.user)
+    }
 })
 
 router.get("/logout", (req, res) => {
-    req.session.destroy();
-    res.send("logout complete!")
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        req.session.destroy();
+        res.send("logout complete!")
+    }
 })
 
 router.post('/', (req, res) => {
@@ -126,29 +143,33 @@ router.post('/login', (req, res) => {
 })
 
 router.delete('/', (req, res) => {
-    db.User.destroy({
-        userName: req.body.userName,
-        email: req.body.email,
-        city: req.body.city,
-        state: req.body.state,
-        postcode: req.body.postcode,
-        phoneNumber: req.body.phoneNumber,
-        hasKids: req.body.hasKids,
-        hasCats: req.body.hasCats,
-        hasDogs: req.body.hasDogs,
-        whichSpecies: req.body.whichSpecies
-    }, {
-        where: {
-            id: req.session.user.userId
-        }
-    })
-        .then(userData => {
-            res.json(userData)
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        db.User.destroy({
+            userName: req.body.userName,
+            email: req.body.email,
+            city: req.body.city,
+            state: req.body.state,
+            postcode: req.body.postcode,
+            phoneNumber: req.body.phoneNumber,
+            hasKids: req.body.hasKids,
+            hasCats: req.body.hasCats,
+            hasDogs: req.body.hasDogs,
+            whichSpecies: req.body.whichSpecies
+        }, {
+            where: {
+                id: req.session.user.userId
+            }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(userData => {
+                res.json(userData)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/firstName/', (req, res) => {

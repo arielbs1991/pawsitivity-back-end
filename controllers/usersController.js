@@ -5,12 +5,12 @@ const getToken = require("../utils/petAPI/getToken");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/users
 
-//will need to do initial sessions timeout/login page at beginning of each function
+//will need to do initial sessions timeout/api/users/login page at beginning of each function
 
 //TODO: Remove or comment out on official deployment for security
 router.get("/userlist/", (req, res) => {
     if (!req.session.user) {
-        res.redirect("/login");
+        res.redirect("/api/users/login");
     } else {
         db.User.findAll({})
             .then(userList => {
@@ -26,7 +26,7 @@ router.get("/userlist/", (req, res) => {
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
 router.get("/finduser/:id", (req, res) => {
     if (!req.session.user) {
-        res.redirect("/login");
+        res.redirect("/api/users/login");
     } else {
         db.User.findOne({
             where: {
@@ -67,7 +67,7 @@ router.get("/finduser/:id", (req, res) => {
 
 router.get('/readsessions', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/login");
+        res.redirect("/api/users/login");
     } else {
         res.json(req.session.user)
     }
@@ -75,7 +75,7 @@ router.get('/readsessions', (req, res) => {
 
 router.get("/logout", (req, res) => {
     if (!req.session.user) {
-        res.redirect("/login");
+        res.redirect("/api/users/login");
     } else {
         req.session.destroy();
         res.send("logout complete!")
@@ -144,7 +144,7 @@ router.post('/login', (req, res) => {
 
 router.delete('/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/login");
+        res.redirect("/api/users/login");
     } else {
         db.User.destroy({
             userName: req.body.userName,

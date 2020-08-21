@@ -20,51 +20,6 @@ router.get("/userlist/", (req, res) => {
 })
 
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
-router.get("/finduser/:id", (req, res) => {
-    db.User.findOne({
-        where: {
-            id: req.params.id
-        },
-        include: [
-            {
-                model: db.AnimalMatch,
-                include: { model: db.AnimalShelter }
-            },
-            {
-                model: db.PetfinderMatch,
-                include: { model: db.PetfinderShelter }
-            }
-        ]
-        //add an order here if we want to sort past Animalmatches by something (timestamp?)
-    })
-        .then(dbUser => {
-
-            db.AnimalMatch.findAll({
-                where: {
-                    id: req.params.id
-                },
-                order: [
-                    ['createdAt']
-                ]
-            })
-            db.PetfinderMatch.findAll({
-                where: {
-                    id: req.params.id
-                }
-            })
-                .then(dbMatches => {
-                    const dbUserJson = dbUser.toJSON();
-                    const dbMatchesJson = dbMatches.map(match => match.toJSON());
-                    var userObject = { userData: dbUserJson, userMatches: dbMatchesJson };
-                    console.log("userObject", userObject);
-                    return res.json(userObject);
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).end()
-                })
-        })
-})
 
 router.get('/readsessions', (req, res) => {
     res.json(req.session.user)
@@ -135,6 +90,22 @@ router.post('/login', (req, res) => {
     })
 })
 
+//don't think we need this one anymore because we have by email EXCEPT I USE IT FOR TESTING NVM
+router.get("/finduser/:id", (req, res) => {
+    db.User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbUser => {
+            res.json(dbUser)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+
 router.delete('/', (req, res) => {
     db.User.destroy({
         where: {
@@ -150,7 +121,7 @@ router.delete('/', (req, res) => {
         })
 })
 
-router.put('/updateAll/', (req, res) => {
+router.put('/updateAll/:UserId', (req, res) => {
     db.User.update({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -167,10 +138,23 @@ router.put('/updateAll/', (req, res) => {
     },
         {
             where: {
-                id: req.session.user.UserId
+                // id: req.session.user.UserId
+                id: req.params.UserId
             }
         })
         .then(dbUser => {
+            // req.session.user.firstName = req.body.firstName
+            // req.session.user.lastName = req.body.lastName
+            // req.session.user.password = req.body.password
+            // req.session.user.email = req.body.email
+            // req.session.user.city = req.body.city
+            // req.session.user.state = req.body.state
+            // req.session.user.postcode = req.body.postcode
+            // req.session.user.phoneNumber = req.body.phoneNumber
+            // req.session.user.hasKids = req.body.hasKids
+            // req.session.user.hasCats = req.body.hasCats
+            // req.session.user.hasDogs = req.body.hasDogs
+            // req.session.user.whichSpecies = req.body.whichSpecies
             res.json(dbUser)
         })
         .catch(err => {

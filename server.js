@@ -25,27 +25,27 @@ app.use(cors({
 // }))
 
 // USE ON DEPLOYED
-// app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: false,
-//   proxy: true,
-//   cookie: {
-//     maxAge: 2 * 60 * 60 * 1000,
-//     sameSite: "none",
-//     secure: true
-//   }
-// }))
-
-//Comment out on deployed
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  proxy: true,
   cookie: {
     maxAge: 2 * 60 * 60 * 1000,
+    sameSite: "none",
+    secure: true
   }
 }))
+
+//Comment out on deployed
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     maxAge: 2 * 60 * 60 * 1000,
+//   }
+// }))
 
 app.get("/", (req, res) => {
   res.send("nothing to see here");

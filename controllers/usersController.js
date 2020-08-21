@@ -106,7 +106,7 @@ router.post('/', (req, res) => {
         })
 })
 
-router.post('/api/users/login', (req, res) => {
+router.post('/login', (req, res) => {
     db.User.findOne({
         where: {
             email: req.body.email

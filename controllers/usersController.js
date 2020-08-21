@@ -187,7 +187,7 @@ router.put('/updateAll/', (req, res) => {
     },
         {
             where: {
-                id: req.session.user.UserId
+                id: req.session.user.userId
             }
         })
         .then(dbUser => {

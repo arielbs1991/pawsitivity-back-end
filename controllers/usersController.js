@@ -5,18 +5,22 @@ const getToken = require("../utils/petAPI/getToken");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/users
 
-//will need to do initial sessions timeout/login page at beginning of each function
+//will need to do initial sessions timeout/api/users/login page at beginning of each function
 
 //TESTING ROUTE TODO: Remove or comment out on official deployment for security
 router.get("/userlist/", (req, res) => {
-    db.User.findAll({})
-        .then(userList => {
-            res.json(userList);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.findAll({})
+            .then(userList => {
+                res.json(userList);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 //TESTING ROUTE
@@ -34,6 +38,7 @@ router.get("/finduser/:id", (req, res) => {
             res.status(500).end()
         })
 })
+
 
 router.get('/readsessions', (req, res) => {
     if (!req.session.user) {

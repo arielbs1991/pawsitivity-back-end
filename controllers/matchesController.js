@@ -54,8 +54,8 @@ router.post('/newMatch/', (req, res) => {
         db.PetfinderMatch.create({
             PetfinderId: req.body.PetfinderId,
             isLiked: req.body.isLiked,
-            // UserId: req.session.user.UserId,
-            UserId: req.body.UserId,
+            UserId: req.session.user.UserId,
+            // UserId: req.body.UserId,
 
         })
             .then(matchData => {
@@ -69,8 +69,8 @@ router.post('/newMatch/', (req, res) => {
     } else if (!req.body.PetfinderId) {
         db.AnimalMatch.create({
             isLiked: req.body.isLiked,
-            // UserId: req.session.user.UserId,
-            UserId: req.body.UserId,
+            UserId: req.session.user.UserId,
+            // UserId: req.body.UserId,
             AnimalShelterId: req.body.AnimalShelterId,
             AnimalId: req.body.AnimalId
         })

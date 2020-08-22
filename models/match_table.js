@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         petfinderId: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            // unique: true,
             validate: {
                 len: [1]
             }

@@ -23,7 +23,7 @@ router.get("/PetfinderShelter/:orgId", (req, res) => {
     }
 })
 
-//Route for grabbing user info for shelters to look at, potentially
+//Route for grabbing user info for shelters to look at, potentially --oauth commented out for testing
 router.get("/finduser/:id", (req, res) => {
     // if (!req.session.shelter) {
     //     res.status(403).end();

@@ -7,7 +7,7 @@ const sequelize = require("./index");
 
 module.exports = function (sequelize, DataTypes) {
     var PetfinderMatch = sequelize.define("PetfinderMatch", {
-        petfinderId: {
+        PetfinderId: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -19,9 +19,6 @@ module.exports = function (sequelize, DataTypes) {
 
     PetfinderMatch.associate = function (models) {
         PetfinderMatch.belongsTo(models.User, {
-            onDelete: 'cascade'
-        });
-        PetfinderMatch.belongsTo(models.PetfinderShelter, {
             onDelete: 'cascade'
         });
     };

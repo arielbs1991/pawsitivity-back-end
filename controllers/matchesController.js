@@ -46,17 +46,17 @@ router.get("/byUserId/", (req, res) => {
 
 //ANIMAL SHELTER ROUTES
 
-//create new petfinder match
-const newPetfinderMatch = () => {
-    router.post('/newPetfinderMatch/', (req, res) => {
-        // if (!req.session.user) {
-        //     res.status(403).end();
-        // } else {
+router.post('/newMatch/', (req, res) => {
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+    if (!req.body.AnimalId) {
         db.PetfinderMatch.create({
             PetfinderId: req.body.PetfinderId,
             isLiked: req.body.isLiked,
             // UserId: req.session.user.UserId,
-            UserId: req.body.UserId
+            UserId: req.body.UserId,
+
         })
             .then(matchData => {
                 console.log("New Match", matchData);
@@ -66,20 +66,11 @@ const newPetfinderMatch = () => {
                 console.log(err);
                 res.status(500).end()
             })
-        // }
-    })
-}
-
-//create new animal shelter match --userside
-const newShelterMatch = () => {
-    router.post('/newShelterMatch/', (req, res) => {
-        // if (!req.session.user) {
-        //     res.status(403).end();
-        // } else {
+    } else if (!req.body.PetfinderId) {
         db.AnimalMatch.create({
             isLiked: req.body.isLiked,
             // UserId: req.session.user.UserId,
-            UserId: req.body.user.UserId,
+            UserId: req.body.UserId,
             AnimalShelterId: req.body.AnimalShelterId,
             AnimalId: req.body.AnimalId
         })
@@ -91,33 +82,43 @@ const newShelterMatch = () => {
                 console.log(err);
                 res.status(500).end()
             })
-        // }
-    })
-}
-
-router.post('/newMatch/', (req, res) => {
-    // if (!req.session.user) {
-    //     res.status(403).end();
-    // } else {
-    if (!AnimalId) {
-        newPetfinderMatch(req, res)
-    } else if (!PetfinderId) {
-        newShelterMatch(req, res)
     } else {
         console.log(err, "you can't do that, dummy");
     }
-    // }
+    }
 })
 
-//return a match by animalid -- userside
-router.get('/animalId/:AnimalId', (req, res) => {
+//return a match by animalmatchid -- userside
+router.get('/animalId/:AnimalMatchId', (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
     } else {
         db.AnimalMatch.findOne({
             where: {
                 UserId: req.session.user.UserId,
-                AnimalId: req.params.AnimalId
+                AnimalMatchId: req.params.AnimalMatchId
+            }
+        })
+            .then(userMatchData => {
+                console.log("user matches: ", userMatchData);
+                res.json(userMatchData);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
+})
+
+//return a match by petfindermatch id
+router.get('/petfinderId/:PetfinderMatchId', (req, res) => {
+    if (!req.session.user || !req.session.shelter) {
+        res.status(403).end();
+    } else {
+        db.PetfinderMatch.findOne({
+            where: {
+                UserId: req.session.user.UserId,
+                PetfinderMatchId: req.params.PetfinderMatchId
             }
         })
             .then(userMatchData => {
@@ -156,6 +157,30 @@ router.put('/shelter/isLiked/:AnimalMatchId', (req, res) => {
     }
 })
 
+//update isliked route for petfinder animal
+router.put('/isLikedPetfinder/:PetfinderMatchId', (req, res) => {
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.PetfinderMatch.update({
+            isLiked: req.body.isLiked
+        },
+            {
+                where: {
+                    id: req.params.PetfinderMatchId
+                }
+            })
+            .then(dbPetfinderMatch => {
+                console.log(dbPetfinderMatch);
+                res.json(dbPetfinderMatch)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
+})
+
 //SHELTER SIDE ROUTES
 //return all matches made for unique shelter animal -- TODO: might want to move into a shelter-use specific route/controller file
 router.get('/shelter/animalId/:AnimalId', (req, res) => {
@@ -183,25 +208,25 @@ router.get('/shelter/animalId/:AnimalId', (req, res) => {
 })
 
 //return all matches for animal with unique petfinderid
-router.get('/petfinderId/:PetfinderId', (req, res) => {
-    if (!req.session.shelter) {
-        res.status(403).end();
-    } else {
-        db.PetfinderMatch.findAll({
-            where: {
-                PetfinderId: req.params.PetfinderId
-            }
-        })
-            .then(userMatchData => {
-                console.log("user matches: ", userMatchData);
-                res.json(userMatchData);
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end()
-            })
-    }
-})
+// router.get('/petfinderId/:PetfinderId', (req, res) => {
+//     if (!req.session.shelter) {
+//         res.status(403).end();
+//     } else {
+//         db.PetfinderMatch.findAll({
+//             where: {
+//                 PetfinderId: req.params.PetfinderId
+//             }
+//         })
+//             .then(userMatchData => {
+//                 console.log("user matches: ", userMatchData);
+//                 res.json(userMatchData);
+//             })
+//             .catch(err => {
+//                 console.log(err);
+//                 res.status(500).end()
+//             })
+//     }
+// })
 
 // Destroy animal shelter match
 // router.delete('/:id', (req, res) => {
@@ -224,73 +249,6 @@ router.get('/petfinderId/:PetfinderId', (req, res) => {
 // })
 
 //PETFINDER ROUTES
-
-//DUPLICATING ABOVE TO EXPERIMENT
-// //create new petfinder match
-// router.post('/newPetfinderMatch/', (req, res) => {
-//     if (!req.session.user) {
-//         res.status(403).end();
-//     } else {
-//         db.PetfinderMatch.create({
-//             PetfinderId: req.body.PetfinderId,
-//             isLiked: req.body.isLiked
-//         })
-//             .then(matchData => {
-//                 console.log("New Match", matchData);
-//                 res.json(matchData);
-//             })
-//             .catch(err => {
-//                 console.log(err);
-//                 res.status(500).end()
-//             })
-//     }
-// })
-
-//return a match by petfinder id
-router.get('/petfinderId/:PetfinderId', (req, res) => {
-    if (!req.session.user || !req.session.shelter) {
-        res.status(403).end();
-    } else {
-        db.PetfinderMatch.findOne({
-            where: {
-                UserId: req.session.user.UserId,
-                PetfinderId: req.params.PetfinderId
-            }
-        })
-            .then(userMatchData => {
-                console.log("user matches: ", userMatchData);
-                res.json(userMatchData);
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end()
-            })
-    }
-})
-
-//update isliked route for petfinder animal
-router.put('/isLikedPetfinder/:PetfinderMatchId', (req, res) => {
-    if (!req.session.user || !req.session.shelter) {
-        res.status(403).end();
-    } else {
-        db.PetfinderMatch.update({
-            isLiked: req.body.isLiked
-        },
-            {
-                where: {
-                    id: req.params.PetfinderMatchId
-                }
-            })
-            .then(dbPetfinderMatch => {
-                console.log(dbPetfinderMatch);
-                res.json(dbPetfinderMatch)
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end()
-            })
-    }
-})
 
 // Destroy petfinder match
 // router.delete('/:id', (req, res) => {

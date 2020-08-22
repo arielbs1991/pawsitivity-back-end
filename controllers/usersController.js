@@ -35,41 +35,6 @@ router.get("/finduser/:id", (req, res) => {
         })
 })
 
-//create new petfinder shelter when petfinder match is made --userside
-router.post("/PetfinderShelter/", (req, res) => {
-    // if (!req.session.user) {
-    //     res.status(403).end();
-    // } else {
-        db.PetfinderShelter.create({
-            orgId: req.body.orgId
-        })
-            .then(dbPetfinderShelter => {
-                res.json(dbPetfinderShelter)
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end()
-            })
-    // }
-})
-
-//route to find petfinder shelter data by organization id --userside
-router.get("/PetfinderShelter/:orgId", (req, res) => {
-    if (!req.session.user) {
-        res.status(403).end();
-    } else {
-        shelterAPI(req.params.orgId, req.session.user.token)
-            .then(dbPetfinderShelter => {
-                res.json(dbPetfinderShelter)
-                console.log("PetfinderShelter results", dbPetfinderShelter);
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end()
-            })
-    }
-})
-
 router.get('/readsessions', (req, res) => {
     if (!req.session.user) {
         res.status(403).end();

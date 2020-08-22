@@ -38,72 +38,84 @@ router.get(`/search/`, (req, res) => {
 // })
 
 router.post("/animal", (req, res) => {
-    db.Animal.create({
-        name: req.body.name,
-        type: req.body.type,
-        imageSrc: req.body.imageSrc,
-        breed: req.body.breed,
-        secondaryBreed: req.body.secondaryBreed,
-        age: req.body.age,
-        sex: req.body.sex,
-        size: req.body.size,
-        bio: req.body.bio,
-        likesCats: req.body.likesCats,
-        likesDogs: req.body.likesDogs,
-        likesKids: req.body.likesKids,
-        AnimalMatchId: req.body.AnimalMatchId
-    })
-        .then(animalData => {
-            res.json(animalData)
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+        db.Animal.create({
+            name: req.body.name,
+            type: req.body.type,
+            imageSrc: req.body.imageSrc,
+            breed: req.body.breed,
+            secondaryBreed: req.body.secondaryBreed,
+            age: req.body.age,
+            sex: req.body.sex,
+            size: req.body.size,
+            bio: req.body.bio,
+            likesCats: req.body.likesCats,
+            likesDogs: req.body.likesDogs,
+            likesKids: req.body.likesKids,
+            AnimalMatchId: req.body.AnimalMatchId
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end();
-        })
+            .then(animalData => {
+                res.json(animalData)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end();
+            })
+    }
 })
 
 router.delete('/delete/:id', (req, res) => {
-    db.Animal.destroy({
-        where: {
-            id: req.params.id
-        }
-    })
-        .then(deleted => {
-            res.json(deleted)
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+        db.Animal.destroy({
+            where: {
+                id: req.params.id
+            }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(deleted => {
+                res.json(deleted)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put("/animal/:AnimalId", (req, res) => {
-    db.Animal.update({
-        name: req.body.name,
-        type: req.body.type,
-        imageSrc: req.body.imageSrc,
-        breed: req.body.breed,
-        secondaryBreed: req.body.secondaryBreed,
-        age: req.body.age,
-        sex: req.body.sex,
-        size: req.body.size,
-        bio: req.body.bio,
-        likesCats: req.body.likesCats,
-        likesDogs: req.body.likesDogs,
-        likesKids: req.body.likesKids,
-    },
-    {
-        where: {
-            id: req.params.AnimalId
-        }
-    })
-        .then(animalData => {
-            res.json(animalData)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end();
-        })
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+        db.Animal.update({
+            name: req.body.name,
+            type: req.body.type,
+            imageSrc: req.body.imageSrc,
+            breed: req.body.breed,
+            secondaryBreed: req.body.secondaryBreed,
+            age: req.body.age,
+            sex: req.body.sex,
+            size: req.body.size,
+            bio: req.body.bio,
+            likesCats: req.body.likesCats,
+            likesDogs: req.body.likesDogs,
+            likesKids: req.body.likesKids,
+        },
+            {
+                where: {
+                    id: req.params.AnimalId
+                }
+            })
+            .then(animalData => {
+                res.json(animalData)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end();
+            })
+    }
 })
 
 module.exports = router;

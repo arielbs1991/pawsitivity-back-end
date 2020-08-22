@@ -19,6 +19,7 @@ router.get("/", (req, res) => {
 router.get(`/search/`, (req, res) => {
     db.Animal.findAll({
         where: {
+            state: req.body.state,
             type: req.body.type,
             likesCats: req.body.likesCats,
             likesDogs: req.body.likesDogs,

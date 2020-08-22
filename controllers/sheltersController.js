@@ -5,51 +5,81 @@ const getToken = require("../utils/petAPI/getToken");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: api/shelterAPI
 
-//route to find petfinder shelter data by organization id, not gonna 
+//route to find petfinder shelter data by organization id --userside
 router.get("/PetfinderShelter/:orgId", (req, res) => {
-    shelterAPI(req.params.orgId, req.session.user.token)
-        .then(dbPetfinderShelter => {
-            res.json(dbPetfinderShelter)
-            console.log("PetfinderShelter results", dbPetfinderShelter);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        shelterAPI(req.params.orgId, req.session.user.token)
+            .then(dbPetfinderShelter => {
+                res.json(dbPetfinderShelter)
+                console.log("PetfinderShelter results", dbPetfinderShelter);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
+})
+//route to find petfinder shelter data by organization id --shelterside
+router.get("/shelter/PetfinderShelter/:orgId", (req, res) => {
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+        shelterAPI(req.params.orgId, req.session.shelter.token)
+            .then(dbPetfinderShelter => {
+                res.json(dbPetfinderShelter)
+                console.log("PetfinderShelter results", dbPetfinderShelter);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
-//create new petfinder shelter
+//create new petfinder shelter when petfinder match is made --userside
 router.post("/PetfinderShelter/", (req, res) => {
-    db.PetfinderShelter.create({
-        orgId: req.body.orgId
-    })
-        .then(dbPetfinderShelter => {
-            res.json(dbPetfinderShelter)
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.PetfinderShelter.create({
+            orgId: req.body.orgId
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(dbPetfinderShelter => {
+                res.json(dbPetfinderShelter)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
-//get animal shelter by id
-router.get("/AnimalShelter/:AnimalShelterId", (req, res) => {
-    db.AnimalShelter.findOne({
-        where: {
-            // id: req.session.shelter.ShelterId
-            id: req.params.AnimalShelterId
-        }
-    })
-        .then(dbAnimalShelter => {
-            res.json(dbAnimalShelter)
+//get animal shelter by id --shelterside
+router.get("/AnimalShelter/", (req, res) => {
+    // router.get("/AnimalShelter/:AnimalShelterId", (req, res) => {
+    if (!req.session.shelter) {
+        // if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.AnimalShelter.findOne({
+            where: {
+                id: req.session.shelter.ShelterId
+                // id: req.params.AnimalShelterId
+            }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(dbAnimalShelter => {
+                res.json(dbAnimalShelter)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
-//create new animal shelter
+//create new animal shelter --shelterside
 router.post("/AnimalShelter/", (req, res) => {
     db.AnimalShelter.create({
         orgId: req.body.orgId,
@@ -73,15 +103,23 @@ router.post("/AnimalShelter/", (req, res) => {
 })
 
 router.get('/readsessions', (req, res) => {
-    res.json(req.session.shelter)
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+        res.json(req.session.shelter)
+    }
 })
 
 router.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.send('logout complete!');
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+        req.session.destroy();
+        res.send('logout complete!');
+    }
 })
 
-//login route
+//login route --shelterside
 router.post('/login', (req, res) => {
     db.AnimalShelter.findOne({
         where: {
@@ -119,43 +157,51 @@ router.post('/login', (req, res) => {
     })
 })
 
-//update all shelter info
-router.put('/updateAll/:ShelterId', (req, res) => {
-    db.Shelter.update({
-        orgId: req.body.orgId,
-        AnimalshelterName: req.body.AnimalshelterName,
-        address1: req.body.address1,
-        address2: req.body.address2,
-        city: req.body.city,
-        state: req.body.state,
-        postcode: req.body.postcode,
-        phoneNumber: req.body.phoneNumber
-    },
-        {
-            where: {
-                // id: req.session.shelter.ShelterId
-                id: req.params.ShelterId
-            }
-        })
-        .then(dbShelter => {
-            req.session.shelter.orgId = req.body.orgId
-            req.session.shelter.AnimalshelterName = req.body.AnimalshelterName
-            req.session.shelter.address1 = req.body.address1
-            req.session.shelter.address2 = req.body.address2
-            req.session.shelter.city = req.body.city
-            req.session.shelter.state = req.body.state
-            req.session.shelter.postcode = req.body.postcode
-            req.session.shelter.phoneNumber = req.body.phoneNumber
-            res.json(dbShelter)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+//update all animal shelter info --shelterside
+router.put('/updateAll/', (req, res) => {
+    // router.put('/updateAll/:AnimalShelterId', (req, res) => {
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+        db.AnimalShelter.update({
+            orgId: req.body.orgId,
+            AnimalshelterName: req.body.AnimalshelterName,
+            address1: req.body.address1,
+            address2: req.body.address2,
+            city: req.body.city,
+            state: req.body.state,
+            postcode: req.body.postcode,
+            phoneNumber: req.body.phoneNumber
+        },
+            {
+                where: {
+                    id: req.session.shelter.ShelterId
+                    // id: req.params.AnimalShelterId
+                }
+            })
+            .then(dbShelter => {
+                req.session.shelter.orgId = req.body.orgId
+                req.session.shelter.AnimalshelterName = req.body.AnimalshelterName
+                req.session.shelter.address1 = req.body.address1
+                req.session.shelter.address2 = req.body.address2
+                req.session.shelter.city = req.body.city
+                req.session.shelter.state = req.body.state
+                req.session.shelter.postcode = req.body.postcode
+                req.session.shelter.phoneNumber = req.body.phoneNumber
+                res.json(dbShelter)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/orgId/', (req, res) => {
-    db.Shelter.update({
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+    db.AnimalShelter.update({
         orgId: req.body.orgId
     },
         {
@@ -171,10 +217,14 @@ router.put('/orgId/', (req, res) => {
             console.log(err);
             res.status(500).end();
         })
+    }
 })
 
 router.put('/AnimalshelterName/', (req, res) => {
-    db.Shelter.update({
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+    db.AnimalShelter.update({
         AnimalshelterName: req.body.AnimalshelterName
     },
         {
@@ -190,10 +240,14 @@ router.put('/AnimalshelterName/', (req, res) => {
             console.log(err);
             res.status(500).end();
         })
+    }
 })
 
 router.put('/address1/', (req, res) => {
-    db.Shelter.update({
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+    db.AnimalShelter.update({
         address1: req.body.address1
     },
         {
@@ -209,10 +263,14 @@ router.put('/address1/', (req, res) => {
             console.log(err);
             res.status(500).end();
         })
+    }
 })
 
 router.put('/address2/', (req, res) => {
-    db.Shelter.update({
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+    db.AnimalShelter.update({
         address2: req.body.address2
     },
         {
@@ -228,10 +286,14 @@ router.put('/address2/', (req, res) => {
             console.log(err);
             res.status(500).end();
         })
+    }
 })
 
 router.put('/city/', (req, res) => {
-    db.Shelter.update({
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+    db.AnimalShelter.update({
         city: req.body.city
     },
         {
@@ -247,10 +309,14 @@ router.put('/city/', (req, res) => {
             console.log(err);
             res.status(500).end();
         })
+    }
 })
 
 router.put('/state/', (req, res) => {
-    db.Shelter.update({
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+    db.AnimalShelter.update({
         state: req.body.state
     },
         {
@@ -266,10 +332,14 @@ router.put('/state/', (req, res) => {
             console.log(err);
             res.status(500).end();
         })
+    }
 })
 
 router.put('/postcode/', (req, res) => {
-    db.Shelter.update({
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+    db.AnimalShelter.update({
         postcode: req.body.postcode
     },
         {
@@ -285,10 +355,14 @@ router.put('/postcode/', (req, res) => {
             console.log(err);
             res.status(500).end();
         })
+    }
 })
 
 router.put('/phoneNumber/', (req, res) => {
-    db.Shelter.update({
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+    db.AnimalShelter.update({
         phoneNumber: req.body.phoneNumber
     },
         {
@@ -304,22 +378,27 @@ router.put('/phoneNumber/', (req, res) => {
             console.log(err);
             res.status(500).end();
         })
+    }
 })
 
 //Delete route
 router.delete('/', (req, res) => {
-    db.Shelter.destroy({
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+    db.AnimalShelter.destroy({
         where: {
             id: req.session.shelter.ShelterId
         }
     })
-    .then(shelterData => {
-        res.json(shelterData)
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).end();
-    })
+        .then(shelterData => {
+            res.json(shelterData)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end();
+        })
+    }
 })
 
 module.exports = router;

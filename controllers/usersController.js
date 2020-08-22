@@ -35,27 +35,40 @@ router.get("/finduser/:id", (req, res) => {
         })
 })
 
-//Route for grabbing user info for shelters to look at, potentially
-router.get("/finduser/:id", (req, res) => {
-    // if (!req.session.shelter) {
+//create new petfinder shelter when petfinder match is made --userside
+router.post("/PetfinderShelter/", (req, res) => {
+    // if (!req.session.user) {
     //     res.status(403).end();
     // } else {
-    db.User.findOne({
-        where: {
-            id: req.params.id
-        }
-    })
-        .then(dbUser => {
-            res.json(dbUser)
+        db.PetfinderShelter.create({
+            orgId: req.body.orgId
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(dbPetfinderShelter => {
+                res.json(dbPetfinderShelter)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
     // }
 })
 
-// CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
+//route to find petfinder shelter data by organization id --userside
+router.get("/PetfinderShelter/:orgId", (req, res) => {
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        shelterAPI(req.params.orgId, req.session.user.token)
+            .then(dbPetfinderShelter => {
+                res.json(dbPetfinderShelter)
+                console.log("PetfinderShelter results", dbPetfinderShelter);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
+})
 
 router.get('/readsessions', (req, res) => {
     if (!req.session.user) {
@@ -74,6 +87,7 @@ router.get("/logout", (req, res) => {
     }
 })
 
+//create new user on signup
 router.post('/', (req, res) => {
     db.User.create({
         firstName: req.body.firstName,

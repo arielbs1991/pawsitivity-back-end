@@ -4,25 +4,10 @@ const db = require("../models");
 const getToken = require("../utils/petAPI/getToken");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: api/shelterAPI
+//planning to change to: api/shelters
 
-//route to find petfinder shelter data by organization id --userside
-router.get("/PetfinderShelter/:orgId", (req, res) => {
-    if (!req.session.user) {
-        res.status(403).end();
-    } else {
-        shelterAPI(req.params.orgId, req.session.user.token)
-            .then(dbPetfinderShelter => {
-                res.json(dbPetfinderShelter)
-                console.log("PetfinderShelter results", dbPetfinderShelter);
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end()
-            })
-    }
-})
 //route to find petfinder shelter data by organization id --shelterside
-router.get("/shelter/PetfinderShelter/:orgId", (req, res) => {
+router.get("/PetfinderShelter/:orgId", (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
     } else {
@@ -38,22 +23,24 @@ router.get("/shelter/PetfinderShelter/:orgId", (req, res) => {
     }
 })
 
-//create new petfinder shelter when petfinder match is made --userside
-router.post("/PetfinderShelter/", (req, res) => {
-    if (!req.session.user) {
-        res.status(403).end();
-    } else {
-        db.PetfinderShelter.create({
-            orgId: req.body.orgId
+//Route for grabbing user info for shelters to look at, potentially
+router.get("/finduser/:id", (req, res) => {
+    // if (!req.session.shelter) {
+    //     res.status(403).end();
+    // } else {
+    db.User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbUser => {
+            res.json(dbUser)
         })
-            .then(dbPetfinderShelter => {
-                res.json(dbPetfinderShelter)
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end()
-            })
-    }
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+    // }
 })
 
 //get animal shelter by id --shelterside
@@ -197,6 +184,7 @@ router.put('/updateAll/', (req, res) => {
     }
 })
 
+//update orgId
 router.put('/orgId/', (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
@@ -220,6 +208,7 @@ router.put('/orgId/', (req, res) => {
     }
 })
 
+//update AnimalShelterName
 router.put('/AnimalshelterName/', (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
@@ -243,6 +232,7 @@ router.put('/AnimalshelterName/', (req, res) => {
     }
 })
 
+//Update address line 1
 router.put('/address1/', (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
@@ -266,6 +256,7 @@ router.put('/address1/', (req, res) => {
     }
 })
 
+//update address line 2
 router.put('/address2/', (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
@@ -289,6 +280,7 @@ router.put('/address2/', (req, res) => {
     }
 })
 
+//update city
 router.put('/city/', (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
@@ -312,6 +304,7 @@ router.put('/city/', (req, res) => {
     }
 })
 
+//update state
 router.put('/state/', (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
@@ -335,6 +328,7 @@ router.put('/state/', (req, res) => {
     }
 })
 
+//update postcode
 router.put('/postcode/', (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
@@ -358,6 +352,7 @@ router.put('/postcode/', (req, res) => {
     }
 })
 
+//update phone number
 router.put('/phoneNumber/', (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();

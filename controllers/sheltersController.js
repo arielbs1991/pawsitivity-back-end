@@ -7,7 +7,7 @@ const db = require("../models");
 //route to find shelter data by id
 router.get("/shelter/:orgId", (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         shelterAPI(req.params.orgId, req.session.user.token)
             .then(shelterResults => {
@@ -24,7 +24,7 @@ router.get("/shelter/:orgId", (req, res) => {
 //route for storing shelter info in shelter_table - tested in postman and working as of 8/15 12:00
 router.post("/shelter", (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.Shelter.create({
             orgId: req.body.orgId,

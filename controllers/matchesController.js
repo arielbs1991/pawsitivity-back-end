@@ -7,7 +7,7 @@ const db = require("../models");
 
 router.post('/newMatch/', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         //will eventually need to tie in which userid and shelterid the match is being created under
         db.Match.create({
@@ -29,7 +29,7 @@ router.post('/newMatch/', (req, res) => {
 
 router.get('/petfinderId/:petfinderId', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.Match.findOne({
             where: {
@@ -51,7 +51,7 @@ router.get('/petfinderId/:petfinderId', (req, res) => {
 //not sure if we're using this route
 router.get('/userId/:userId', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.Match.findAll({
             where: {
@@ -71,7 +71,7 @@ router.get('/userId/:userId', (req, res) => {
 
 router.put('/isLiked/:id', (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         db.Match.update({
             isLiked: req.body.isLiked
@@ -94,7 +94,7 @@ router.put('/isLiked/:id', (req, res) => {
 
 // router.delete('/:id', (req, res) => {
 // if (!req.session.user) {
-//     res.redirect("/api/users/login");
+//     res.status(403).end();
 // } else {
 //     db.Match.destroy({
 //         isLiked: req.body.isLiked,

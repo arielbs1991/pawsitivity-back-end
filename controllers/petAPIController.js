@@ -8,7 +8,7 @@ const db = require("../models");
 //route to return a single pet by id provided by petfinder
 router.get("/pets/:petId", (req, res) => {
     if (!req.session.user) {
-        res.redirect("/api/users/login");
+        res.status(403).end();
     } else {
         petAPIbyId(req.params.petId, req.session.user.token)
             .then(petResults => {
@@ -25,9 +25,9 @@ router.get("/pets/:petId", (req, res) => {
 //route to get array of animals by user preferences - should hopefully work once we have a sessions object
 
 router.get("/pets/", ({ session: { user: { postcode, hasCats, hasDogs, hasKids, whichSpecies, token } } }, res) => {
-    if (!req.session.user) {
-        res.redirect("/api/users/login");
-    } else {
+    // if (!req.session.user) {
+    //     res.status(403).end();
+    // } else {
         petAPI(postcode, hasDogs, hasKids, hasCats, whichSpecies, token)
             .then(petResults => {
                 res.json(petResults)
@@ -35,7 +35,7 @@ router.get("/pets/", ({ session: { user: { postcode, hasCats, hasDogs, hasKids, 
                 console.log(err);
                 res.status(500).end()
             })
-    }
+    // }
 })
 
 module.exports = router;

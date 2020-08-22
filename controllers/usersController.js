@@ -7,7 +7,7 @@ const getToken = require("../utils/petAPI/getToken");
 
 //will need to do initial sessions timeout/login page at beginning of each function
 
-//TODO: Remove or comment out on official deployment for security
+//TESTING ROUTE TODO: Remove or comment out on official deployment for security
 router.get("/userlist/", (req, res) => {
     db.User.findAll({})
         .then(userList => {
@@ -19,15 +19,59 @@ router.get("/userlist/", (req, res) => {
         })
 })
 
+//TESTING ROUTE
+router.get("/finduser/:id", (req, res) => {
+    db.User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbUser => {
+            res.json(dbUser)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+})
+
+//Route for grabbing user info for shelters to look at, potentially
+router.get("/finduser/:id", (req, res) => {
+    // if (!req.session.shelter) {
+    //     res.status(403).end();
+    // } else {
+    db.User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbUser => {
+            res.json(dbUser)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
+    // }
+})
+
 // CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
 
 router.get('/readsessions', (req, res) => {
-    res.json(req.session.user)
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        res.json(req.session.user)
+    }
 })
 
 router.get("/logout", (req, res) => {
-    req.session.destroy();
-    res.send("logout complete!")
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        req.session.destroy();
+        res.send("logout complete!")
+    }
 })
 
 router.post('/', (req, res) => {
@@ -90,262 +134,298 @@ router.post('/login', (req, res) => {
     })
 })
 
-//don't think we need this one anymore because we have by email EXCEPT I USE IT FOR TESTING NVM
-router.get("/finduser/:id", (req, res) => {
-    db.User.findOne({
-        where: {
-            id: req.params.id
-        }
-    })
-        .then(dbUser => {
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
-})
 
 router.delete('/', (req, res) => {
-    db.User.destroy({
-        where: {
-            id: req.session.user.UserId
-        }
-    })
-        .then(userData => {
-            res.json(userData)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
-})
-
-router.put('/updateAll/:UserId', (req, res) => {
-    db.User.update({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        city: req.body.city,
-        state: req.body.state,
-        postcode: req.body.postcode,
-        phoneNumber: req.body.phoneNumber,
-        hasKids: req.body.hasKids,
-        hasCats: req.body.hasCats,
-        hasDogs: req.body.hasDogs,
-        whichSpecies: req.body.whichSpecies,
-    },
-        {
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.destroy({
             where: {
-                // id: req.session.user.UserId
-                id: req.params.UserId
+                id: req.session.user.UserId
             }
         })
-        .then(dbUser => {
-            // req.session.user.firstName = req.body.firstName
-            // req.session.user.lastName = req.body.lastName
-            // req.session.user.city = req.body.city
-            // req.session.user.state = req.body.state
-            // req.session.user.postcode = req.body.postcode
-            // req.session.user.phoneNumber = req.body.phoneNumber
-            // req.session.user.hasKids = req.body.hasKids
-            // req.session.user.hasCats = req.body.hasCats
-            // req.session.user.hasDogs = req.body.hasDogs
-            // req.session.user.whichSpecies = req.body.whichSpecies
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+            .then(userData => {
+                res.json(userData)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
+})
+
+router.put('/updateAll/', (req, res) => {
+    // router.put('/updateAll/:UserId', (req, res) => {
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            city: req.body.city,
+            state: req.body.state,
+            postcode: req.body.postcode,
+            phoneNumber: req.body.phoneNumber,
+            hasKids: req.body.hasKids,
+            hasCats: req.body.hasCats,
+            hasDogs: req.body.hasDogs,
+            whichSpecies: req.body.whichSpecies,
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                    // id: req.params.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.firstName = req.body.firstName
+                req.session.user.lastName = req.body.lastName
+                req.session.user.city = req.body.city
+                req.session.user.state = req.body.state
+                req.session.user.postcode = req.body.postcode
+                req.session.user.phoneNumber = req.body.phoneNumber
+                req.session.user.hasKids = req.body.hasKids
+                req.session.user.hasCats = req.body.hasCats
+                req.session.user.hasDogs = req.body.hasDogs
+                req.session.user.whichSpecies = req.body.whichSpecies
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/firstName/', (req, res) => {
-    db.User.update({
-        firstName: req.body.firstName
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.firstName = req.body.firstName
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            firstName: req.body.firstName
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.firstName = req.body.firstName
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/lastName/', (req, res) => {
-    db.User.update({
-        lastName: req.body.lastName
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.lastName = req.body.lastName
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            lastName: req.body.lastName
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.lastName = req.body.lastName
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 
 router.put('/city/', (req, res) => {
-    db.User.update({
-        city: req.body.city
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.city = req.body.city
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            city: req.body.city
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.city = req.body.city
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
+
 router.put('/state/', (req, res) => {
-    db.User.update({
-        state: req.body.state
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.state = req.body.state
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            state: req.body.state
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.state = req.body.state
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
+
 router.put('/postcode/', (req, res) => {
-    db.User.update({
-        postcode: req.body.postcode
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.postcode = req.body.postcode
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            postcode: req.body.postcode
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.postcode = req.body.postcode
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/phoneNumber/', (req, res) => {
-    db.User.update({
-        phoneNumber: req.body.phoneNumber
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.phoneNumber = req.body.phoneNumber
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            phoneNumber: req.body.phoneNumber
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.phoneNumber = req.body.phoneNumber
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/hasKids/', (req, res) => {
-    db.User.update({
-        hasKids: req.body.hasKids
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.hasKids = req.body.hasKids
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            hasKids: req.body.hasKids
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.hasKids = req.body.hasKids
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/hasDogs/', (req, res) => {
-    db.User.update({
-        hasDogs: req.body.hasDogs
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.hasDogs = req.body.hasDogs
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            hasDogs: req.body.hasDogs
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.hasDogs = req.body.hasDogs
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/hasCats/', (req, res) => {
-    db.User.update({
-        hasCats: req.body.hasCats
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.hasCats = req.body.hasCats
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            hasCats: req.body.hasCats
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.hasCats = req.body.hasCats
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 })
 
 router.put('/whichSpecies/', (req, res) => {
-    db.User.update({
-        whichSpecies: req.body.whichSpecies
-    },
-        {
-            where: {
-                id: req.session.user.UserId
-            }
-        })
-        .then(dbUser => {
-            req.session.user.whichSpecies = req.body.whichSpecies
-            res.json(dbUser)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end()
-        })
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.User.update({
+            whichSpecies: req.body.whichSpecies
+        },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .then(dbUser => {
+                req.session.user.whichSpecies = req.body.whichSpecies
+                res.json(dbUser)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
 });
 
 module.exports = router;

@@ -5,6 +5,7 @@ const db = require("../models");
 
 //we have a route to find all matches by userid over in userController. Don't make one, Ariel
 
+//gets all matches associated with user by userid
 router.get("/byid/:id", (req, res) => {
     db.AnimalMatch.findAll({
         where: {
@@ -40,6 +41,7 @@ router.get("/byid/:id", (req, res) => {
         })
 });
 
+//get ALL animal shelter matches that currently exist -- ROUTE FOR TESTING USE
 router.get("/", (req, res) => {
     db.AnimalMatch.findAll({
         order: ['createdAt'],
@@ -67,6 +69,8 @@ router.get("/", (req, res) => {
         })
 });
 
+
+//create new animal shelter match
 router.post('/newShelterMatch/', (req, res) => {
     db.AnimalMatch.create({
         isLiked: req.body.isLiked,
@@ -83,6 +87,8 @@ router.post('/newShelterMatch/', (req, res) => {
             res.status(500).end()
         })
 })
+
+//create new petfinder match
 router.post('/newPetfinderMatch/', (req, res) => {
     db.PetfinderMatch.create({
         PetfinderId: req.body.PetfinderId,
@@ -98,7 +104,7 @@ router.post('/newPetfinderMatch/', (req, res) => {
         })
 })
 
-
+//return a match by petfinder id
 router.get('/petfinderId/:PetfinderId', (req, res) => {
     db.PetfinderMatch.findOne({
         where: {
@@ -116,8 +122,9 @@ router.get('/petfinderId/:PetfinderId', (req, res) => {
         })
 })
 
+//return a match by animalid
 router.get('/animalId/:AnimalId', (req, res) => {
-    db.PetfinderMatch.findOne({
+    db.AnimalMatch.findOne({
         where: {
             UserId: req.session.user.UserId,
             AnimalId: req.params.AnimalId
@@ -133,9 +140,7 @@ router.get('/animalId/:AnimalId', (req, res) => {
         })
 })
 
-//not sure if we're using this route
-
-
+//update isliked route for shelter animal
 router.put('/isLikedShelter/:AnimalId', (req, res) => {
     db.AnimalMatch.update({
         isLiked: req.body.isLiked
@@ -155,6 +160,7 @@ router.put('/isLikedShelter/:AnimalId', (req, res) => {
         })
 })
 
+//update isliked route for petfinder animal
 router.put('/isLikedPetfinder/:PetfinderId', (req, res) => {
     db.PetfinderMatch.update({
         isLiked: req.body.isLiked

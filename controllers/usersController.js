@@ -125,8 +125,6 @@ router.put('/updateAll/:UserId', (req, res) => {
     db.User.update({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        password: req.body.password,
-        email: req.body.email,
         city: req.body.city,
         state: req.body.state,
         postcode: req.body.postcode,
@@ -145,8 +143,6 @@ router.put('/updateAll/:UserId', (req, res) => {
         .then(dbUser => {
             // req.session.user.firstName = req.body.firstName
             // req.session.user.lastName = req.body.lastName
-            // req.session.user.password = req.body.password
-            // req.session.user.email = req.body.email
             // req.session.user.city = req.body.city
             // req.session.user.state = req.body.state
             // req.session.user.postcode = req.body.postcode

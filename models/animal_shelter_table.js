@@ -1,35 +1,45 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
-const bcrypt = require('bcrypt')
 
+//Just save shelterid and associations, and use shelterid to query and render shelter information
 module.exports = function (sequelize, DataTypes) {
-    var User = sequelize.define("User", {
-        firstName: {
+    var AnimalShelter = sequelize.define("AnimalShelter", {
+        orgId: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            // unique: true,
+            // validate: {
+            //     len: [1]
+            // }
+        },
+        AnimalshelterName: {
             type: DataTypes.STRING,
             allowNull: false,
+            // unique: true,
             validate: {
                 len: [1]
-            }
-        },
-        lastName: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: [1]
-            }
-        },
-        password: {
-            type: DataTypes.STRING,
-            is: /^[0-9a-f]{64$/i,
-            validate: {
-                len: [6]
             }
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
             isEmail: true
+        },
+        password: {
+            type: DataTypes.STRING,
+            is: /^[0-9a-f]{64$/i,
+            notEmpty: true,
+            validate: {
+                len: [6]
+            }
+        },
+        address1: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        address2: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         city: {
             type: DataTypes.STRING,
@@ -54,39 +64,18 @@ module.exports = function (sequelize, DataTypes) {
         },
         phoneNumber: {
             type: DataTypes.STRING,
-            allowNull: true,
-            notEmpty: false
-        },
-        hasKids: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        hasCats: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        hasDogs: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        whichSpecies: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            notEmpty: false
+            allowNull: true
         }
     });
 
-    User.associate = function (models) {
-        User.hasMany(models.AnimalMatch, {
+    AnimalShelter.associate = function (models) {
+        AnimalShelter.hasMany(models.AnimalMatch, {
             onDelete: 'cascade'
         });
-        User.hasMany(models.PetfinderMatch, {
+        AnimalShelter.hasMany(models.Animal, {
             onDelete: 'cascade'
         });
     };
-    // REMOVE COMMENT WHEN YOU WANT TO HASH AND SALT PASSWORDS
-    User.beforeCreate(function (user) {
-        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
-    })
-    return User;
+
+    return AnimalShelter;
 };

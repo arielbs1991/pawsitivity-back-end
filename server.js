@@ -59,6 +59,8 @@ const sheltersController = require("./controllers/sheltersController.js");
 app.use("/api/shelterAPI", sheltersController);
 const petAPIController = require("./controllers/petAPIController.js");
 app.use("/api/petAPI", petAPIController);
+const animalController = require("./controllers/animalController.js");
+app.use("/api/animals", animalController);
 const emailController = require("./controllers/emailController.js");
 app.use(emailController);
 

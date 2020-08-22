@@ -7,7 +7,7 @@ const getToken = require("../utils/petAPI/getToken");
 
 //will need to do initial sessions timeout/api/users/login page at beginning of each function
 
-//TODO: Remove or comment out on official deployment for security
+//TESTING ROUTE TODO: Remove or comment out on official deployment for security
 router.get("/userlist/", (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
@@ -23,45 +23,20 @@ router.get("/userlist/", (req, res) => {
     }
 })
 
-// CHANGED ROUTE SO THAT THE OTHER ROUTES WOULD NOT HIT THIS ROUTE BY ACCIDENT.
+//TESTING ROUTE
 router.get("/finduser/:id", (req, res) => {
-    if (!req.session.user) {
-        res.status(403).end();
-    } else {
-        db.User.findOne({
-            where: {
-                id: req.params.id
-            },
-            include: [
-                {
-                    model: db.Match,
-                    include: { model: db.Shelter }
-                }
-            ]
-            //add an order here if we want to sort past matches by something (timestamp?)
+    db.User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbUser => {
+            res.json(dbUser)
         })
-            .then(dbUser => {
-                db.Match.findAll({
-                    where: {
-                        id: req.params.id
-                    },
-                    order: [
-                        ['createdAt']
-                    ]
-                })
-                    .then(dbMatches => {
-                        const dbUserJson = dbUser.toJSON();
-                        const dbMatchesJson = dbMatches.map(match => match.toJSON());
-                        var userObject = { userData: dbUserJson, userMatches: dbMatchesJson };
-                        console.log("userObject", userObject);
-                        return res.json(userObject);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).end()
-                    })
-            })
-    }
+        .catch(err => {
+            console.log(err);
+            res.status(500).end()
+        })
 })
 
 
@@ -82,6 +57,7 @@ router.get("/logout", (req, res) => {
     }
 })
 
+//create new user on signup
 router.post('/', (req, res) => {
     db.User.create({
         firstName: req.body.firstName,
@@ -123,7 +99,7 @@ router.post('/login', (req, res) => {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
-                    userId: user.id,
+                    UserId: user.id,
                     postcode: user.postcode,
                     hasKids: user.hasKids,
                     hasCats: user.hasCats,
@@ -142,24 +118,14 @@ router.post('/login', (req, res) => {
     })
 })
 
+
 router.delete('/', (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
     } else {
         db.User.destroy({
-            userName: req.body.userName,
-            email: req.body.email,
-            city: req.body.city,
-            state: req.body.state,
-            postcode: req.body.postcode,
-            phoneNumber: req.body.phoneNumber,
-            hasKids: req.body.hasKids,
-            hasCats: req.body.hasCats,
-            hasDogs: req.body.hasDogs,
-            whichSpecies: req.body.whichSpecies
-        }, {
             where: {
-                id: req.session.user.userId
+                id: req.session.user.UserId
             }
         })
             .then(userData => {
@@ -173,6 +139,7 @@ router.delete('/', (req, res) => {
 })
 
 router.put('/updateAll/', (req, res) => {
+    // router.put('/updateAll/:UserId', (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
     } else {
@@ -190,7 +157,8 @@ router.put('/updateAll/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
+                    // id: req.params.UserId
                 }
             })
             .then(dbUser => {
@@ -222,7 +190,7 @@ router.put('/firstName/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {
@@ -245,7 +213,7 @@ router.put('/lastName/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {
@@ -259,6 +227,7 @@ router.put('/lastName/', (req, res) => {
     }
 })
 
+
 router.put('/city/', (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
@@ -268,7 +237,7 @@ router.put('/city/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {
@@ -291,7 +260,7 @@ router.put('/state/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {
@@ -314,7 +283,7 @@ router.put('/postcode/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {
@@ -337,7 +306,7 @@ router.put('/phoneNumber/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {
@@ -360,7 +329,7 @@ router.put('/hasKids/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {
@@ -383,7 +352,7 @@ router.put('/hasDogs/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {
@@ -406,7 +375,7 @@ router.put('/hasCats/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {
@@ -429,7 +398,7 @@ router.put('/whichSpecies/', (req, res) => {
         },
             {
                 where: {
-                    id: req.session.user.userId
+                    id: req.session.user.UserId
                 }
             })
             .then(dbUser => {

@@ -78,7 +78,7 @@ module.exports = function (sequelize, DataTypes) {
         });
     };
 
-    Shelter.beforeCreate(function (shelter) {
+    AnimalShelter.beforeCreate(function (shelter) {
         shelter.password = bcrypt.hashSync(shelter.password, bcrypt.genSaltSync(10), null)
     })
 

@@ -102,6 +102,8 @@ router.post('/login', (req, res) => {
                     lastName: user.lastName,
                     email: user.email,
                     UserId: user.id,
+                    city: user.city,
+                    state: user.state,
                     postcode: user.postcode,
                     hasKids: user.hasKids,
                     hasCats: user.hasCats,

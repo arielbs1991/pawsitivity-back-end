@@ -99,12 +99,12 @@ router.get('/readsessions', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-    if (!req.session.shelter) {
-        res.status(403).end();
-    } else {
+    // if (!req.session.shelter) {
+    //     res.status(403).end();
+    // } else {
         req.session.destroy();
         res.send('logout complete!');
-    }
+    // }
 })
 
 //login route --shelterside

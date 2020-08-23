@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const shelterAPI = require("../utils/shelterAPI/API.js")
 const db = require("../models");
+const bcrypt = require('bcrypt');
 const getToken = require("../utils/petAPI/getToken");
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: api/shelterAPI

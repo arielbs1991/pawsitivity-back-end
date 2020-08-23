@@ -17,25 +17,27 @@ router.get("/", (req, res) => {
 });
 
 router.get(`/search/`, (req, res) => {
-    db.Animal.findAll({
-        where: {
-            state: req.body.state,
-            type: req.body.type,
-            likesCats: req.body.likesCats,
-            likesDogs: req.body.likesDogs,
-            likesKids: req.body.likesKids
-        }
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.Animal.findAll({
+            where: {
+                state: req.session.user.state,
+                type: req.session.user.whichSpecies,
+                likesCats: req.session.user.likesCats,
+                likesDogs: req.session.user.likesDogs,
+                likesKids: req.session.user.likesKids
+            }
 
-    }).then(dbAnimals => {
-        res.json(dbAnimals)
-    })
-        .catch(err => {
-            console.log(err);
-            res.status(500).end();
+        }).then(dbAnimals => {
+            res.json(dbAnimals)
         })
-
+            .catch(err => {
+                console.log(err);
+                res.status(500).end();
+            })
+    }
 })
-// })
 
 router.post("/animal", (req, res) => {
     if (!req.session.shelter) {

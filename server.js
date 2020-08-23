@@ -69,7 +69,7 @@ app.use(emailController);
 //TODO: once our db is where we want it, change to force:false
 db.sequelize.sync({ force: true }).then(function () {
   app.listen(PORT, function () {
-    // console.log("listen to me, heroku. Changes have been made, I swear");
+    console.log("listen to me, heroku. Changes have been made, I swear");
     console.log("App listening on PORT " + PORT);
   });
 });

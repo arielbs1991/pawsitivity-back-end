@@ -123,7 +123,7 @@ router.post('/login', (req, res) => {
                 const { data: { access_token } } = await getToken()
                 req.session.shelter = {
                     orgId: shelter.orgId,
-                    AnimalShelterName: shelter.AnimalShelterName,
+                    AnimalshelterName: shelter.AnimalshelterName,
                     email: shelter.email,
                     ShelterId: shelter.id,
                     address1: shelter.address1,

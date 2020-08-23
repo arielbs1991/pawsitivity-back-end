@@ -16,6 +16,25 @@ router.get("/", (req, res) => {
         })
 });
 
+router.get("/all/", (req, res) => {
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+        db.Animal.findAll({
+            where: {
+                id: req.session.shelter.ShelterId
+            }
+        })
+            .then(animalData => {
+                res.json(animalData)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end();
+            })
+    }
+});
+
 router.get(`/search/`, (req, res) => {
     if (!req.session.user) {
         res.status(403).end();

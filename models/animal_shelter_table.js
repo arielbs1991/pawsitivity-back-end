@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./index");
+const bcrypt = require('bcrypt')
 
 //Just save shelterid and associations, and use shelterid to query and render shelter information
 module.exports = function (sequelize, DataTypes) {
@@ -76,6 +77,10 @@ module.exports = function (sequelize, DataTypes) {
             onDelete: 'cascade'
         });
     };
+
+    AnimalShelter.beforeCreate(function (shelter) {
+        shelter.password = bcrypt.hashSync(shelter.password, bcrypt.genSaltSync(10), null)
+    })
 
     return AnimalShelter;
 };

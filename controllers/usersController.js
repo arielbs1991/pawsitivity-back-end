@@ -51,12 +51,12 @@ router.get('/readsessions', (req, res) => {
 })
 
 router.get("/logout", (req, res) => {
-    if (!req.session.user) {
-        res.status(403).end();
-    } else {
+    // if (!req.session.user) {
+    //     res.status(403).end();
+    // } else {
         req.session.destroy();
         res.send("logout complete!")
-    }
+    // }
 })
 
 //create new user on signup

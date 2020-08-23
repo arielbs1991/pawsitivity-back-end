@@ -67,6 +67,19 @@ router.get("/AnimalShelter/", (req, res) => {
     }
 })
 
+//get all animal shelters that exist
+router.get("allShelters/", (req, res) => {
+    db.AnimalShelter.findAll({})
+        .then(dbAnimalShelter => {
+            res.json(dbAnimalShelter)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).end();
+        })
+
+})
+
 //create new animal shelter --shelterside
 router.post("/AnimalShelter/", (req, res) => {
     db.AnimalShelter.create({
@@ -102,8 +115,8 @@ router.get('/logout', (req, res) => {
     // if (!req.session.shelter) {
     //     res.status(403).end();
     // } else {
-        req.session.destroy();
-        res.send('logout complete!');
+    req.session.destroy();
+    res.send('logout complete!');
     // }
 })
 
@@ -209,7 +222,7 @@ router.put('/orgId/', (req, res) => {
     }
 })
 
-//update AnimalShelterName
+//update AnimalshelterName
 router.put('/AnimalshelterName/', (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();

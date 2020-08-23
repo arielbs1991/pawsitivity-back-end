@@ -9,7 +9,6 @@ router.get("/byUserId/", (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
     } else {
-        console.log(req.session.user.UserId)
         db.AnimalMatch.findAll({
             where: {
                 id: req.session.user.UserId
@@ -23,7 +22,6 @@ router.get("/byUserId/", (req, res) => {
             ]
         })
             .then(dbAnimalMatch => {
-                console.log('-----------------------------------',dbAnimalMatch, )
                 db.PetfinderMatch.findAll({
                     where: {
                         UserId: req.session.user.UserId
@@ -52,41 +50,41 @@ router.post('/newMatch/', (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
     } else {
-    if (!req.body.AnimalId) {
-        db.PetfinderMatch.create({
-            PetfinderId: req.body.PetfinderId,
-            isLiked: req.body.isLiked,
-            UserId: req.session.user.UserId,
-            // UserId: req.body.UserId,
+        if (!req.body.AnimalId) {
+            db.PetfinderMatch.create({
+                PetfinderId: req.body.PetfinderId,
+                isLiked: req.body.isLiked,
+                UserId: req.session.user.UserId,
+                // UserId: req.body.UserId,
 
-        })
-            .then(matchData => {
-                console.log("New Match", matchData);
-                res.json(matchData);
             })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end()
+                .then(matchData => {
+                    console.log("New Match", matchData);
+                    res.json(matchData);
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).end()
+                })
+        } else if (!req.body.PetfinderId) {
+            db.AnimalMatch.create({
+                isLiked: req.body.isLiked,
+                UserId: req.session.user.UserId,
+                // UserId: req.body.UserId,
+                AnimalShelterId: req.body.AnimalShelterId,
+                AnimalId: req.body.AnimalId
             })
-    } else if (!req.body.PetfinderId) {
-        db.AnimalMatch.create({
-            isLiked: req.body.isLiked,
-            UserId: req.session.user.UserId,
-            // UserId: req.body.UserId,
-            AnimalShelterId: req.body.AnimalShelterId,
-            AnimalId: req.body.AnimalId
-        })
-            .then(matchData => {
-                console.log("New Match", matchData);
-                res.json(matchData);
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end()
-            })
-    } else {
-        console.log(err, "you can't do that, dummy");
-    }
+                .then(matchData => {
+                    console.log("New Match", matchData);
+                    res.json(matchData);
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).end()
+                })
+        } else {
+            console.log(err, "you can't do that, dummy");
+        }
     }
 })
 

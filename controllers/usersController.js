@@ -23,11 +23,13 @@ router.get("/userlist/", (req, res) => {
     }
 })
 
-//TESTING ROUTE
-router.get("/finduser/:id", (req, res) => {
+router.get("/finduser/", (req, res) => {
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
     db.User.findOne({
         where: {
-            id: req.params.id
+            id: req.session.user.UserId
         }
     })
         .then(dbUser => {
@@ -37,8 +39,8 @@ router.get("/finduser/:id", (req, res) => {
             console.log(err);
             res.status(500).end()
         })
+    }
 })
-
 
 router.get('/readsessions', (req, res) => {
     if (!req.session.user) {

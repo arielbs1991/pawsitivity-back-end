@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
         },
         isLiked: {
-            type: DataTypes.STRING,
+            type: DataTypes.BOOLEAN,
             allowNull: false,
         },
     });

@@ -8,7 +8,7 @@ const sequelize = require("./index");
 module.exports = function (sequelize, DataTypes) {
     var AnimalMatch = sequelize.define("AnimalMatch", {
         isLiked: {
-            type: DataTypes.STRING,
+            type: DataTypes.BOOLEAN,
             allowNull: false,
         },
     });

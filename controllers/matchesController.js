@@ -1,7 +1,13 @@
 const router = require("express").Router();
 const db = require("../models");
+require('dotenv').config();
 
 //BASE URL FOR ALL ROUTES ON THIS PAGE: /api/matches
+
+//route to pass map api key to front end
+router.get('/mapAPI', (req, res) => {
+    res.json(process.env.MAP_API);
+})
 
 //gets all matches associated with user by userid
 router.get("/byUserId/", (req, res) => {

@@ -67,8 +67,8 @@ router.get("/AnimalShelter/", (req, res) => {
     }
 })
 
-//get all animal shelters that exist
-router.get("allShelters/", (req, res) => {
+//TESTING ROUTE get all animal shelters that exist
+router.get("/allShelters/", (req, res) => {
     db.AnimalShelter.findAll({})
         .then(dbAnimalShelter => {
             res.json(dbAnimalShelter)

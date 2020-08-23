@@ -9,6 +9,7 @@ router.get("/byUserId/", (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
     } else {
+        console.log(req.session.user.UserId)
         db.AnimalMatch.findAll({
             where: {
                 id: req.session.user.UserId
@@ -22,15 +23,16 @@ router.get("/byUserId/", (req, res) => {
             ]
         })
             .then(dbAnimalMatch => {
+                console.log('-----------------------------------',dbAnimalMatch, )
                 db.PetfinderMatch.findAll({
                     where: {
-                        id: req.session.user.UserId
+                        UserId: req.session.user.UserId
                         // id: req.params.id
                     },
                     order: ['createdAt'],
-                    include: [
-                        { model: db.PetfinderShelter }
-                    ]
+                    // include: [
+                    //     { model: db.PetfinderShelter }
+                    // ]
                 })
                     .then(dbPetfinderMatch => {
                         const Matches = { shelterMatches: dbAnimalMatch, petfinderMatches: dbPetfinderMatch };

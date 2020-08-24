@@ -44,17 +44,21 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
         },
         likesCats: {
-            type: DataTypes.STRING,
+            type: DataTypes.BOOLEAN,
             allowNull: true,
         },
         likesDogs: {
-            type: DataTypes.STRING,
+            type: DataTypes.BOOLEAN,
             allowNull: true,
         },
         likesKids: {
-            type: DataTypes.STRING,
+            type: DataTypes.BOOLEAN,
             allowNull: true,
         },
+        isShelterAnimal: {
+            type: DataTypes.BOOLEAN,
+            default: true,
+        }
     });
 
     Animal.associate = function (models) {

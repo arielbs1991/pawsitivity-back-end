@@ -43,9 +43,9 @@ router.get(`/search/`, (req, res) => {
             where: {
                 state: req.session.user.state,
                 type: req.session.user.whichSpecies,
-                likesCats: req.session.user.likesCats,
-                likesDogs: req.session.user.likesDogs,
-                likesKids: req.session.user.likesKids
+                likesCats: req.session.user.hasCats,
+                likesDogs: req.session.user.hasDogs,
+                likesKids: req.session.user.hasKids
             }
 
         }).then(dbAnimals => {
@@ -75,7 +75,7 @@ router.post("/animal", (req, res) => {
             likesCats: req.body.likesCats,
             likesDogs: req.body.likesDogs,
             likesKids: req.body.likesKids,
-            AnimalMatchId: req.body.AnimalMatchId
+            // AnimalMatchId: req.body.AnimalMatchId
         })
             .then(animalData => {
                 res.json(animalData)

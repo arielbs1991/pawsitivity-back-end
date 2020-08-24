@@ -22,7 +22,7 @@ router.get("/all/", (req, res) => {
     } else {
         db.Animal.findAll({
             where: {
-                id: req.session.shelter.ShelterId
+                AnimalShelterId: req.session.shelter.ShelterId
             }
         })
             .then(animalData => {
@@ -41,11 +41,11 @@ router.get(`/search/`, (req, res) => {
     } else {
         db.Animal.findAll({
             where: {
-                state: req.session.user.state,
+                // state: req.session.user.state,
                 type: req.session.user.whichSpecies,
-                likesCats: req.session.user.likesCats,
-                likesDogs: req.session.user.likesDogs,
-                likesKids: req.session.user.likesKids
+                likesCats: req.session.user.hasCats,
+                likesDogs: req.session.user.hasDogs,
+                likesKids: req.session.user.hasKids
             }
 
         }).then(dbAnimals => {
@@ -58,6 +58,40 @@ router.get(`/search/`, (req, res) => {
     }
 })
 
+router.get(`/searchWithState/`, (req, res) => {
+    if (!req.session.user) {
+        res.status(403).end();
+    } else {
+        db.AnimalShelter.findAll({
+            where: {
+                state: req.session.user.state
+            },
+            include: [
+                {
+                    model: db.Animal,
+                }
+            ]
+        })
+            .then(dbAnimalShelter => {
+                db.Animal.findAll({
+                    where: {
+                        AnimalShelterId: dbAnimalShelter.ShelterId,
+                        type: req.session.user.whichSpecies,
+                        likesCats: req.session.user.hasCats,
+                        likesDogs: req.session.user.hasDogs,
+                        likesKids: req.session.user.hasKids
+                    }
+                }).then(dbAnimals => {
+                    res.json(dbAnimals)
+                })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).end();
+                    })
+            })
+    }
+})
+
 router.post("/animal", (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
@@ -65,6 +99,7 @@ router.post("/animal", (req, res) => {
         db.Animal.create({
             name: req.body.name,
             type: req.body.type,
+            location: req.body.location,
             imageSrc: req.body.imageSrc,
             breed: req.body.breed,
             secondaryBreed: req.body.secondaryBreed,
@@ -75,7 +110,8 @@ router.post("/animal", (req, res) => {
             likesCats: req.body.likesCats,
             likesDogs: req.body.likesDogs,
             likesKids: req.body.likesKids,
-            AnimalMatchId: req.body.AnimalMatchId
+            isShelterAnimal: true,
+            AnimalShelterId: req.session.shelter.ShelterId
         })
             .then(animalData => {
                 res.json(animalData)
@@ -106,13 +142,14 @@ router.delete('/delete/:id', (req, res) => {
     }
 })
 
-router.put("/animal/:AnimalId", (req, res) => {
+router.put("/animal/:id", (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
     } else {
         db.Animal.update({
             name: req.body.name,
             type: req.body.type,
+            location: req.body.location,
             imageSrc: req.body.imageSrc,
             breed: req.body.breed,
             secondaryBreed: req.body.secondaryBreed,
@@ -136,6 +173,36 @@ router.put("/animal/:AnimalId", (req, res) => {
                 console.log(err);
                 res.status(500).end();
             })
+    }
+})
+
+//LOOK HERE IF MATCHES BETWEEN USER AND SHELTER ANIMALS ARE NOT WORKING
+router.put('/shelterMatch/:id', (req, res) => {
+    if(!req.session.user){
+        res.status(403).end();
+    } else {
+        db.Animal.update({
+            AnimalMatchId: Date.now()
+        },
+        {
+        where: {
+            id: req.params.id
+        }
+        })
+        .then(animalMatch => {
+            db.User.update({
+                AnimalMatchId: animalMatch.AnimalMatchId
+            },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end();
+            })
+        })
     }
 })
 

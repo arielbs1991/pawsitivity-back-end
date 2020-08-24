@@ -142,7 +142,7 @@ router.delete('/delete/:id', (req, res) => {
     }
 })
 
-router.put("/animal/:AnimalId", (req, res) => {
+router.put("/animal/:id", (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
     } else {

@@ -110,6 +110,7 @@ router.post("/animal", (req, res) => {
             likesCats: req.body.likesCats,
             likesDogs: req.body.likesDogs,
             likesKids: req.body.likesKids,
+            isShelterAnimal: true,
             AnimalShelterId: req.session.shelter.id
         })
             .then(animalData => {

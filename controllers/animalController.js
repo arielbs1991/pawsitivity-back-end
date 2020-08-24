@@ -39,24 +39,36 @@ router.get(`/search/`, (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
     } else {
-        db.Animal.findAll({
+        db.AnimalShelter.findAll({
             where: {
-                state: req.session.user.state,
-                type: req.session.user.whichSpecies,
-                likesCats: req.session.user.hasCats,
-                likesDogs: req.session.user.hasDogs,
-                likesKids: req.session.user.hasKids
-            }
-
-        }).then(dbAnimals => {
-            res.json(dbAnimals)
+                state: req.session.user.state
+            },
+            include: [
+                {
+                    model: db.Animal,
+                }
+            ]
         })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end();
+            .then(dbAnimalShelter => {
+                db.Animal.findAll({
+                    where: {
+                        AnimalShelterId: id,
+                        type: req.session.user.whichSpecies,
+                        likesCats: req.session.user.hasCats,
+                        likesDogs: req.session.user.hasDogs,
+                        likesKids: req.session.user.hasKids
+                    }
+                }).then(dbAnimals => {
+                    res.json(dbAnimals)
+                })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).end();
+                    })
             })
     }
 })
+
 
 router.post("/animal", (req, res) => {
     if (!req.session.shelter) {

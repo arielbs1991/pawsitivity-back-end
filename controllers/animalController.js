@@ -99,6 +99,7 @@ router.post("/animal", (req, res) => {
         db.Animal.create({
             name: req.body.name,
             type: req.body.type,
+            location: req.body.location,
             imageSrc: req.body.imageSrc,
             breed: req.body.breed,
             secondaryBreed: req.body.secondaryBreed,
@@ -109,7 +110,7 @@ router.post("/animal", (req, res) => {
             likesCats: req.body.likesCats,
             likesDogs: req.body.likesDogs,
             likesKids: req.body.likesKids,
-            // AnimalMatchId: req.body.AnimalMatchId
+            AnimalShelterId: req.session.shelter.id
         })
             .then(animalData => {
                 res.json(animalData)
@@ -147,6 +148,7 @@ router.put("/animal/:AnimalId", (req, res) => {
         db.Animal.update({
             name: req.body.name,
             type: req.body.type,
+            location: req.body.location,
             imageSrc: req.body.imageSrc,
             breed: req.body.breed,
             secondaryBreed: req.body.secondaryBreed,
@@ -170,6 +172,35 @@ router.put("/animal/:AnimalId", (req, res) => {
                 console.log(err);
                 res.status(500).end();
             })
+    }
+})
+
+router.put('/shelterMatch/:id', (req, res) => {
+    if(!req.session.user){
+        res.status(403).end();
+    } else {
+        db.Animal.update({
+            AnimalMatchId: Date.now()
+        },
+        {
+        where: {
+            id: req.params.id
+        }
+        })
+        .then(animalMatch => {
+            db.User.update({
+                AnimalMatchId: animalMatch.AnimalMatchId
+            },
+            {
+                where: {
+                    id: req.session.user.UserId
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end();
+            })
+        })
     }
 })
 

@@ -22,7 +22,7 @@ router.get("/all/", (req, res) => {
     } else {
         db.Animal.findAll({
             where: {
-                id: req.session.shelter.ShelterId
+                AnimalShelterId: req.session.shelter.ShelterId
             }
         })
             .then(animalData => {
@@ -75,7 +75,7 @@ router.get(`/searchWithState/`, (req, res) => {
             .then(dbAnimalShelter => {
                 db.Animal.findAll({
                     where: {
-                        AnimalShelterId: dbAnimalShelter.id,
+                        AnimalShelterId: dbAnimalShelter.ShelterId,
                         type: req.session.user.whichSpecies,
                         likesCats: req.session.user.hasCats,
                         likesDogs: req.session.user.hasDogs,
@@ -176,6 +176,7 @@ router.put("/animal/:AnimalId", (req, res) => {
     }
 })
 
+//LOOK HERE IF MATCHES BETWEEN USER AND SHELTER ANIMALS ARE NOT WORKING
 router.put('/shelterMatch/:id', (req, res) => {
     if(!req.session.user){
         res.status(403).end();

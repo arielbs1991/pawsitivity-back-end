@@ -17,22 +17,12 @@ module.exports = function (sequelize, DataTypes) {
         },
         location: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull:true
         },
-        photos: [{
-            full: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
-            primary_photo_cropped: {
-                full: {
-                    type: DataTypes.STRING,
-                    allowNull: true
-                },
-                type: DataTypes.STRING,
-                allowNull: true
-            }
-        }],
+        imageSrc: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
         breed: {
             type: DataTypes.STRING,
             allowNull: true

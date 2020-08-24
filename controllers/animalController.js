@@ -197,32 +197,39 @@ router.put("/animal/:id", (req, res) => {
 })
 
 //LOOK HERE IF MATCHES BETWEEN USER AND SHELTER ANIMALS ARE NOT WORKING
-router.put('/shelterMatch/:id', (req, res) => {
+router.post('/shelterMatch/:id', (req, res) => {
     if (!req.session.user) {
         res.status(403).end();
     } else {
-        db.Animal.update({
-            AnimalMatchId: Date.now()
-        },
-            {
-                where: {
-                    id: req.params.id
-                }
-            })
-            .then(animalMatch => {
-                db.User.update({
-                    AnimalMatchId: animalMatch.AnimalMatchId
-                },
-                    {
-                        where: {
-                            id: req.session.user.UserId
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).end();
-                    })
-            })
+        db.AnimalMatch.create({
+            isLiked: req.body.isLiked,
+            UserId: req.session.user.UserId,
+            AnimalShelterId: req.body.AnimalShelterId,
+            AnimalId: req.params.id
+        }).then(animalData => {
+            db.Animal.update({
+                AnimalMatchId: req.body.AnimalMatchId
+            },
+                {
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                .then(animalMatch => {
+                    db.User.update({
+                        AnimalMatchId: animalMatch.AnimalMatchId
+                    },
+                        {
+                            where: {
+                                id: req.session.user.UserId
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).end();
+                        })
+                })
+        })
     }
 })
 

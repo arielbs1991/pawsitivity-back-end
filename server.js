@@ -20,7 +20,7 @@ app.use(morgan('dev')) //added for mail
 // }))
 
 app.use(cors({
-  origin: ["https://pawsitivity-atack.herokuapp.com/"],
+  origin: ["https://pawsitivity-atack.herokuapp.com"],
   credentials: true
 }))
 

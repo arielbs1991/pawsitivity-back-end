@@ -111,7 +111,7 @@ router.post("/animal", (req, res) => {
             likesDogs: req.body.likesDogs,
             likesKids: req.body.likesKids,
             isShelterAnimal: true,
-            AnimalShelterId: req.session.shelter.id
+            AnimalShelterId: req.session.shelter.ShelterId
         })
             .then(animalData => {
                 res.json(animalData)

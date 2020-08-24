@@ -16,6 +16,26 @@ router.get("/", (req, res) => {
         })
 });
 
+//get animal's info by id
+router.get("/shelterAnimal/:id", (req, res) => {
+    if (!req.session.shelter) {
+        res.status(403).end();
+    } else {
+        db.Animal.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+            .then(dbAnimal => {
+                res.json(dbAnimal)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).end()
+            })
+    }
+})
+
 router.get("/all/", (req, res) => {
     if (!req.session.shelter) {
         res.status(403).end();
@@ -178,31 +198,31 @@ router.put("/animal/:id", (req, res) => {
 
 //LOOK HERE IF MATCHES BETWEEN USER AND SHELTER ANIMALS ARE NOT WORKING
 router.put('/shelterMatch/:id', (req, res) => {
-    if(!req.session.user){
+    if (!req.session.user) {
         res.status(403).end();
     } else {
         db.Animal.update({
             AnimalMatchId: Date.now()
         },
-        {
-        where: {
-            id: req.params.id
-        }
-        })
-        .then(animalMatch => {
-            db.User.update({
-                AnimalMatchId: animalMatch.AnimalMatchId
-            },
             {
                 where: {
-                    id: req.session.user.UserId
+                    id: req.params.id
                 }
             })
-            .catch(err => {
-                console.log(err);
-                res.status(500).end();
+            .then(animalMatch => {
+                db.User.update({
+                    AnimalMatchId: animalMatch.AnimalMatchId
+                },
+                    {
+                        where: {
+                            id: req.session.user.UserId
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).end();
+                    })
             })
-        })
     }
 })
 

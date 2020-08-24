@@ -14,15 +14,15 @@ app.use(express.json());
 app.use(morgan('dev')) //added for mail
 
 // TODO:change to front-end deployed link when front end is deployed
-app.use(cors({
-  origin: ["http://localhost:3000"],
-  credentials: true
-}))
-
 // app.use(cors({
-//   origin: ["https://pawsitivity-atack-api.herokuapp.com/"],
+//   origin: ["http://localhost:3000"],
 //   credentials: true
 // }))
+
+app.use(cors({
+  origin: ["https://pawsitivity-atack.herokuapp.com/"],
+  credentials: true
+}))
 
 // USE ON DEPLOYED
 app.use(session({

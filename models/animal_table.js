@@ -28,7 +28,9 @@ module.exports = function (sequelize, DataTypes) {
                 full: {
                     type: DataTypes.STRING,
                     allowNull: true
-                }
+                },
+                type: DataTypes.STRING,
+                allowNull: true
             }
         }],
         breed: {

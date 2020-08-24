@@ -180,10 +180,11 @@ router.put("/animal/:id", (req, res) => {
             likesCats: req.body.likesCats,
             likesDogs: req.body.likesDogs,
             likesKids: req.body.likesKids,
+            id: req.params.id
         },
             {
                 where: {
-                    id: req.params.AnimalId
+                    id: req.params.id
                 }
             })
             .then(animalData => {

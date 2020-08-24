@@ -6,11 +6,11 @@ require('dotenv').config();
 
 //route to pass map api key to front end
 router.get('/mapAPI', (req, res) => {
-    if (!req.session.user || !req.session.shelter) {
-        res.status(403).end();
-    } else {
+    // if (!req.session.user || !req.session.shelter) {
+    //     res.status(403).end();
+    // } else {
     res.json(process.env.MAP_API);
-    }
+    // }
 })
 
 //gets all matches associated with user by userid
